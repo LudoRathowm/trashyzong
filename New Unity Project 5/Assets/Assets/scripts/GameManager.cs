@@ -78,13 +78,14 @@ public class GameManager : MonoBehaviour {
 			players[currentPlayerIndex].moving = false;
 			foreach(Tile t in TilePathFinder.FindPath(map[(int)players[currentPlayerIndex].gridPosition.x][(int)players[currentPlayerIndex].gridPosition.y],destTile, players.Where(x => x.gridPosition != destTile.gridPosition && x.gridPosition != players[currentPlayerIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
 				players[currentPlayerIndex].positionQueue.Add(map[(int)t.gridPosition.x][(int)t.gridPosition.y].transform.position + 1.5f * Vector3.up);
-				Debug.Log("(" + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].x + "," + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].y + ")"); //debug shit
+			//	Debug.Log("(" + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].x + "," + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].y + ")"); //debug shit
 			}			
 			players[currentPlayerIndex].gridPosition = destTile.gridPosition;
 
 		} else {
 			Debug.Log ("destination invalid");
-			destTile.visual.transform.GetComponent<Renderer>().materials[0].color = Color.cyan;
+		//	destTile.visual.transform.GetComponent<Renderer>().materials[0].color = Color.cyan; 
+			//if you dont comment this out you can move onto the cell oop
 		}
 	}
 	
@@ -119,7 +120,7 @@ public class GameManager : MonoBehaviour {
 					
 					target.HP -= amountOfDamage;
 					
-					Debug.Log(players[currentPlayerIndex].playerName + " you hit " + target.playerName + " for " + amountOfDamage + " damage!");
+					Debug.Log(players[currentPlayerIndex].playerName + " hit " + target.playerName + " for " + amountOfDamage + " damage!");
 				} else {
 					Debug.Log(players[currentPlayerIndex].playerName + " missed " + target.playerName + "!");
 				}
@@ -171,9 +172,8 @@ public class GameManager : MonoBehaviour {
 	
 	void generatePlayers() {
 		UserPlayer player;
-		
-		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(0 - Mathf.Floor(mapSize/2),1.5f, -0 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
-		player.gridPosition = new Vector2(0,0);
+		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(3 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player.gridPosition = new Vector2(3,20);
 		player.playerName = "Obama";
 		player.headArmor = Armor.FromKey(ArmorKey.LeatherCap);
 		player.chestArmor = Armor.FromKey(ArmorKey.MagicianCloak);
@@ -181,8 +181,8 @@ public class GameManager : MonoBehaviour {
 		
 		players.Add(player);
 		
-		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3((mapSize-1) - Mathf.Floor(mapSize/2),1.5f, -(mapSize-1) + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
-		player.gridPosition = new Vector2(mapSize-1,mapSize-1);
+		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(5- Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player.gridPosition = new Vector2(5,20);
 		player.playerName = "Merkel";
 		player.chestArmor = Armor.FromKey(ArmorKey.LeatherVest);
 		player.handWeapons.Add(Weapon.FromKey(WeaponKey.ShortSword));
@@ -190,16 +190,16 @@ public class GameManager : MonoBehaviour {
 		
 		players.Add(player);
 				
-		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(4 - Mathf.Floor(mapSize/2),1.5f, -5 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
-		player.gridPosition = new Vector2(4,5);
+		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(4 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player.gridPosition = new Vector2(4,20);
 		player.playerName = "Putin";
 		player.chestArmor = Armor.FromKey(ArmorKey.IronPlate);
 		player.handWeapons.Add(Weapon.FromKey(WeaponKey.Warhammer));
 		
 		players.Add(player);
 
-		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(8 - Mathf.Floor(mapSize/2),1.5f, -8 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
-		player.gridPosition = new Vector2(8,8);
+		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player.gridPosition = new Vector2(2,20);
 		player.playerName = "Assad";
 		player.chestArmor = Armor.FromKey(ArmorKey.MagicianCloak);
 		player.handWeapons.Add(Weapon.FromKey(WeaponKey.LongBow));

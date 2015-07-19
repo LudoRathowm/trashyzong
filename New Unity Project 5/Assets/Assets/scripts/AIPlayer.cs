@@ -13,9 +13,11 @@ public class AIPlayer : Player {
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex] == this) {
-			transform.GetComponent<Renderer>().material.color = Color.green; //
+			transform.GetChild(1).gameObject.SetActive(true);
+			//transform.GetComponent<Renderer>().material.color = Color.green; //
 		} else {
-			transform.GetComponent<Renderer>().material.color = Color.white;
+			transform.GetChild(1).gameObject.SetActive(false);
+			//transform.GetComponent<Renderer>().material.color = Color.white;
 		}
 		base.Update();
 	}

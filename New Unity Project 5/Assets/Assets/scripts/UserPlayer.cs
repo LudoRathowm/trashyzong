@@ -11,9 +11,52 @@ public class UserPlayer : Player {
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex] == this) {
-			transform.GetComponent<Renderer>().material.color = Color.green;
+			transform.GetChild(1).gameObject.SetActive(true);
+			if (Input.GetButtonDown("MoveKey")){
+				if (!moving) {
+					GameManager.instance.removeTileHighlights();
+					moving = true;
+					attacking = false;
+					GameManager.instance.highlightTilesAt(gridPosition, Color.blue, movementPerActionPoint, false);
+				} else {
+					moving = false;
+					attacking = false;
+					GameManager.instance.removeTileHighlights();
+				}
+			}
+			if (Input.GetButtonDown("AttackKey")){
+				if (!attacking) {
+					GameManager.instance.removeTileHighlights();
+					moving = false;
+					attacking = true;
+					GameManager.instance.highlightTilesAt(gridPosition, Color.red, attackRange);
+				} else {
+					moving = false;
+					attacking = false;
+					GameManager.instance.removeTileHighlights();
+				}
+			}
+			if (Input.GetButtonUp("EndTurn"))
+			{Input.ResetInputAxes();
+				GameManager.instance.removeTileHighlights();
+				actionPoints = 2;
+				moving = false;
+				attacking = false;			
+				GameManager.instance.nextTurn();
+			}
+
+
+
+
+
+
+
+
+			//transform.GetComponent<Renderer>().material.color = Color.green;
 		} else {
-			transform.GetComponent<Renderer>().material.color = Color.white;
+			transform.GetChild(1).gameObject.SetActive(false);
+
+			//transform.GetComponent<Renderer>().material.color = Color.white;
 		}
 		base.Update();
 	}
@@ -40,7 +83,7 @@ public class UserPlayer : Player {
 		base.TurnUpdate ();
 	}
 	
-	public override void TurnOnGUI () {
+/*	public override void TurnOnGUI () {
 		float buttonHeight = 50;
 		float buttonWidth = 150;
 		
@@ -89,5 +132,5 @@ public class UserPlayer : Player {
 		}
 		
 		base.TurnOnGUI ();
-	}
+	}*/
 }

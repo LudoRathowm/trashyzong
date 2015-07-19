@@ -57,6 +57,7 @@
      <Compile Include="Assets\Assets\scripts\MapCreator\TileType.cs" />
      <Compile Include="Assets\Assets\scripts\Player.cs" />
      <Compile Include="Assets\Assets\scripts\PrefabHolder.cs" />
+     <Compile Include="Assets\Assets\scripts\RPGStuff\Abilities.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuff\EquipmentClass.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuff\Individual.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuff\NamingScript.cs" />

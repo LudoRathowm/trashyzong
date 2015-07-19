@@ -7,7 +7,7 @@ public class TestingSatan : MonoBehaviour {
 	public TileType muhtile;
 	// Use this for initialization
 	void Start () {
-		InvokeRepeating ("nigga",1,1);
+		//InvokeRepeating ("nigga",1,1);
 	}
 	
 	// Update is called once per frame

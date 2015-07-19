@@ -202,9 +202,9 @@ public class Player : MonoBehaviour {
 		
 	}
 
-	public void OnGUI() {
+/*	public void OnGUI() {
 		//display HP just to check shit
 		Vector3 location = Camera.main.WorldToScreenPoint(transform.position) + Vector3.up * 35;
 		GUI.TextArea(new Rect(location.x, Screen.height - location.y, 30, 35), "hp:" + HP.ToString());
-	}
+	}*/
 }

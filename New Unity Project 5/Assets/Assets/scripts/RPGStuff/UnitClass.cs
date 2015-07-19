@@ -14,7 +14,7 @@ private	List<Individual> muhUnit = new List<Individual>();
 
 	public void Addpeopletomyunit(int numberofNiggasinmyunit){
 		for (int i = 0;i<numberofNiggasinmyunit;i++){
-		muhUnit.Add(new Individual(NamingScript.GeneratePraenomina(),NamingScript.GenerateNomina(),NamingScript.GenerateCognomina(),0,"",0,0)); //create an empty person
+	//	muhUnit.Add(new Individual(NamingScript.GeneratePraenomina(),NamingScript.GenerateNomina(),NamingScript.GenerateCognomina(),0,"",0,0)); //create an empty person
 			}
 	}
 	

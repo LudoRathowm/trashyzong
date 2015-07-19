@@ -11,8 +11,10 @@ private	 int attack;
 private	 int defence;
 	public int testsort = 10;
 	private WeaponTestData WeaponUsed;
+	private bool commander;
+	private Abilities CommanderAbilities;
 
-	public Individual (string _prae, string _nomi, string _cogno,  int _age, string _profession, int Attack, int Defence  ){
+	public Individual (string _prae, string _nomi, string _cogno,  int _age, string _profession, int Attack, int Defence, bool isCommander, Abilities ListOfAbilities ){
 		Praenomina = _prae;
 		Nomina = _nomi;
 		Cognomina = _cogno;
@@ -22,9 +24,9 @@ private	 int defence;
 	
 		attack = Attack;
 		defence =Defence;
-
-
-	}
+		commander = isCommander;
+		CommanderAbilities = ListOfAbilities;
+			}
 
 	public int GetAtk(){
 		return attack;

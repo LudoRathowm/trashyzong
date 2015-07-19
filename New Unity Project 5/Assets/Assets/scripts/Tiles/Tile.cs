@@ -12,7 +12,7 @@ public class Tile : MonoBehaviour {
 
 	public Vector2 gridPosition = Vector2.zero;
 	
-	public int movementCost = 1;
+	public float movementCost = 1;
 	public bool impassible = false;
 	
 	public List<Tile> neighbors = new List<Tile>();
@@ -70,14 +70,14 @@ public class Tile : MonoBehaviour {
 				GameManager.instance.moveCurrentPlayer(this);
 			} else if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].attacking) {
 				GameManager.instance.attackWithCurrentPlayer(this);
-			} else {
+			} /*else {
 				impassible = impassible ? false : true;
 				if (impassible) {
 					visual.transform.GetComponent<Renderer>().materials[0].color = new Color(.5f, .5f, 0.0f);
 				} else {
 					visual.transform.GetComponent<Renderer>().materials[0].color = Color.white;
 				}
-			}
+			}*/
 		} else if (Application.loadedLevelName == "MapCreatorScene") {
 			setType(MapCreatorManager.instance.palletSelection);
 		}
@@ -94,13 +94,13 @@ public class Tile : MonoBehaviour {
 				break;
 			
 			case TileType.Grass:
-				movementCost = 2;
+				movementCost = 1.5f;
 				impassible = false;
 				PREFAB = PrefabHolder.instance.TILE_DIFFICULT_PREFAB;
 				break;
 				
 			case TileType.TallGrass:
-				movementCost = 4;
+				movementCost = 2;
 				impassible = false;
 				PREFAB = PrefabHolder.instance.TILE_VERY_DIFFICULT_PREFAB;
 				break;

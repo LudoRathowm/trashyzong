@@ -19,7 +19,7 @@ public class TilePath {
 	}
 	
 	public void addTile(Tile t) {
-		costOfPath += t.movementCost;
+		costOfPath += Mathf.FloorToInt(t.movementCost);
 		listOfTiles.Add(t);
 		lastTile = t;
 	}
