@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 
 public class Newtesttrashcan : MonoBehaviour
-{
-	UnitClass muhUnit = new UnitClass();
+{   List<Individual> jews = new List<Individual>();
+	List<Captain> captains = new List<Captain>();
+	jews().Addpeopletomyunit(19);
+	UnitClass muhTroop = new UnitClass(jews,captains);
 	public bool benis = false;
 	public bool walao = false;
 	public bool returnWeapon = false;
@@ -29,7 +32,7 @@ public class Newtesttrashcan : MonoBehaviour
 
 			Debug.Log (NamingScript.GeneratePraenomina() + " " + NamingScript.GenerateNomina() + " " + NamingScript.GenerateCognomina());
 			benis = false;
-			muhUnit.Addpeopletomyunit(people);
+			jews.Addpeopletomyunit(people);
 		}
 		if(walao)
 		{

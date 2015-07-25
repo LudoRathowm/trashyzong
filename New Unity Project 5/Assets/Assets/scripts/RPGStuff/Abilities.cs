@@ -11,4 +11,8 @@ public class Abilities : MonoBehaviour {
 		SweepingFire, //ignores passive and active skills of the opponent when calculating damage + 1.5* dmg
 		Phalanx //90% immunity to rangeados
 	}
+
+	public void Popular (){
+		//do some stuff
+	}
 }
