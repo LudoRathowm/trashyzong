@@ -1,4 +1,4 @@
-﻿
+﻿/*
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -57,4 +57,4 @@ public class Newtesttrashcan : MonoBehaviour
 			Debug.Log ("Your soldier number " + i + " is using "+muhUnit.GetWeapon(i).EquipName);
 			}}
 	}
-}
+}*/

@@ -8,16 +8,16 @@
     <Tile id="2" locX="0" locY="4" />
     <Tile id="2" locX="0" locY="5" />
     <Tile id="2" locX="0" locY="6" />
-    <Tile id="2" locX="0" locY="7" />
+    <Tile id="7" locX="0" locY="7" />
     <Tile id="3" locX="0" locY="8" />
     <Tile id="1" locX="0" locY="9" />
     <Tile id="1" locX="0" locY="10" />
     <Tile id="1" locX="0" locY="11" />
     <Tile id="1" locX="0" locY="12" />
-    <Tile id="1" locX="0" locY="13" />
-    <Tile id="1" locX="0" locY="14" />
-    <Tile id="1" locX="0" locY="15" />
-    <Tile id="1" locX="0" locY="16" />
+    <Tile id="7" locX="0" locY="13" />
+    <Tile id="7" locX="0" locY="14" />
+    <Tile id="7" locX="0" locY="15" />
+    <Tile id="7" locX="0" locY="16" />
     <Tile id="1" locX="0" locY="17" />
     <Tile id="1" locX="0" locY="18" />
     <Tile id="1" locX="0" locY="19" />
@@ -33,9 +33,9 @@
     <Tile id="2" locX="1" locY="7" />
     <Tile id="1" locX="1" locY="8" />
     <Tile id="3" locX="1" locY="9" />
-    <Tile id="1" locX="1" locY="10" />
+    <Tile id="7" locX="1" locY="10" />
     <Tile id="1" locX="1" locY="11" />
-    <Tile id="1" locX="1" locY="12" />
+    <Tile id="7" locX="1" locY="12" />
     <Tile id="1" locX="1" locY="13" />
     <Tile id="1" locX="1" locY="14" />
     <Tile id="1" locX="1" locY="15" />
@@ -53,17 +53,17 @@
     <Tile id="2" locX="2" locY="5" />
     <Tile id="2" locX="2" locY="6" />
     <Tile id="1" locX="2" locY="7" />
-    <Tile id="1" locX="2" locY="8" />
-    <Tile id="3" locX="2" locY="9" />
-    <Tile id="3" locX="2" locY="10" />
+    <Tile id="7" locX="2" locY="8" />
+    <Tile id="7" locX="2" locY="9" />
+    <Tile id="7" locX="2" locY="10" />
     <Tile id="1" locX="2" locY="11" />
-    <Tile id="1" locX="2" locY="12" />
-    <Tile id="1" locX="2" locY="13" />
-    <Tile id="1" locX="2" locY="14" />
+    <Tile id="7" locX="2" locY="12" />
+    <Tile id="7" locX="2" locY="13" />
+    <Tile id="7" locX="2" locY="14" />
     <Tile id="1" locX="2" locY="15" />
-    <Tile id="1" locX="2" locY="16" />
+    <Tile id="7" locX="2" locY="16" />
     <Tile id="1" locX="2" locY="17" />
-    <Tile id="0" locX="2" locY="18" />
+    <Tile id="7" locX="2" locY="18" />
     <Tile id="0" locX="2" locY="19" />
     <Tile id="0" locX="2" locY="20" />
     <Tile id="0" locX="2" locY="21" />
@@ -71,7 +71,7 @@
     <Tile id="2" locX="3" locY="1" />
     <Tile id="2" locX="3" locY="2" />
     <Tile id="2" locX="3" locY="3" />
-    <Tile id="2" locX="3" locY="4" />
+    <Tile id="7" locX="3" locY="4" />
     <Tile id="2" locX="3" locY="5" />
     <Tile id="2" locX="3" locY="6" />
     <Tile id="1" locX="3" locY="7" />
@@ -79,12 +79,12 @@
     <Tile id="1" locX="3" locY="9" />
     <Tile id="3" locX="3" locY="10" />
     <Tile id="3" locX="3" locY="11" />
-    <Tile id="1" locX="3" locY="12" />
-    <Tile id="1" locX="3" locY="13" />
+    <Tile id="7" locX="3" locY="12" />
+    <Tile id="7" locX="3" locY="13" />
     <Tile id="1" locX="3" locY="14" />
     <Tile id="1" locX="3" locY="15" />
     <Tile id="0" locX="3" locY="16" />
-    <Tile id="0" locX="3" locY="17" />
+    <Tile id="7" locX="3" locY="17" />
     <Tile id="0" locX="3" locY="18" />
     <Tile id="0" locX="3" locY="19" />
     <Tile id="0" locX="3" locY="20" />
@@ -95,13 +95,13 @@
     <Tile id="2" locX="4" locY="3" />
     <Tile id="2" locX="4" locY="4" />
     <Tile id="1" locX="4" locY="5" />
-    <Tile id="1" locX="4" locY="6" />
+    <Tile id="7" locX="4" locY="6" />
     <Tile id="1" locX="4" locY="7" />
     <Tile id="1" locX="4" locY="8" />
     <Tile id="1" locX="4" locY="9" />
     <Tile id="3" locX="4" locY="10" />
-    <Tile id="3" locX="4" locY="11" />
-    <Tile id="1" locX="4" locY="12" />
+    <Tile id="6" locX="4" locY="11" />
+    <Tile id="6" locX="4" locY="12" />
     <Tile id="0" locX="4" locY="13" />
     <Tile id="0" locX="4" locY="14" />
     <Tile id="0" locX="4" locY="15" />
@@ -116,34 +116,34 @@
     <Tile id="2" locX="5" locY="2" />
     <Tile id="1" locX="5" locY="3" />
     <Tile id="1" locX="5" locY="4" />
-    <Tile id="1" locX="5" locY="5" />
+    <Tile id="7" locX="5" locY="5" />
     <Tile id="1" locX="5" locY="6" />
-    <Tile id="1" locX="5" locY="7" />
-    <Tile id="1" locX="5" locY="8" />
-    <Tile id="1" locX="5" locY="9" />
-    <Tile id="0" locX="5" locY="10" />
-    <Tile id="0" locX="5" locY="11" />
-    <Tile id="0" locX="5" locY="12" />
+    <Tile id="6" locX="5" locY="7" />
+    <Tile id="6" locX="5" locY="8" />
+    <Tile id="7" locX="5" locY="9" />
+    <Tile id="7" locX="5" locY="10" />
+    <Tile id="7" locX="5" locY="11" />
+    <Tile id="6" locX="5" locY="12" />
     <Tile id="0" locX="5" locY="13" />
     <Tile id="0" locX="5" locY="14" />
-    <Tile id="0" locX="5" locY="15" />
+    <Tile id="7" locX="5" locY="15" />
     <Tile id="0" locX="5" locY="16" />
     <Tile id="0" locX="5" locY="17" />
     <Tile id="0" locX="5" locY="18" />
-    <Tile id="0" locX="5" locY="19" />
-    <Tile id="0" locX="5" locY="20" />
+    <Tile id="7" locX="5" locY="19" />
+    <Tile id="7" locX="5" locY="20" />
     <Tile id="0" locX="5" locY="21" />
     <Tile id="2" locX="6" locY="0" />
     <Tile id="2" locX="6" locY="1" />
     <Tile id="1" locX="6" locY="2" />
     <Tile id="1" locX="6" locY="3" />
     <Tile id="1" locX="6" locY="4" />
-    <Tile id="1" locX="6" locY="5" />
+    <Tile id="7" locX="6" locY="5" />
     <Tile id="1" locX="6" locY="6" />
     <Tile id="1" locX="6" locY="7" />
-    <Tile id="0" locX="6" locY="8" />
-    <Tile id="0" locX="6" locY="9" />
-    <Tile id="0" locX="6" locY="10" />
+    <Tile id="7" locX="6" locY="8" />
+    <Tile id="7" locX="6" locY="9" />
+    <Tile id="7" locX="6" locY="10" />
     <Tile id="0" locX="6" locY="11" />
     <Tile id="0" locX="6" locY="12" />
     <Tile id="0" locX="6" locY="13" />
@@ -156,19 +156,19 @@
     <Tile id="1" locX="6" locY="20" />
     <Tile id="1" locX="6" locY="21" />
     <Tile id="2" locX="7" locY="0" />
-    <Tile id="1" locX="7" locY="1" />
+    <Tile id="7" locX="7" locY="1" />
     <Tile id="1" locX="7" locY="2" />
     <Tile id="1" locX="7" locY="3" />
     <Tile id="1" locX="7" locY="4" />
-    <Tile id="1" locX="7" locY="5" />
-    <Tile id="0" locX="7" locY="6" />
-    <Tile id="0" locX="7" locY="7" />
-    <Tile id="0" locX="7" locY="8" />
+    <Tile id="7" locX="7" locY="5" />
+    <Tile id="7" locX="7" locY="6" />
+    <Tile id="6" locX="7" locY="7" />
+    <Tile id="6" locX="7" locY="8" />
     <Tile id="0" locX="7" locY="9" />
     <Tile id="0" locX="7" locY="10" />
-    <Tile id="0" locX="7" locY="11" />
+    <Tile id="7" locX="7" locY="11" />
     <Tile id="0" locX="7" locY="12" />
-    <Tile id="0" locX="7" locY="13" />
+    <Tile id="7" locX="7" locY="13" />
     <Tile id="0" locX="7" locY="14" />
     <Tile id="0" locX="7" locY="15" />
     <Tile id="0" locX="7" locY="16" />
@@ -183,17 +183,17 @@
     <Tile id="1" locX="8" locY="3" />
     <Tile id="1" locX="8" locY="4" />
     <Tile id="0" locX="8" locY="5" />
-    <Tile id="0" locX="8" locY="6" />
+    <Tile id="7" locX="8" locY="6" />
     <Tile id="0" locX="8" locY="7" />
     <Tile id="0" locX="8" locY="8" />
     <Tile id="0" locX="8" locY="9" />
-    <Tile id="0" locX="8" locY="10" />
+    <Tile id="7" locX="8" locY="10" />
     <Tile id="0" locX="8" locY="11" />
     <Tile id="0" locX="8" locY="12" />
     <Tile id="0" locX="8" locY="13" />
     <Tile id="0" locX="8" locY="14" />
     <Tile id="0" locX="8" locY="15" />
-    <Tile id="1" locX="8" locY="16" />
+    <Tile id="7" locX="8" locY="16" />
     <Tile id="1" locX="8" locY="17" />
     <Tile id="1" locX="8" locY="18" />
     <Tile id="1" locX="8" locY="19" />
@@ -204,14 +204,14 @@
     <Tile id="1" locX="9" locY="2" />
     <Tile id="0" locX="9" locY="3" />
     <Tile id="0" locX="9" locY="4" />
-    <Tile id="0" locX="9" locY="5" />
-    <Tile id="0" locX="9" locY="6" />
-    <Tile id="0" locX="9" locY="7" />
-    <Tile id="0" locX="9" locY="8" />
-    <Tile id="0" locX="9" locY="9" />
+    <Tile id="6" locX="9" locY="5" />
+    <Tile id="6" locX="9" locY="6" />
+    <Tile id="7" locX="9" locY="7" />
+    <Tile id="7" locX="9" locY="8" />
+    <Tile id="7" locX="9" locY="9" />
     <Tile id="0" locX="9" locY="10" />
     <Tile id="0" locX="9" locY="11" />
-    <Tile id="0" locX="9" locY="12" />
+    <Tile id="7" locX="9" locY="12" />
     <Tile id="0" locX="9" locY="13" />
     <Tile id="1" locX="9" locY="14" />
     <Tile id="1" locX="9" locY="15" />
@@ -230,9 +230,9 @@
     <Tile id="0" locX="10" locY="6" />
     <Tile id="0" locX="10" locY="7" />
     <Tile id="0" locX="10" locY="8" />
-    <Tile id="0" locX="10" locY="9" />
-    <Tile id="0" locX="10" locY="10" />
-    <Tile id="1" locX="10" locY="11" />
+    <Tile id="7" locX="10" locY="9" />
+    <Tile id="7" locX="10" locY="10" />
+    <Tile id="7" locX="10" locY="11" />
     <Tile id="1" locX="10" locY="12" />
     <Tile id="1" locX="10" locY="13" />
     <Tile id="1" locX="10" locY="14" />
@@ -240,24 +240,24 @@
     <Tile id="1" locX="10" locY="16" />
     <Tile id="1" locX="10" locY="17" />
     <Tile id="1" locX="10" locY="18" />
-    <Tile id="1" locX="10" locY="19" />
+    <Tile id="7" locX="10" locY="19" />
     <Tile id="1" locX="10" locY="20" />
     <Tile id="1" locX="10" locY="21" />
-    <Tile id="0" locX="11" locY="0" />
+    <Tile id="7" locX="11" locY="0" />
     <Tile id="0" locX="11" locY="1" />
     <Tile id="0" locX="11" locY="2" />
     <Tile id="0" locX="11" locY="3" />
-    <Tile id="0" locX="11" locY="4" />
+    <Tile id="7" locX="11" locY="4" />
     <Tile id="0" locX="11" locY="5" />
     <Tile id="0" locX="11" locY="6" />
     <Tile id="0" locX="11" locY="7" />
     <Tile id="0" locX="11" locY="8" />
-    <Tile id="0" locX="11" locY="9" />
+    <Tile id="7" locX="11" locY="9" />
     <Tile id="1" locX="11" locY="10" />
     <Tile id="1" locX="11" locY="11" />
     <Tile id="1" locX="11" locY="12" />
     <Tile id="1" locX="11" locY="13" />
-    <Tile id="2" locX="11" locY="14" />
+    <Tile id="7" locX="11" locY="14" />
     <Tile id="2" locX="11" locY="15" />
     <Tile id="2" locX="11" locY="16" />
     <Tile id="2" locX="11" locY="17" />
@@ -269,12 +269,12 @@
     <Tile id="0" locX="12" locY="1" />
     <Tile id="0" locX="12" locY="2" />
     <Tile id="0" locX="12" locY="3" />
-    <Tile id="0" locX="12" locY="4" />
+    <Tile id="7" locX="12" locY="4" />
     <Tile id="0" locX="12" locY="5" />
-    <Tile id="0" locX="12" locY="6" />
+    <Tile id="7" locX="12" locY="6" />
     <Tile id="0" locX="12" locY="7" />
-    <Tile id="1" locX="12" locY="8" />
-    <Tile id="1" locX="12" locY="9" />
+    <Tile id="7" locX="12" locY="8" />
+    <Tile id="7" locX="12" locY="9" />
     <Tile id="1" locX="12" locY="10" />
     <Tile id="2" locX="12" locY="11" />
     <Tile id="2" locX="12" locY="12" />
@@ -284,28 +284,28 @@
     <Tile id="2" locX="12" locY="16" />
     <Tile id="2" locX="12" locY="17" />
     <Tile id="3" locX="12" locY="18" />
-    <Tile id="1" locX="12" locY="19" />
+    <Tile id="7" locX="12" locY="19" />
     <Tile id="1" locX="12" locY="20" />
     <Tile id="1" locX="12" locY="21" />
-    <Tile id="0" locX="13" locY="0" />
-    <Tile id="0" locX="13" locY="1" />
+    <Tile id="7" locX="13" locY="0" />
+    <Tile id="7" locX="13" locY="1" />
     <Tile id="0" locX="13" locY="2" />
     <Tile id="0" locX="13" locY="3" />
-    <Tile id="0" locX="13" locY="4" />
-    <Tile id="0" locX="13" locY="5" />
-    <Tile id="1" locX="13" locY="6" />
+    <Tile id="7" locX="13" locY="4" />
+    <Tile id="7" locX="13" locY="5" />
+    <Tile id="7" locX="13" locY="6" />
     <Tile id="1" locX="13" locY="7" />
-    <Tile id="1" locX="13" locY="8" />
-    <Tile id="1" locX="13" locY="9" />
+    <Tile id="7" locX="13" locY="8" />
+    <Tile id="7" locX="13" locY="9" />
     <Tile id="2" locX="13" locY="10" />
     <Tile id="2" locX="13" locY="11" />
     <Tile id="2" locX="13" locY="12" />
     <Tile id="2" locX="13" locY="13" />
-    <Tile id="2" locX="13" locY="14" />
+    <Tile id="7" locX="13" locY="14" />
     <Tile id="2" locX="13" locY="15" />
     <Tile id="2" locX="13" locY="16" />
     <Tile id="2" locX="13" locY="17" />
-    <Tile id="3" locX="13" locY="18" />
+    <Tile id="7" locX="13" locY="18" />
     <Tile id="1" locX="13" locY="19" />
     <Tile id="1" locX="13" locY="20" />
     <Tile id="1" locX="13" locY="21" />
@@ -320,14 +320,14 @@
     <Tile id="1" locX="14" locY="8" />
     <Tile id="2" locX="14" locY="9" />
     <Tile id="2" locX="14" locY="10" />
-    <Tile id="2" locX="14" locY="11" />
+    <Tile id="7" locX="14" locY="11" />
     <Tile id="2" locX="14" locY="12" />
     <Tile id="2" locX="14" locY="13" />
     <Tile id="2" locX="14" locY="14" />
-    <Tile id="2" locX="14" locY="15" />
+    <Tile id="7" locX="14" locY="15" />
     <Tile id="2" locX="14" locY="16" />
     <Tile id="2" locX="14" locY="17" />
-    <Tile id="3" locX="14" locY="18" />
+    <Tile id="7" locX="14" locY="18" />
     <Tile id="1" locX="14" locY="19" />
     <Tile id="1" locX="14" locY="20" />
     <Tile id="1" locX="14" locY="21" />
@@ -337,9 +337,9 @@
     <Tile id="1" locX="15" locY="3" />
     <Tile id="1" locX="15" locY="4" />
     <Tile id="1" locX="15" locY="5" />
-    <Tile id="1" locX="15" locY="6" />
+    <Tile id="7" locX="15" locY="6" />
     <Tile id="1" locX="15" locY="7" />
-    <Tile id="2" locX="15" locY="8" />
+    <Tile id="7" locX="15" locY="8" />
     <Tile id="2" locX="15" locY="9" />
     <Tile id="2" locX="15" locY="10" />
     <Tile id="2" locX="15" locY="11" />
@@ -361,12 +361,12 @@
     <Tile id="1" locX="16" locY="5" />
     <Tile id="1" locX="16" locY="6" />
     <Tile id="2" locX="16" locY="7" />
-    <Tile id="2" locX="16" locY="8" />
+    <Tile id="7" locX="16" locY="8" />
     <Tile id="2" locX="16" locY="9" />
-    <Tile id="2" locX="16" locY="10" />
+    <Tile id="7" locX="16" locY="10" />
     <Tile id="2" locX="16" locY="11" />
-    <Tile id="2" locX="16" locY="12" />
-    <Tile id="2" locX="16" locY="13" />
+    <Tile id="7" locX="16" locY="12" />
+    <Tile id="7" locX="16" locY="13" />
     <Tile id="2" locX="16" locY="14" />
     <Tile id="2" locX="16" locY="15" />
     <Tile id="2" locX="16" locY="16" />
@@ -382,7 +382,7 @@
     <Tile id="1" locX="17" locY="4" />
     <Tile id="1" locX="17" locY="5" />
     <Tile id="1" locX="17" locY="6" />
-    <Tile id="2" locX="17" locY="7" />
+    <Tile id="7" locX="17" locY="7" />
     <Tile id="2" locX="17" locY="8" />
     <Tile id="2" locX="17" locY="9" />
     <Tile id="2" locX="17" locY="10" />
@@ -404,7 +404,7 @@
     <Tile id="1" locX="18" locY="4" />
     <Tile id="1" locX="18" locY="5" />
     <Tile id="2" locX="18" locY="6" />
-    <Tile id="2" locX="18" locY="7" />
+    <Tile id="7" locX="18" locY="7" />
     <Tile id="2" locX="18" locY="8" />
     <Tile id="2" locX="18" locY="9" />
     <Tile id="2" locX="18" locY="10" />
@@ -413,11 +413,11 @@
     <Tile id="1" locX="18" locY="13" />
     <Tile id="1" locX="18" locY="14" />
     <Tile id="3" locX="18" locY="15" />
-    <Tile id="3" locX="18" locY="16" />
+    <Tile id="7" locX="18" locY="16" />
     <Tile id="3" locX="18" locY="17" />
     <Tile id="3" locX="18" locY="18" />
     <Tile id="1" locX="18" locY="19" />
-    <Tile id="1" locX="18" locY="20" />
+    <Tile id="7" locX="18" locY="20" />
     <Tile id="1" locX="18" locY="21" />
     <Tile id="1" locX="19" locY="0" />
     <Tile id="1" locX="19" locY="1" />
@@ -426,12 +426,12 @@
     <Tile id="1" locX="19" locY="4" />
     <Tile id="1" locX="19" locY="5" />
     <Tile id="2" locX="19" locY="6" />
-    <Tile id="2" locX="19" locY="7" />
+    <Tile id="7" locX="19" locY="7" />
     <Tile id="2" locX="19" locY="8" />
     <Tile id="2" locX="19" locY="9" />
     <Tile id="1" locX="19" locY="10" />
     <Tile id="1" locX="19" locY="11" />
-    <Tile id="1" locX="19" locY="12" />
+    <Tile id="7" locX="19" locY="12" />
     <Tile id="1" locX="19" locY="13" />
     <Tile id="1" locX="19" locY="14" />
     <Tile id="3" locX="19" locY="15" />
@@ -449,8 +449,8 @@
     <Tile id="2" locX="20" locY="5" />
     <Tile id="2" locX="20" locY="6" />
     <Tile id="2" locX="20" locY="7" />
-    <Tile id="2" locX="20" locY="8" />
-    <Tile id="1" locX="20" locY="9" />
+    <Tile id="7" locX="20" locY="8" />
+    <Tile id="7" locX="20" locY="9" />
     <Tile id="1" locX="20" locY="10" />
     <Tile id="1" locX="20" locY="11" />
     <Tile id="1" locX="20" locY="12" />
@@ -478,9 +478,9 @@
     <Tile id="1" locX="21" locY="12" />
     <Tile id="1" locX="21" locY="13" />
     <Tile id="3" locX="21" locY="14" />
-    <Tile id="3" locX="21" locY="15" />
+    <Tile id="7" locX="21" locY="15" />
     <Tile id="3" locX="21" locY="16" />
-    <Tile id="3" locX="21" locY="17" />
+    <Tile id="7" locX="21" locY="17" />
     <Tile id="3" locX="21" locY="18" />
     <Tile id="1" locX="21" locY="19" />
     <Tile id="1" locX="21" locY="20" />

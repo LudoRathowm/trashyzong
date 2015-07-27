@@ -1,8 +1,35 @@
 fileFormatVersion: 2
 guid: b7b7457552ac543448e5a1cfc3ac138f
+timeCreated: 1438020937
+licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - BASE_TILE_PREFAB: {fileID: 100000, guid: 6c69764178137d5408fa2a9a0460abe0, type: 2}
+  - TILE_NORMAL_PREFAB: {instanceID: 0}
+  - TILE_DIFFICULT_PREFAB: {fileID: 100000, guid: 6c69764178137d5408fa2a9a0460abe0,
+      type: 2}
+  - TILE_VERY_DIFFICULT_PREFAB: {instanceID: 0}
+  - TILE_IMPASSIBLE_PREFAB: {instanceID: 0}
+  - TILE_BRAIDED_STREAM_BED: {instanceID: 0}
+  - TILE_ROCK_OUTCROP: {instanceID: 0}
+  - TILE_CLIFF: {instanceID: 0}
+  - TILE_WATER: {instanceID: 0}
+  - TILE_LAVA: {instanceID: 0}
+  - TILE_STREET: {instanceID: 0}
+  - TILE_GRASS: {instanceID: 0}
+  - TILE_TALLGRASS: {instanceID: 0}
+  - TILE_DESERT: {instanceID: 0}
+  - TILE_SUNNY_DESERT: {instanceID: 0}
+  - TILE_SNOW: {instanceID: 0}
+  - TILE_COMPRESSED_SNOW: {instanceID: 0}
+  - TILE_HEAVY_SNOW: {instanceID: 0}
+  - TILE_ICE: {instanceID: 0}
+  - TILE_SWAMP: {instanceID: 0}
+  - TILE_FOREST: {instanceID: 0}
+  - TILE_THICK_FOREST: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 
