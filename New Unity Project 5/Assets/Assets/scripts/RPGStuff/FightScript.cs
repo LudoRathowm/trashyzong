@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 public class FightScript : MonoBehaviour {
-	public bool recalculateshit = false;
-	public bool nothardcoded = false;
 	public int peeps;
 	public int perline;
 	public int avgatk;
 	public int defpeeps;
+
+	public bool recalculateshit = false;
+	public bool nothardcoded = false;
+
 	
 
 
