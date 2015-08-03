@@ -1,18 +1,148 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 public class FightScript : MonoBehaviour {
-	private int atknumber;
-	private int defnumber;
-	private int atkavgatk;
-	private int defavgatk;
-	private int atkavgspeed;
-	private int defavgspeed;
+	public bool recalculateshit = false;
+	public bool nothardcoded = false;
+	public int peeps;
+	public int perline;
+	public int avgatk;
+	public int defpeeps;
+	
+
+
+
+	public int Attackers;
+	public int Defenders;
+	public int DeadAttackers;
+	public int DeadDefenders;
+	public int WoundedAttackers;
+	public int WoundedDefenders;
+	public TerrainWhereTheyFight muhTerrain;
+
+	public WarriorClass AttackersClass;
+	public WarriorClass DefendersClass;
+
+	int attackerhp;
+	int attackeratk;
+	int attackerdef;
+	int attackerspeed;
+	int defenderhp;
+	int defenderatk;
+	int defenderdef;
+	int defenderspeed;
+	int frontliners;
+	int attackerdamage;
+	int defenderdamage;
+
+	List<int> defenderdmg = new List<int>();
+	List<int> attackerdmg = new List<int>();
+	List<int> myList = new List<int>();
+
+	int AttackLines;
+	int AttackLeftOvers;
+	int DefendLines;
+	int DefendLeftOvers;
+
+
+	
+	public enum TerrainWhereTheyFight{
+		Grassland,
+		ThickForest,
+		SaltDesert
+	}
+
+	public enum WarriorClass {
+		Pikeman,
+		Swordman,
+		Hammerman
+	}
 
 	// Use this for initialization
 	void Start () {
 	
 	}
+
+	void Update(){
+		SetClasses();
+		SetTerrain();
+		if (nothardcoded){
+			nothardcoded = false;
+			Combat(peeps,perline,avgatk,defpeeps);
+		}
+
+
+		if (recalculateshit){
+		ActualFighting();
+			Triangle();
+			ReceivedAttack();
+			recalculateshit = false;
+		}
+	}
+
+	int NumberOfLines (int numberOfpeople, int peoplePerLine){
+		return numberOfpeople/peoplePerLine;
+	}
+
+	int LeftOvers (int numberOfpeople, int numberOfLines, int peoplePerLine){
+		int peopleonline = numberOfLines*peoplePerLine;
+		return (numberOfpeople-peopleonline);
+
+	}
+
+	/*List<int> GenerateLines (int NumberOfPeople, int NumberOfLines, int PeoplePerLine){
+		int Leftovers = NumberOfPeople-(NumberOfLines*PeoplePerLine);
+		for (int i=1;i<NumberOfLines+1;i++)
+			Debug.Log("HERE NEEDS WORK");
+	}*/
+
+	//ZeroOrOne has value 0 if you are calculating to attack first, else has value 1.
+	int GenerateDamage (int Lines, int peoplePerLine, int Leftovers, int AveragedAttack, int ZeroOrOne){
+		int TotalAttack = 0;
+		for (float i = 1;i<Lines+1;i++)
+			TotalAttack+=Mathf.FloorToInt(AveragedAttack*peoplePerLine*(1/(i+ZeroOrOne)));
+		if (Leftovers>0)
+			TotalAttack+=(Mathf.FloorToInt(AveragedAttack*Leftovers*(1/((float)Lines+ZeroOrOne+1))));
+		return TotalAttack;
+	}
+
+	/*WHAT I WANT: 
+      1. You calculate the damage TOTAL
+      2. You calculate the lines of the people
+      3. You calculate the damage received per person
+      4. frontline: 100%dmg, second line 50%, third line 33%, etc..
+
+*/
+	/*List<int> DamagePerLine (int Damage,int People, List<int> peopleOnTheLine){
+		int DamagePerPerson = Damage/People;
+		List<int> dmgperline = new List<int>();
+		for (int i = 0;i<peopleOnTheLine.Count;i++)
+			dmgperline.Add(DamagePerPerson*(1/(i+1)));
+		return dmgperline;		
+	}*/
+
+	void Combat (int NumberOfPeople, int PeoplePerLine, int averagedAttack, int PeopleBeingAttacked){
+	int _NumberOfLines = NumberOfLines(NumberOfPeople,PeoplePerLine);
+		int _LinesAttacked = NumberOfLines(PeopleBeingAttacked,PeoplePerLine);
+		float Damage = GenerateDamage(_NumberOfLines,PeoplePerLine,LeftOvers(NumberOfPeople,_NumberOfLines,PeoplePerLine),averagedAttack,0);
+		int GettingAttackedLeftovers = LeftOvers (PeopleBeingAttacked,_LinesAttacked,PeoplePerLine);
+		Debug.Log ("number of lines: "+_NumberOfLines);
+		Debug.Log ("total dmg: "+Damage);
+
+		List<int> DmgperLineTEMP = new List<int>();
+			for (int i=0;i<_NumberOfLines;i++){
+				DmgperLineTEMP.Add( Mathf.FloorToInt(Damage/((float)i+1)));		
+			Debug.Log("ACTUAL STUFF: "+DmgperLineTEMP[i]);
+			}
+		if (GettingAttackedLeftovers>0)
+			DmgperLineTEMP.Add(Mathf.FloorToInt(Damage/((_NumberOfLines+1))));
+			                   List <int> PostDamageLists = new List<int>();
+
+
+	}
+
 
 	/*
 	 how this is going to work:
@@ -22,10 +152,149 @@ public class FightScript : MonoBehaviour {
 4. you make those clash, considering the weapon/armor triangle
 5. repeat for the defender with adjusted numbers
 */
-	bool AttackerStrikesFirst (int atkavgspeed, int defavgspeed){
+	void ActualFighting (){
+	AttackLines = Attackers/frontliners;
+	AttackLeftOvers = Attackers-(AttackLines*frontliners);
+	DefendLines = Defenders/frontliners;
+	DefendLeftOvers = Defenders-(DefendLines*frontliners);
 
-		return atkavgspeed>defavgspeed;
+		bool atkrsatk = AttackerStrikesFirst(attackerspeed,defenderspeed);
+		if (atkrsatk){
+
+			for (float i = 1;i<AttackLines+1;i++)
+					attackerdmg.Add(Mathf.FloorToInt(attackeratk*frontliners*(1/i)));
+			if (AttackLeftOvers>0){
+				attackerdmg.Add(Mathf.FloorToInt(attackeratk*AttackLeftOvers*(1/((float)AttackLines+1))));
+			Debug.Log(AttackLeftOvers);
+			}
+			for (float k = 1; k < DefendLines+1;k++)
+				defenderdmg.Add(Mathf.FloorToInt(defenderatk*frontliners*(1/k)));
+			if (DefendLeftOvers>0)
+				defenderdmg.Add(Mathf.FloorToInt(defenderatk*DefendLines*(1/((float)DefendLines+2))));
+		}
+		else {
+
+			for (float w = 1;w<(DefendLines+1);w++){
+				//this is correct. consider the triangle
+				defenderdmg.Add(Mathf.FloorToInt(defenderatk*frontliners*(1/w)));
+			//	Debug.Log ("defenderatk: "+defenderatk+", frontliners: "+frontliners+", w: "+w+",damage is: "+ defenderdmg[(int)w-1]);
+			}
+
+			if (DefendLeftOvers>0)
+				defenderdmg.Add(Mathf.FloorToInt(defenderatk*DefendLeftOvers*(1/((float)DefendLines+1))));
+
+			for (float z = 1;z < AttackLines+1;z++)
+				attackerdmg.Add(Mathf.FloorToInt(attackeratk*frontliners*(1/z)));
+			if (AttackLeftOvers>0)
+				attackerdmg.Add(Mathf.FloorToInt(attackeratk*AttackLeftOvers*(1/((float)AttackLines+2))));
+
+		}
+
+		}
+
+	void Triangle(){
+		for (int i = 0; i<attackerdmg.Count;i++){
+		if (AttackersClass == WarriorClass.Swordman && DefendersClass == WarriorClass.Pikeman)
+			attackerdmg[i] += attackerdmg[i]/100*30;
+	else	if (AttackersClass == WarriorClass.Pikeman && DefendersClass == WarriorClass.Hammerman)
+			attackerdmg[i] += attackerdmg[i]/100*30;
+	else	if (AttackersClass == WarriorClass.Hammerman && DefendersClass == WarriorClass.Swordman)
+			attackerdmg[i] += attackerdmg[i]/100*30;}
+		for (int w = 0;w<defenderdmg.Count;w++){
+		if (DefendersClass == WarriorClass.Swordman && AttackersClass == WarriorClass.Pikeman)
+			defenderdmg[w] += defenderdmg[w]/100*30;
+	else	if (DefendersClass == WarriorClass.Pikeman && AttackersClass == WarriorClass.Hammerman)
+			defenderdmg[w] += defenderdmg[w]/100*30;
+	else	if (DefendersClass == WarriorClass.Hammerman && AttackersClass == WarriorClass.Swordman)
+			defenderdmg[w] += defenderdmg[w]/100*30;
+		}}
+ 
+	void ReceivedAttack(){
+		//defenderdmgreceivedtrashcan
+		for (int i=1; i<(Attackers/frontliners)+1;i++){
+
+		}
+
+
+
+
+
+
+
+	
+		/*
+		int numberoflines = Attackers/frontliners;
+		Debug.Log("number of lines "+numberoflines);
+	int sdasd =	((defenderdamage/numberoflines)/(frontliners));
+		for (int i=1;i<numberoflines+1;i++){
+			int zongmaster = sdasd/((1+i)*2);
+			Debug.Log("Line "+i +" damage per unit is: " + zongmaster);
+		}
+		//need to make it so that line 1: 50%, line 2: 33%, line3: 25%, etc..
+		Debug.Log ("dmg per line "+sdasd);
+		int peratkerreceived;
+		int perdefenderreceived;
+		peratkerreceived = defenderdamage/(Attackers*attackerdef);
+		perdefenderreceived = attackerdamage/(Defenders*defenderdef);
+		for (int i = 0;i < Attackers; i++){
+			Debug.Log("peratk " + peratkerreceived);
+			int walao = peratkerreceived*frontliners	;
+			Debug.Log(walao);
+		}
+*/
 	}
 
 
+	bool AttackerStrikesFirst (int atkavgspeed, int defavgspeed ){
+
+		return atkavgspeed> defavgspeed;
+	}
+
+	void SetClasses (){
+		if (AttackersClass == WarriorClass.Pikeman){
+			attackeratk = 10;
+			attackerdef = 5;
+			attackerspeed = 6;
+			attackerhp = 50;
+	}
+		else if (AttackersClass == WarriorClass.Swordman){
+			attackeratk = 13;
+			attackerdef = 2;
+			attackerspeed = 8;
+			attackerhp = 30;
+		}
+		else if (AttackersClass == WarriorClass.Hammerman){
+			attackeratk = 6;
+			attackerdef = 10;
+			attackerspeed = 4;
+			attackerhp = 70;
+		}
+		if (DefendersClass == WarriorClass.Pikeman){
+			defenderatk = 10;
+			defenderdef = 5;
+			defenderspeed = 6;
+			defenderhp = 50;
+		}
+		else if (DefendersClass == WarriorClass.Swordman){
+			defenderatk = 13;
+			defenderdef = 2;
+			defenderspeed = 8;
+			defenderhp = 30;
+		}
+		else if (DefendersClass == WarriorClass.Hammerman){
+			defenderatk = 6;
+			defenderdef = 10;
+			defenderspeed = 4;
+			defenderhp = 70;
+		}
+	}
+	 
+	void SetTerrain (){
+		if (muhTerrain == TerrainWhereTheyFight.Grassland)
+			frontliners = 20;
+		else if (muhTerrain == TerrainWhereTheyFight.ThickForest)
+			frontliners = 5;
+		else if (muhTerrain == TerrainWhereTheyFight.SaltDesert)
+			frontliners = 30;
+	}
 }
