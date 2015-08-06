@@ -13,8 +13,12 @@ public class FightScript : MonoBehaviour {
 	public bool nothardcoded = false;
 
 	
-
-
+	public int a;
+	public int b;
+	public int c;
+	public int d;
+	public int e;
+	public List<int> f = new List<int>();
 
 	public int Attackers;
 	public int Defenders;
@@ -64,10 +68,16 @@ public class FightScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		Debug.Log ("Your 50 Swordmen attack 50 enemy Pikemen on: Grassland. The results are: your losses (killed, wounded) 14, 8 their losses 21,13");
+		Debug.Log ("Your 50 Swordmen attack 5 enemy Pikemen on: Grassland. The results are: your losses (killed, wounded) 0, 3 their losses 5,0");
+		Debug.Log ("Your 5 Swordmen attack 50 enemy Pikemen on: Grassland. The results are: your losses (killed, wounded) 5, 0 their losses 1,2");
+		Debug.Log ("Your 50 Swordmen attack 50 enemy Pikemen on: ThickForest. The results are: your losses (killed, wounded) 6, 10 their losses 10,14");
 	}
 
 	void Update(){
+		if (a>0&b>0&c>0&d>0)
+		f=CalculateDamageOnDefendingLines(a,b,c,d,e);
+
 		SetClasses();
 		SetTerrain();
 		if (nothardcoded){
@@ -124,6 +134,37 @@ public class FightScript : MonoBehaviour {
 			dmgperline.Add(DamagePerPerson*(1/(i+1)));
 		return dmgperline;		
 	}*/
+
+	List<int> DedWoundedFine(List<int> DamageOnLines, List<int> Hp){
+		List<int> HPStatus = new List<int>();
+		//0 = fine, 1 = wounded, 2 = dead
+		for (int i=0;i<Hp.Count;i++){
+			int damagepercent = Mathf.FloorToInt(((float)DamageOnLines[i]/Hp[i])*100);
+			if (damagepercent <34)
+				HPStatus.Add (0);
+			if (damagepercent>33&&damagepercent<67)
+				HPStatus.Add(1);
+			if (damagepercent>66)
+				HPStatus.Add(2);
+		}
+		return HPStatus;
+	}
+
+	List<int> CalculateDamageOnDefendingLines (int Attackers, int Defenders, int PeoplePerLine, int AveragedAttack, int FirstOrSecond){
+		int _AttackingLines = NumberOfLines(Attackers,PeoplePerLine);
+		int _DefendingLines = NumberOfLines(Defenders,PeoplePerLine);
+		int _AttackLeftOvers = LeftOvers(Attackers,_AttackingLines,PeoplePerLine);
+		int _DefendLeftOvers = LeftOvers(Defenders,_DefendingLines,PeoplePerLine);
+		int Damage = GenerateDamage(_AttackingLines,PeoplePerLine,_AttackLeftOvers,AveragedAttack,FirstOrSecond);
+		int AdjustedDamage = Mathf.FloorToInt(Damage*((float)Attackers/(float)Defenders));
+		Debug.Log(AdjustedDamage);
+		List<int> DamageOnDefenders = new List<int>();
+		for (int i = 0;i<_DefendingLines;i++)
+			DamageOnDefenders.Add(Mathf.FloorToInt(AdjustedDamage/((float)i+1)));
+		if (_DefendLeftOvers>0)
+			DamageOnDefenders.Add(Mathf.FloorToInt(AdjustedDamage/((float)_DefendingLines)));
+		return DamageOnDefenders;
+	}
 
 	void Combat (int NumberOfPeople, int PeoplePerLine, int averagedAttack, int PeopleBeingAttacked){
 	int _NumberOfLines = NumberOfLines(NumberOfPeople,PeoplePerLine);
@@ -299,4 +340,23 @@ public class FightScript : MonoBehaviour {
 		else if (muhTerrain == TerrainWhereTheyFight.SaltDesert)
 			frontliners = 30;
 	}
+
+	void EquipmentTriangle (TroopScript Attacker, TroopScript Defender){
+
+		NumberOfHands atkhands = Attacker.GetHands();
+		WeaponType atkwp = Attacker.GetWeapon();
+
+		NumberOfHands defhands = Defender.GetHands();
+		WeaponType defwp = Defender.GetWeapon();
+		ArmorType defarmr = Defender.GetArmor();
+
+
+		/*
+		 Axe>Pole>Sword(estoc)>Axe
+		 2H weapon > 1H weapon > Ranged > 2H weapon
+		 Light Armor > Slashing Weapon > No Armor > Bludgeoning Weapons > Heavy Armor > Piercing Weapons > Light Armor
+*/
+	}
+
+
 }
