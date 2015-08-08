@@ -3,7 +3,8 @@ using System.Collections;
 
 public enum NumberOfHands {
 	OneHanded,
-	TwoHanded
+	TwoHanded,
+	Bow
 }
 
 public enum WeaponType {
@@ -61,29 +62,102 @@ public class TroopScript : MonoBehaviour {
 
 
 
+			//======================================
+			//              GETTERS
+			//======================================
 
 
-
-	public void SetHands (NumberOfHands hands){
-		HandsUsedByTheWeapon = hands;
-	}
 
 	public NumberOfHands GetHands (){
-		return HandsUsedByTheWeapon;
-	}
-
-	public void SetWeapon (WeaponType weapon){
-		TypeOfWeapon = weapon;
-	}
+				return HandsUsedByTheWeapon;
+			}
 
 	public WeaponType GetWeapon (){
-		return TypeOfWeapon;
-	}
-	public void SetArmor (ArmorType armor){
-		TypeOfArmor = armor;
-	}
+				return TypeOfWeapon;
+			}
+
 	public ArmorType GetArmor(){
-		return TypeOfArmor;
+				return TypeOfArmor;
+			}
+
+	public int GetSpeed(){
+				return Speed;
+			}
+
+	public int GetAttack(){
+		return Attack;
+	}
+
+	public int GetDefence(){
+		return Defence;
+	}
+
+	public int GetHitpoints(){
+		return HitPoints;
+	}
+
+	public int GetNumber(){
+		return NumberOfSoldiers;
+	}
+
+	public int GetWounded(){
+		return NumberOfWounded;
+	}
+
+	public string GetName(){
+		return CaptainName;
+	}
+
+	public string GetSurname(){
+		return CaptainSurname;
+	}
+
+		    //======================================
+		    //             SETTERS
+		    //======================================
+
+	public void SetHands (NumberOfHands hands){
+			HandsUsedByTheWeapon = hands;
+		}
+
+	public void SetWeapon (WeaponType weapon){
+			TypeOfWeapon = weapon;
+		}
+
+	public void SetArmor (ArmorType armor){
+			TypeOfArmor = armor;
+		}
+
+	public void SetSpeed(int spd){
+			Speed = spd;
+		}
+
+	public void SetAttack (int atk)	{
+		Attack = atk;
+	}
+
+	public void SetDefence (int def){
+		Defence = def;
+	}
+
+	public void SetHitpoints (int hp){
+		HitPoints = hp;
+	}
+
+	public void SetNumber(int nmbr){
+		NumberOfSoldiers = nmbr;
+	}
+
+	public void SetWounded (int wndd){
+		NumberOfWounded = wndd;
+	}
+
+	public void SetName (string name){
+		CaptainName = name;
+	}
+
+	public void SetSurname(string srname){
+		CaptainSurname = srname;
 	}
 
 }

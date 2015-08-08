@@ -111,6 +111,7 @@ public class FightScript : MonoBehaviour {
 	}*/
 
 	//ZeroOrOne has value 0 if you are calculating to attack first, else has value 1.
+
 	int GenerateDamage (int Lines, int peoplePerLine, int Leftovers, int AveragedAttack, int ZeroOrOne){
 		int TotalAttack = 0;
 		for (float i = 1;i<Lines+1;i++)
@@ -292,7 +293,7 @@ public class FightScript : MonoBehaviour {
 
 		return atkavgspeed> defavgspeed;
 	}
-
+	 
 	void SetClasses (){
 		if (AttackersClass == WarriorClass.Pikeman){
 			attackeratk = 10;
@@ -331,6 +332,8 @@ public class FightScript : MonoBehaviour {
 			defenderhp = 70;
 		}
 	}
+
+
 	 
 	void SetTerrain (){
 		if (muhTerrain == TerrainWhereTheyFight.Grassland)
@@ -341,21 +344,74 @@ public class FightScript : MonoBehaviour {
 			frontliners = 30;
 	}
 
-	void EquipmentTriangle (TroopScript Attacker, TroopScript Defender){
+	int Triangle (TroopScript Attacker, TroopScript Defender){ //not optimal but it's the most readable
+		int DamageModifier= 0;
 
+		if (HandsTriangle(Attacker,Defender))
+			DamageModifier+=50;
+		if (WeaponTriangle(Attacker,Defender))
+			DamageModifier+=20;
+		if (EquipTriangleOffensive(Attacker,Defender))
+			DamageModifier+=25;
+		if (EquipTriangleDefensive(Attacker,Defender))
+			DamageModifier-=25;
+
+		return DamageModifier;
+	}
+
+	bool HandsTriangle (TroopScript Attacker, TroopScript Defender){
+		bool bonusattack = false;
 		NumberOfHands atkhands = Attacker.GetHands();
-		WeaponType atkwp = Attacker.GetWeapon();
-
 		NumberOfHands defhands = Defender.GetHands();
-		WeaponType defwp = Defender.GetWeapon();
-		ArmorType defarmr = Defender.GetArmor();
 
-
+		if ((atkhands == NumberOfHands.OneHanded && defhands == NumberOfHands.Bow)||
+		    (atkhands == NumberOfHands.TwoHanded && defhands == NumberOfHands.OneHanded)||
+		    (atkhands == NumberOfHands.Bow && defhands == NumberOfHands.TwoHanded))
+			bonusattack = true;
 		/*
 		 Axe>Pole>Sword(estoc)>Axe
 		 2H weapon > 1H weapon > Ranged > 2H weapon
 		 Light Armor > Slashing Weapon > No Armor > Bludgeoning Weapons > Heavy Armor > Piercing Weapons > Light Armor
-*/
+*/	
+	
+		return bonusattack;
+	}
+
+	bool WeaponTriangle (TroopScript Attacker, TroopScript Defender){
+		bool bonusattack = false;
+		WeaponType atkwpn = Attacker.GetWeapon();
+		WeaponType defwpn = Defender.GetWeapon();
+		if ((atkwpn == WeaponType.Spear && defwpn == WeaponType.Sword) ||
+		    (atkwpn == WeaponType.Sword && defwpn == WeaponType.Axe) ||
+		    (atkwpn == WeaponType.Axe && defwpn == WeaponType.Spear))
+			bonusattack = true;
+		return bonusattack;
+	}
+
+	bool EquipTriangleOffensive (TroopScript Attacker, TroopScript Defender){
+		bool bonusattack = false;
+		WeaponType atkwpn = Attacker.GetWeapon();
+		ArmorType defarmr = Defender.GetArmor();
+		if ((atkwpn == WeaponType.Sword && defarmr == ArmorType.NoArmor)||
+		    (atkwpn == WeaponType.Axe && defarmr == ArmorType.NoArmor)||
+		    (atkwpn == WeaponType.Mace && defarmr == ArmorType.Heavy)||
+		    (atkwpn == WeaponType.Spear && defarmr == ArmorType.Light)||
+		    (atkwpn == WeaponType.Bow && defarmr == ArmorType.NoArmor))
+			bonusattack = true;
+		return bonusattack;
+	}
+
+	bool EquipTriangleDefensive (TroopScript Attacker, TroopScript Defender){
+		bool bonusdefence = false;
+		WeaponType atkwpn = Attacker.GetWeapon();
+		ArmorType defarmr = Defender.GetArmor();
+		if ((atkwpn == WeaponType.Sword && defarmr == ArmorType.Light)||
+		    (atkwpn == WeaponType.Sword && defarmr == ArmorType.Heavy)||
+		    (atkwpn == WeaponType.Axe && defarmr == ArmorType.Heavy)||
+		    (atkwpn == WeaponType.Spear && defarmr == ArmorType.Heavy)||
+		    (atkwpn == WeaponType.Mace && defarmr == ArmorType.NoArmor))
+			bonusdefence = true;
+		return bonusdefence;
 	}
 
 
