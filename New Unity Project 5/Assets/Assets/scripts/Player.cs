@@ -11,7 +11,8 @@ public class Player : MonoBehaviour {
 
 	public bool moving = false;
 	public bool attacking = false;
-		
+	public TroopScript thisTroop;
+
 	public string playerName = "Obama";
 	public int HP = 25;
 	public int actionPoints = 2;

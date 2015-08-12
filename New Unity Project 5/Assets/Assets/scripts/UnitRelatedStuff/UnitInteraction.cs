@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-public class UnitInteraction : MonoBehaviour {
+public static class UnitInteraction {
 
 
 
 
 
-	void InteractionMain(TroopScript TroopOne, TroopScript TroopTwo, Tile _Terrain){
+ public static	void InteractionMain(TroopScript TroopOne, TroopScript TroopTwo, Tile _Terrain){
 		bool True = true;
 		bool False = false;
 		List<int> DamageOnTroopOne = new List<int>();
@@ -30,9 +30,9 @@ public class UnitInteraction : MonoBehaviour {
 		}
 		//calculate the weapon triangle
 		for (int i = 0;i<DamageOnTroopOne.Count;i++)
-			DamageOnTroopOne[i]*=(100+Triangle(TroopTwo,TroopOne));
+			DamageOnTroopOne[i]*=(100+Triangle(TroopTwo,TroopOne))/100;
 		for (int i = 0;i<DamageOnTroopTwo.Count;i++)
-			DamageOnTroopTwo[i]*=(100+Triangle(TroopOne,TroopTwo));
+			DamageOnTroopTwo[i]*=(100+Triangle(TroopOne,TroopTwo))/100;
 
 
 		//calculates who got killed and wounded during the exchange
@@ -46,12 +46,12 @@ public class UnitInteraction : MonoBehaviour {
 		//deals with wounded people
 		DealWithWoundedPeople(TroopOne,TroopOneLosses[1]);
 		DealWithWoundedPeople(TroopTwo,TroopTwoLosses[1]);
-
+		Debug.Log (TroopOne.GetName()+" engages on "+TroopTwo.GetName()+". The result is that he loses "+ TroopOneLosses[0]+" soldiers, while "+TroopTwo.GetName()+" loses "+TroopTwoLosses[0]+" soldiers.");
 	}
 
 
 	//takes in the amount of people that got wounded and removes them from the wounded, putting them into the dead (ie. removing them period)
-	void DealWithWoundedPeople (TroopScript Troop, int NumberOfWounded){ 
+	static void DealWithWoundedPeople (TroopScript Troop, int NumberOfWounded){ 
 		int WoundedDifference = Troop.GetWounded()-NumberOfWounded;
 	if (WoundedDifference<0)
 			Troop.SetWounded(WoundedDifference*-1);
@@ -64,7 +64,7 @@ public class UnitInteraction : MonoBehaviour {
 
 
 
-	int[] DeadAndWounded (List<int> DamageOnTroop, TroopScript Troop, Tile _Terrain){
+	static int[] DeadAndWounded (List<int> DamageOnTroop, TroopScript Troop, Tile _Terrain){
 		int[] DedWounded = new int[2];
 		int Number = Troop.GetNumber();
 		int PeoplePerLine = _Terrain.frontLiners;
@@ -97,7 +97,7 @@ public class UnitInteraction : MonoBehaviour {
 		return DedWounded;
 	}
 
-	int ReturnDedWounded (int Damage, int HP){
+	 static int ReturnDedWounded (int Damage, int HP){
 		int percent =Mathf.FloorToInt( ((float)Damage/(float)HP)*100);
 		int returnthis=0;
 		if (percent>66)
@@ -109,23 +109,23 @@ public class UnitInteraction : MonoBehaviour {
 		return returnthis;
 	}
 
-	bool PlayerOneFirst (TroopScript TroopOne, TroopScript TroopTwo ){
+static	bool PlayerOneFirst (TroopScript TroopOne, TroopScript TroopTwo ){
 		int TroopOneSPD = TroopOne.GetSpeed();
 		int TroopTwoSPD = TroopTwo.GetSpeed();
 		return TroopOneSPD>TroopTwoSPD;
 	}
 
-	int NumberOfLines (int numberOfpeople, int peoplePerLine){
+static	int NumberOfLines (int numberOfpeople, int peoplePerLine){
 		return numberOfpeople/peoplePerLine;
 	}
 	
-	int LeftOvers (int numberOfpeople, int numberOfLines, int peoplePerLine){
+static	int LeftOvers (int numberOfpeople, int numberOfLines, int peoplePerLine){
 		int peopleonline = numberOfLines*peoplePerLine;
 		return (numberOfpeople-peopleonline);
 		
 	}
 
-	List<int> CalculateDamageOnDefendingLines (TroopScript Attacker, TroopScript Defender, Tile Terrain, bool isFirstAttack){
+static	List<int> CalculateDamageOnDefendingLines (TroopScript Attacker, TroopScript Defender, Tile Terrain, bool isFirstAttack){
 		int Attackers = Attacker.GetNumber();
 		int FirstOrSecond = ((isFirstAttack)?0:1);
 		int Defenders = Defender.GetNumber();
@@ -141,7 +141,6 @@ public class UnitInteraction : MonoBehaviour {
 		int _DefendLeftOvers = LeftOvers(Defenders,_DefendingLines,PeoplePerLine);
 		int Damage = GenerateDamage(_AttackingLines,PeoplePerLine,_AttackLeftOvers,FinalAttack,FirstOrSecond);
 		int AdjustedDamage = Mathf.FloorToInt(Damage*((float)Attackers/(float)Defenders));
-		Debug.Log(AdjustedDamage);
 		List<int> DamageOnDefenders = new List<int>();
 		for (int i = 0;i<_DefendingLines;i++)
 			DamageOnDefenders.Add(Mathf.FloorToInt(AdjustedDamage/((float)i+1)));
@@ -150,7 +149,7 @@ public class UnitInteraction : MonoBehaviour {
 		return DamageOnDefenders;
 	}
 
-	int GenerateDamage (int Lines, int peoplePerLine, int Leftovers, int AveragedAttack, int ZeroOrOne){
+static	int GenerateDamage (int Lines, int peoplePerLine, int Leftovers, int AveragedAttack, int ZeroOrOne){
 		int TotalAttack = 0;
 		for (float i = 1;i<Lines+1;i++)
 			TotalAttack+=Mathf.FloorToInt(AveragedAttack*peoplePerLine*(1/(i+ZeroOrOne)));
@@ -159,7 +158,7 @@ public class UnitInteraction : MonoBehaviour {
 		return TotalAttack;
 	}
 
-	int Triangle (TroopScript Attacker, TroopScript Defender){ //not optimal but it's the most readable
+static	int Triangle (TroopScript Attacker, TroopScript Defender){ //not optimal but it's the most readable
 		int DamageModifier= 0;
 		
 		if (HandsTriangle(Attacker,Defender))
@@ -174,7 +173,7 @@ public class UnitInteraction : MonoBehaviour {
 		return DamageModifier;
 	}
 	
-	bool HandsTriangle (TroopScript Attacker, TroopScript Defender){
+static	bool HandsTriangle (TroopScript Attacker, TroopScript Defender){
 		bool bonusattack = false;
 		NumberOfHands atkhands = Attacker.GetHands();
 		NumberOfHands defhands = Defender.GetHands();
@@ -192,7 +191,7 @@ public class UnitInteraction : MonoBehaviour {
 		return bonusattack;
 	}
 	
-	bool WeaponTriangle (TroopScript Attacker, TroopScript Defender){
+static	bool WeaponTriangle (TroopScript Attacker, TroopScript Defender){
 		bool bonusattack = false;
 		WeaponType atkwpn = Attacker.GetWeapon();
 		WeaponType defwpn = Defender.GetWeapon();
@@ -203,7 +202,7 @@ public class UnitInteraction : MonoBehaviour {
 		return bonusattack;
 	}
 	
-	bool EquipTriangleOffensive (TroopScript Attacker, TroopScript Defender){
+static	bool EquipTriangleOffensive (TroopScript Attacker, TroopScript Defender){
 		bool bonusattack = false;
 		WeaponType atkwpn = Attacker.GetWeapon();
 		ArmorType defarmr = Defender.GetArmor();
@@ -216,7 +215,7 @@ public class UnitInteraction : MonoBehaviour {
 		return bonusattack;
 	}
 	
-	bool EquipTriangleDefensive (TroopScript Attacker, TroopScript Defender){
+static	bool EquipTriangleDefensive (TroopScript Attacker, TroopScript Defender){
 		bool bonusdefence = false;
 		WeaponType atkwpn = Attacker.GetWeapon();
 		ArmorType defarmr = Defender.GetArmor();

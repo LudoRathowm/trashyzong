@@ -7,14 +7,14 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 	
 	public GameObject TilePrefab;
-	public GameObject UserPlayerPrefab;
-	public GameObject AIPlayerPrefab;
+	public GameObject UserTroopPrefab;
+	public GameObject AITroopPrefab;
 	
 	public int mapSize = 22;
 	Transform mapTransform;
 	
 	public List <List<Tile>> map = new List<List<Tile>>();
-	public List <Player> players = new List<Player>();
+	public List <TroopScript> players = new List<TroopScript>();
 	public int currentPlayerIndex = 0;
 	
 	void Awake() {
@@ -32,12 +32,12 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (players[currentPlayerIndex].HP > 0) players[currentPlayerIndex].TurnUpdate();
+		if (players[currentPlayerIndex].GetNumber() > 0) players[currentPlayerIndex].TurnUpdate();
 		else nextTurn();
 	}
 	
 	void OnGUI () {
-		if (players[currentPlayerIndex].HP > 0) players[currentPlayerIndex].TurnOnGUI();
+		if (players[currentPlayerIndex].GetNumber() > 0) players[currentPlayerIndex].TurnOnGUI();
 	}
 	
 	public void nextTurn() {
@@ -92,13 +92,13 @@ public class GameManager : MonoBehaviour {
 	public void attackWithCurrentPlayer(Tile destTile) {
 		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible) {
 			
-			Player target = null;
-			foreach (Player p in players) {
+			TroopScript target = null;
+			foreach (TroopScript p in players) {
 				if (p.gridPosition == destTile.gridPosition) {
 					target = p;
 				}
 			}
-			
+
 			if (target != null) {
 								
 				//Debug.Log ("p.x: " + players[currentPlayerIndex].gridPosition.x + ", p.y: " + players[currentPlayerIndex].gridPosition.y + " t.x: " + target.gridPosition.x + ", t.y: " + target.gridPosition.y);
@@ -109,10 +109,20 @@ public class GameManager : MonoBehaviour {
 				
 				removeTileHighlights();
 				players[currentPlayerIndex].attacking = false;			
-				
+
+
+				//to edit
+
+			//	TroopScript TroopOne = players[currentPlayerIndex].thisTroop;
+			//	TroopScript TroopTwo = target.thisTroop;
+				int i = Mathf.RoundToInt(target.gridPosition.x);
+				int j = Mathf.RoundToInt(target.gridPosition.y);
+			    Tile _terrain = map[i][j];
+				UnitInteraction.InteractionMain(players[currentPlayerIndex],target,_terrain);
+
 				//attack logic
 				//rng is fun
-				bool hit = Random.Range(0.0f, 1.0f) <= players[currentPlayerIndex].attackChance - target.evade;
+				/*bool hit = Random.Range(0.0f, 1.0f) <= players[currentPlayerIndex].attackChance - target.evade;
 				
 				if (hit) {
 					//damage logic
@@ -123,7 +133,7 @@ public class GameManager : MonoBehaviour {
 					Debug.Log(players[currentPlayerIndex].playerName + " hit " + target.playerName + " for " + amountOfDamage + " damage!");
 				} else {
 					Debug.Log(players[currentPlayerIndex].playerName + " missed " + target.playerName + "!");
-				}
+				}*/
 			//  }
 			}
 		} else {
@@ -145,6 +155,25 @@ public class GameManager : MonoBehaviour {
 //			map.Add(row);
 //		}
 	}
+
+
+	//CHECK THE PATHFINDER
+
+	void AddStuffToPlayer (TroopScript player,string CaptainName, string CaptainSurname, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers, int NumberOfWounded,NumberOfHands HandsUsedByTheWeapon, WeaponType TypeOfWeapon,ArmorType TypeOfArmor){
+		player.SetName(CaptainName);
+        player.SetSurname(CaptainSurname);
+		player.SetAttack(Attack);
+		player.SetDefence(Defence);
+		player.SetHitpoints(HitPoints);
+		player.SetSpeed(Speed);
+		player.SetNumber(NumberOfSoldiers);
+		player.SetWounded(NumberOfWounded);
+		player.SetHands(HandsUsedByTheWeapon);
+		player.SetWeapon(TypeOfWeapon);
+		player.SetArmor(TypeOfArmor);
+	}
+
+
 
 	void loadMapFromXml() {
 		MapXmlContainer container = MapSaveLoad.Load("map.xml");
@@ -171,68 +200,95 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void generatePlayers() {
-		UserPlayer player;
-		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(3 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		UserTroop player;
+		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(3 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
+	//	public TroopScript (string CptName, string CptSurname, int Atk, int Def, int HP, int spd, int Soldiers, int Wounded, NumberOfHands hands, WeaponType weap, ArmorType armor){
+
+
+
+
+AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0,NumberOfHands.TwoHanded,WeaponType.Axe,ArmorType.Heavy);
+
 		player.gridPosition = new Vector2(3,20);
-		player.playerName = "Obama";
+
+	//player.thisTroop = new TroopScript("Obama", "Barack", 10,4,100,10,100,0,NumberOfHands.TwoHanded,WeaponType.Axe,ArmorType.Heavy);
+	    
+//		player.SetName("nig");
+//		player.SetSurname("nog");
+//		player.SetAttack(10);
+//		player.SetDefence(4);
+//		player.SetHitpoints(100);
+//		player.SetSpeed(10);
+//		player.SetNumber(100);
+//		player.SetWounded(0);
+//		player.SetHands(NumberOfHands.TwoHanded);
+//		player.SetWeapon(WeaponType.Axe);
+//		player.SetArmor(ArmorType.Heavy);
+
+			//("fag","nog", 10,10,100,10,100,0, hand,wpn,arm);
+
+/*		player.playerName = "Obama";
 		player.headArmor = Armor.FromKey(ArmorKey.LeatherCap);
 		player.chestArmor = Armor.FromKey(ArmorKey.MagicianCloak);
 		player.handWeapons.Add(Weapon.FromKey(WeaponKey.LongSword));
-		
+*/		
 		players.Add(player);
-		
-		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(5- Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+
+
+		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(5- Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(5,20);
-		player.playerName = "Merkel";
-		player.chestArmor = Armor.FromKey(ArmorKey.LeatherVest);
-		player.handWeapons.Add(Weapon.FromKey(WeaponKey.ShortSword));
-		player.handWeapons.Add(Weapon.FromKey(WeaponKey.ShortSword));
-		
+	
+
+		AddStuffToPlayer(player,"Angela", "Merkel", 20,5,200,5,100,0,NumberOfHands.OneHanded,WeaponType.Spear,ArmorType.Light);
 		players.Add(player);
 				
-		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(4 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(4 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(4,20);
-		player.playerName = "Putin";
-		player.chestArmor = Armor.FromKey(ArmorKey.IronPlate);
-		player.handWeapons.Add(Weapon.FromKey(WeaponKey.Warhammer));
-		
+	
+
+		AddStuffToPlayer(player, "Vladimir", "Putin", 14,7,70,12,100,0,NumberOfHands.TwoHanded,WeaponType.Sword,ArmorType.NoArmor);
 		players.Add(player);
 
-		player = ((GameObject)Instantiate(UserPlayerPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(2,20);
-		player.playerName = "Assad";
-		player.chestArmor = Armor.FromKey(ArmorKey.MagicianCloak);
-		player.handWeapons.Add(Weapon.FromKey(WeaponKey.LongBow));
+	
+
+		AddStuffToPlayer(player, "Bashar Hafiz", "al-Asad", 12,10,100,12,100,0,NumberOfHands.Bow,WeaponType.Bow,ArmorType.Heavy);
 		
 		players.Add(player);
 		
-		AIPlayer aiplayer = ((GameObject)Instantiate(AIPlayerPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		AITroop aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(6,4);
-		aiplayer.playerName = "Rivlin";
-		aiplayer.chestArmor = Armor.FromKey(ArmorKey.IronHelmet);
-		aiplayer.handWeapons.Add(Weapon.FromKey(WeaponKey.LongSword));
-		
+	
+
+		AddStuffToPlayer(aiplayer, "Reuven", "Rivlin", 12,2,100,12,100,0,NumberOfHands.OneHanded,WeaponType.Axe,ArmorType.Heavy);
+
 		players.Add(aiplayer);
 
-		aiplayer = ((GameObject)Instantiate(AIPlayerPrefab, new Vector3(8 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(8 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(8,4);
-		aiplayer.playerName = "Netanyahu";
-		aiplayer.handWeapons.Add(Weapon.FromKey(WeaponKey.LongSword));
+	
+
+		AddStuffToPlayer(aiplayer, "Benjamin", "Netanyahu", 22,1,100,13,100,0,NumberOfHands.Bow,WeaponType.Bow,ArmorType.NoArmor);
+
 		
 		players.Add(aiplayer);
 
-		aiplayer = ((GameObject)Instantiate(AIPlayerPrefab, new Vector3(12 - Mathf.Floor(mapSize/2),1.5f, -1 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(12 - Mathf.Floor(mapSize/2),1.5f, -1 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(12,1);
-		aiplayer.playerName = "Edelstein";
-		aiplayer.chestArmor = Armor.FromKey(ArmorKey.LeatherVest);
-		aiplayer.handWeapons.Add(Weapon.FromKey(WeaponKey.ShortBow));
+	
+
+		AddStuffToPlayer(aiplayer, "Mr", "Edelstein", 12,3,100,12,100,0,NumberOfHands.TwoHanded,WeaponType.Sword,ArmorType.Light);
+
 		
 		players.Add(aiplayer);
 
-		aiplayer = ((GameObject)Instantiate(AIPlayerPrefab, new Vector3(18 - Mathf.Floor(mapSize/2),1.5f, -8 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(18 - Mathf.Floor(mapSize/2),1.5f, -8 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(18,8);
-		aiplayer.playerName = "Lieberman";
-		aiplayer.handWeapons.Add(Weapon.FromKey(WeaponKey.LongSword));
+	
+
+		AddStuffToPlayer(aiplayer, "Avigdor", "Lieberman", 12,4,100,22,100,0,NumberOfHands.TwoHanded,WeaponType.Axe,ArmorType.Light);
+
 
 		players.Add(aiplayer);
 	}

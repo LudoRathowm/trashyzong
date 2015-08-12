@@ -73,9 +73,11 @@
      <Compile Include="Assets\Assets\scripts\Tiles\TileHighlight.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles\TilePath.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles\TilePathFinder.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\AITroop.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Equipment.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\TroopScript.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\UnitInteraction.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\UserTroop.cs" />
      <Compile Include="Assets\Assets\scripts\UserPlayer.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
