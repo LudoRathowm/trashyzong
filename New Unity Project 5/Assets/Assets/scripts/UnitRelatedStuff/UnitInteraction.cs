@@ -10,6 +10,7 @@ public static class UnitInteraction {
 
 
 	static int[] BattleResume (TroopScript troopOne, TroopScript troopTwo, int TroopOneWounded, int TroopTwoWounded, int TroopOneDed, int TroopTwoDed){
+		Debug.Log("TroopTwo ded: "+TroopTwoDed+" troop two wounded:" + TroopTwoWounded);
 		int FinalOneWounded =0;
 		int FinalOneDead = 0;
 		int FinalTwoWounded = 0;
@@ -34,7 +35,8 @@ public static class UnitInteraction {
 		}
 		else if (trooptwowoundeddifference>=0){
 			FinalTwoWounded = trooptwowoundeddifference;
-			FinalTwoDead = TroopTwoDed+TroopOneWounded;
+			FinalTwoDead = TroopTwoDed+TroopTwoWounded;
+			Debug.Log(FinalTwoDead);
 		}
 
 		int[] Resume = new int[4];
@@ -127,8 +129,8 @@ public static class UnitInteraction {
 		int[] DedWounded = new int[2];
 		int Number = Troop.GetNumber();
 		int PeoplePerLine = _Terrain.frontLiners;
-		int _NumberOfLines = NumberOfLines(Number,PeoplePerLine);
-		int Leftovers = LeftOvers(Number,_NumberOfLines,PeoplePerLine);
+		int _NumberOfLines = NumberOfLines(Number+Troop.GetWounded(),PeoplePerLine);
+		int Leftovers = LeftOvers(Number+Troop.GetWounded(),_NumberOfLines,PeoplePerLine);
 		int [] _lines = new int[0] ;
 		if (Leftovers>0)
 			_lines = new int[_NumberOfLines+1];
@@ -158,6 +160,7 @@ public static class UnitInteraction {
 
 	 static int ReturnDedWounded (int Damage, int HP){
 		int percent =Mathf.FloorToInt( ((float)Damage/(float)HP)*100);
+		Debug.Log ("returndedwounded: "+percent);
 		int returnthis=0;
 		if (percent>66)
 			returnthis= 0;
@@ -185,9 +188,9 @@ static	int LeftOvers (int numberOfpeople, int numberOfLines, int peoplePerLine){
 	}
 
 static	List<int> CalculateDamageOnDefendingLines (TroopScript Attacker, TroopScript Defender, Tile Terrain, bool isFirstAttack){
-		int Attackers = Attacker.GetNumber();
+		int Attackers = Attacker.GetNumber()+Attacker.GetWounded();
 		int FirstOrSecond = ((isFirstAttack)?0:1);
-		int Defenders = Defender.GetNumber();
+		int Defenders = Defender.GetNumber()+Defender.GetWounded();
 		int PeoplePerLine = Terrain.frontLiners;
 		int Attack = Attacker.GetAttack();
 		int Defence = Defender.GetDefence();

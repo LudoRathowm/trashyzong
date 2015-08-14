@@ -32,12 +32,12 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (players[currentPlayerIndex].GetNumber() > 0) players[currentPlayerIndex].TurnUpdate();
+		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnUpdate();
 		else nextTurn();
 	}
 	
 	void OnGUI () {
-		if (players[currentPlayerIndex].GetNumber() > 0) players[currentPlayerIndex].TurnOnGUI();
+		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnOnGUI();
 	}
 	
 	public void nextTurn() {
@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour {
 
 
 
-AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
+AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromName(WeaponryName.TestBow	),Armory.FromName(ArmoryName.TestGambeson));
 
 		player.gridPosition = new Vector2(3,20);
 
@@ -277,7 +277,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromNam
 		aiplayer.gridPosition = new Vector2(12,1);
 	
 
-		AddStuffToPlayer(aiplayer, "Mr", "Edelstein", 12,3,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
+		AddStuffToPlayer(aiplayer, "Mr", "Edelstein", 22,3,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		
 		players.Add(aiplayer);
