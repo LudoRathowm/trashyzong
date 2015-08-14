@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public enum NumberOfHands {
 	OneHanded,
 	TwoHanded,
-	Bow
+	Bow, //means ranged not bow
+	NotAWeapon
 }
 
 public enum WeaponType {
@@ -13,13 +14,16 @@ public enum WeaponType {
 	Sword,
 	Mace,
 	Axe,
-	Bow
+	Bow,
+	Crossbow,
+	NotAWeapon
 }
 
 public enum ArmorType {
 	Light,
 	Heavy,
-	NoArmor
+	NoArmor,
+	NotAnArmor
 }
 
 
@@ -29,19 +33,21 @@ public class TroopScript : MonoBehaviour {
 	string CaptainName;
 	string CaptainSurname;
 
-	int Attack;
-	int Defence;
-	int HitPoints;
-	int Speed;
+	int baseAttack;
+	int baseDefence;
+	int baseHitPoints;
+	int baseSpeed;
 	int NumberOfSoldiers;
 	int NumberOfWounded;
 	int baseMovement = 5;
-	int AttackRange = 1;
+	int baseAttackRange = 1;
 
-	NumberOfHands HandsUsedByTheWeapon; //these are to become private later on
-	WeaponType TypeOfWeapon;
-	ArmorType TypeOfArmor;
 
+	Weaponry WeaponAdopted;
+	Armory ArmorAdopted;
+
+	string WeaponName;
+	string ArmorName;
 
 	//stuff to make it work, not related to rpg parts
 	public int actionPoints = 2;
@@ -91,31 +97,32 @@ public class TroopScript : MonoBehaviour {
 
 
 	public NumberOfHands GetHands (){
-				return HandsUsedByTheWeapon;
+
+				return WeaponAdopted.handsUsed;
 			}
 
 	public WeaponType GetWeapon (){
-				return TypeOfWeapon;
+				return WeaponAdopted.weapType;
 			}
 
 	public ArmorType GetArmor(){
-				return TypeOfArmor;
+				return ArmorAdopted.armrType;
 			}
 
 	public int GetSpeed(){
-				return Speed;
+				return Mathf.RoundToInt(baseSpeed*WeaponAdopted.speedModifier*ArmorAdopted.speedModifier);
 			}
 
 	public int GetAttack(){
-		return Attack;
+		return baseAttack+WeaponAdopted.Attack+ArmorAdopted.Attack;
 	}
 
 	public int GetDefence(){
-		return Defence;
+		return baseDefence+WeaponAdopted.Defence+ArmorAdopted.Defence;
 	}
 
 	public int GetHitpoints(){
-		return HitPoints;
+		return baseHitPoints+ArmorAdopted.HPModifier;
 	}
 
 	public int GetNumber(){
@@ -135,42 +142,41 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public int GetMovement(){
-		return baseMovement;
+		return Mathf.RoundToInt(baseMovement*WeaponAdopted.speedModifier*ArmorAdopted.speedModifier);
 	}
-	public int GetRange(){
-		return AttackRange;
+	public int GetMaxRange(){
+		return baseAttackRange+WeaponAdopted.maxRange;
+	}
+	public int GetMinRange(){
+		return baseAttackRange+WeaponAdopted.minRange;
 	}
 
 		    //======================================
 		    //             SETTERS
 		    //======================================
 
-	public void SetHands (NumberOfHands hands){
-			HandsUsedByTheWeapon = hands;
+	public void SetWeapon (Weaponry weapon){
+		WeaponAdopted = weapon;
 		}
 
-	public void SetWeapon (WeaponType weapon){
-			TypeOfWeapon = weapon;
+	public void SetArmor (Armory armor){
+			ArmorAdopted = armor;
 		}
 
-	public void SetArmor (ArmorType armor){
-			TypeOfArmor = armor;
+	public void SetBaseSpeed(int spd){
+			baseSpeed = spd;
 		}
 
-	public void SetSpeed(int spd){
-			Speed = spd;
-		}
-
-	public void SetAttack (int atk)	{
-		Attack = atk;
+	public void SetBaseAttack (int atk)	{
+		baseAttack = atk;
 	}
 
-	public void SetDefence (int def){
-		Defence = def;
+	public void SetBaseDefence (int def){
+		baseDefence = def;
 	}
 
-	public void SetHitpoints (int hp){
-		HitPoints = hp;
+	public void SetBaseHitpoints (int hp){
+		baseHitPoints = hp;
 	}
 
 	public void SetNumber(int nmbr){
@@ -193,8 +199,8 @@ public class TroopScript : MonoBehaviour {
 		baseMovement = Mov;
 	}
 
-	public void SetRange (int range){
-		AttackRange = range;
+	public void SetBaseRange (int range){
+		baseAttackRange = range;
 	}
 
 
@@ -205,12 +211,15 @@ public class TroopScript : MonoBehaviour {
 	
 	void Awake () {
 		moveDestination = transform.position;
+
 	}
 	
 	
 	// Update is called once per frame
 	public virtual void Update () {		
-		if (HitPoints <= 0) {
+		WeaponName = WeaponAdopted.NameOfTheEquip;
+		ArmorName = ArmorAdopted.NameOfTheEquip;
+		if (GetNumber()+GetWounded() <= 0) {
 			transform.rotation = Quaternion.Euler(new Vector3(90,0,0)); //yer ded nigga
 			transform.GetComponent<Renderer>().material.color = Color.red; // and bleeding
 		}

@@ -37,7 +37,7 @@ public class AITroop : TroopScript{
 				
 			} else {
 				//priority queueue
-				List<Tile> attacktilesInRange = TileHighlight.FindHighlight(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y], GetRange(), true);
+				List<Tile> attacktilesInRange = TileHighlight.FindHighlight(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y], GetMaxRange(), true);
 				//List<Tile> movementToAttackTilesInRange = TileHighlight.FindHighlight(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y], movementPerActionPoint + attackRange);
 				List<Tile> movementTilesInRange = TileHighlight.FindHighlight(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y],GetMovement() + 1000);
 				//blabla range, lowest hp, not ai
@@ -48,7 +48,7 @@ public class AITroop : TroopScript{
 					GameManager.instance.removeTileHighlights();
 					moving = false;
 					attacking = true;
-					GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetRange());
+				GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetMaxRange());
 					
 					GameManager.instance.attackWithCurrentPlayer(GameManager.instance.map[(int)opponent.gridPosition.x][(int)opponent.gridPosition.y]);
 				}

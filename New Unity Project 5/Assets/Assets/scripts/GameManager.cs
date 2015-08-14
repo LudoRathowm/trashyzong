@@ -159,18 +159,17 @@ public class GameManager : MonoBehaviour {
 
 	//CHECK THE PATHFINDER
 
-	void AddStuffToPlayer (TroopScript player,string CaptainName, string CaptainSurname, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers, int NumberOfWounded,NumberOfHands HandsUsedByTheWeapon, WeaponType TypeOfWeapon,ArmorType TypeOfArmor){
+	void AddStuffToPlayer (TroopScript player,string CaptainName, string CaptainSurname, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers, int NumberOfWounded, Weaponry _weapon, Armory _armor){
 		player.SetName(CaptainName);
         player.SetSurname(CaptainSurname);
-		player.SetAttack(Attack);
-		player.SetDefence(Defence);
-		player.SetHitpoints(HitPoints);
-		player.SetSpeed(Speed);
+		player.SetBaseAttack(Attack);
+		player.SetBaseDefence(Defence);
+		player.SetBaseHitpoints(HitPoints);
+		player.SetBaseSpeed(Speed);
 		player.SetNumber(NumberOfSoldiers);
 		player.SetWounded(NumberOfWounded);
-		player.SetHands(HandsUsedByTheWeapon);
-		player.SetWeapon(TypeOfWeapon);
-		player.SetArmor(TypeOfArmor);
+		player.SetWeapon(_weapon);
+		player.SetArmor(_armor);
 	}
 
 
@@ -207,7 +206,7 @@ public class GameManager : MonoBehaviour {
 
 
 
-AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0,NumberOfHands.TwoHanded,WeaponType.Axe,ArmorType.Heavy);
+AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 
 		player.gridPosition = new Vector2(3,20);
 
@@ -239,21 +238,21 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0,NumberOfHands.Two
 		player.gridPosition = new Vector2(5,20);
 	
 
-		AddStuffToPlayer(player,"Angela", "Merkel", 20,5,200,5,100,0,NumberOfHands.OneHanded,WeaponType.Spear,ArmorType.Light);
+		AddStuffToPlayer(player,"Angela", "Merkel", 20,5,200,5,100,0,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
 				
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(4 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(4,20);
 	
 
-		AddStuffToPlayer(player, "Vladimir", "Putin", 14,7,70,12,100,0,NumberOfHands.TwoHanded,WeaponType.Sword,ArmorType.NoArmor);
+		AddStuffToPlayer(player, "Vladimir", "Putin", 14,7,70,12,100,0,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
 		players.Add(player);
 
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(2,20);
 	
 
-		AddStuffToPlayer(player, "Bashar Hafiz", "al-Asad", 12,10,100,12,100,0,NumberOfHands.Bow,WeaponType.Bow,ArmorType.Heavy);
+		AddStuffToPlayer(player, "Bashar Hafiz", "al-Asad", 12,10,100,12,100,0,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestGambeson));
 		
 		players.Add(player);
 		
@@ -261,7 +260,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0,NumberOfHands.Two
 		aiplayer.gridPosition = new Vector2(6,4);
 	
 
-		AddStuffToPlayer(aiplayer, "Reuven", "Rivlin", 12,2,100,12,100,0,NumberOfHands.OneHanded,WeaponType.Axe,ArmorType.Heavy);
+		AddStuffToPlayer(aiplayer, "Reuven", "Rivlin", 12,2,100,12,100,0,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		players.Add(aiplayer);
 
@@ -269,7 +268,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0,NumberOfHands.Two
 		aiplayer.gridPosition = new Vector2(8,4);
 	
 
-		AddStuffToPlayer(aiplayer, "Benjamin", "Netanyahu", 22,1,100,13,100,0,NumberOfHands.Bow,WeaponType.Bow,ArmorType.NoArmor);
+		AddStuffToPlayer(aiplayer, "Benjamin", "Netanyahu", 22,1,100,13,100,0,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		
 		players.Add(aiplayer);
@@ -278,7 +277,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0,NumberOfHands.Two
 		aiplayer.gridPosition = new Vector2(12,1);
 	
 
-		AddStuffToPlayer(aiplayer, "Mr", "Edelstein", 12,3,100,12,100,0,NumberOfHands.TwoHanded,WeaponType.Sword,ArmorType.Light);
+		AddStuffToPlayer(aiplayer, "Mr", "Edelstein", 12,3,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		
 		players.Add(aiplayer);
@@ -287,7 +286,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0,NumberOfHands.Two
 		aiplayer.gridPosition = new Vector2(18,8);
 	
 
-		AddStuffToPlayer(aiplayer, "Avigdor", "Lieberman", 12,4,100,22,100,0,NumberOfHands.TwoHanded,WeaponType.Axe,ArmorType.Light);
+		AddStuffToPlayer(aiplayer, "Avigdor", "Lieberman", 12,4,100,22,100,0,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
 
 
 		players.Add(aiplayer);

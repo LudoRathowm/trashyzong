@@ -14,7 +14,7 @@ public class UserTroop : TroopScript {
 		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex] == this) {
 			transform.GetChild(1).gameObject.SetActive(true);
 			if (Input.GetButtonDown("MoveKey")){
-				Debug.Log("WWW");
+
 				if (!moving) {
 					GameManager.instance.removeTileHighlights();
 					moving = true;
@@ -31,7 +31,8 @@ public class UserTroop : TroopScript {
 					GameManager.instance.removeTileHighlights();
 					moving = false;
 					attacking = true;
-					GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetRange());
+					GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetMaxRange());
+					GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetMinRange());
 				} else {
 					moving = false;
 					attacking = false;

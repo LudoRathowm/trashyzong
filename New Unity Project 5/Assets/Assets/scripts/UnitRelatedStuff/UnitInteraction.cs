@@ -9,6 +9,42 @@ public static class UnitInteraction {
 
 
 
+	static int[] BattleResume (TroopScript troopOne, TroopScript troopTwo, int TroopOneWounded, int TroopTwoWounded, int TroopOneDed, int TroopTwoDed){
+		int FinalOneWounded =0;
+		int FinalOneDead = 0;
+		int FinalTwoWounded = 0;
+		int FinalTwoDead = 0;
+		//0 troopone ded 1 troopone wound 2 trooptwo ded 3 trooptwo wound
+
+		int onewounded = troopOne.GetWounded();
+		int twowounded = troopTwo.GetWounded();
+		int trooponewoundeddifference = onewounded-TroopOneWounded;
+		if (trooponewoundeddifference<0){
+			FinalOneWounded = trooponewoundeddifference*-1;
+			FinalOneDead = TroopOneDed+onewounded;
+		}
+		else if (trooponewoundeddifference>=0){
+			FinalOneWounded = trooponewoundeddifference;
+			FinalOneDead = TroopOneDed+TroopOneWounded;
+		}
+		int trooptwowoundeddifference = twowounded-TroopTwoWounded;
+		if (trooptwowoundeddifference<0){
+			FinalTwoWounded = trooptwowoundeddifference*-1;
+			FinalTwoDead = TroopTwoDed+twowounded;
+		}
+		else if (trooptwowoundeddifference>=0){
+			FinalTwoWounded = trooptwowoundeddifference;
+			FinalTwoDead = TroopTwoDed+TroopOneWounded;
+		}
+
+		int[] Resume = new int[4];
+		Resume[0] = FinalOneDead;
+		Resume[1] = FinalOneWounded;
+		Resume[2] = FinalTwoDead;
+		Resume[3] = FinalTwoWounded;
+		return Resume;
+
+	}
 
 
  public static	void InteractionMain(TroopScript TroopOne, TroopScript TroopTwo, Tile _Terrain){
@@ -16,6 +52,20 @@ public static class UnitInteraction {
 		bool False = false;
 		List<int> DamageOnTroopOne = new List<int>();
 		List<int> DamageOnTroopTwo = new List<int>();
+		int TroopOneRange = TroopOne.GetMaxRange();
+		int TroopTwoRange = TroopTwo.GetMaxRange();
+		if (TroopOneRange>TroopTwoRange){
+			DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,True);
+			for (int i = 0;i<DamageOnTroopTwo.Count;i++)
+				DamageOnTroopTwo[i]*=(100+Triangle(TroopOne,TroopTwo))/100;
+			int[] TroopTwoLosses = DeadAndWounded(DamageOnTroopTwo,TroopTwo,_Terrain);
+			int [] results = BattleResume(TroopOne,TroopTwo,0, TroopTwoLosses[1],0,TroopTwoLosses[0]);
+			TroopTwo.SetNumber(TroopTwo.GetNumber()-results[2]-TroopTwoLosses[1]);
+			TroopTwo.SetWounded(results[3]);
+			Debug.Log (TroopOne.GetName()+" shoots on "+TroopTwo.GetName()+", killing "+results[2]+" soldiers and wounding "+results[3]+" people.");
+
+		}
+		else {
 		if (PlayerOneFirst(TroopOne,TroopTwo)){
 
 			 DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,True);
@@ -39,31 +89,40 @@ public static class UnitInteraction {
 		int[] TroopOneLosses = DeadAndWounded(DamageOnTroopOne,TroopOne,_Terrain);
 		int[] TroopTwoLosses = DeadAndWounded(DamageOnTroopTwo,TroopTwo,_Terrain);
 
+			int [] results = BattleResume (TroopOne,TroopTwo,TroopOneLosses[1],TroopTwoLosses[1],TroopOneLosses[0],TroopTwoLosses[0]);
+			TroopOne.SetNumber(TroopOne.GetNumber()-results[0]-TroopOneLosses[1]);
+			TroopOne.SetWounded(results[1]);
+			TroopTwo.SetNumber(TroopTwo.GetNumber()-results[2]-TroopTwoLosses[1]);
+			TroopTwo.SetWounded(results[3]);
+			
+			/* ##REDONE WITH THE BATTLE RESUME METHOD BUT BETTER
 		//kills people off
 		TroopOne.SetNumber(TroopOne.GetNumber()-TroopOneLosses[0]);
 		TroopTwo.SetNumber(TroopTwo.GetNumber()-TroopTwoLosses[0]);
 
 		//deals with wounded people
 		DealWithWoundedPeople(TroopOne,TroopOneLosses[1]);
-		DealWithWoundedPeople(TroopTwo,TroopTwoLosses[1]);
-		Debug.Log (TroopOne.GetName()+" engages on "+TroopTwo.GetName()+". The result is that he loses "+ TroopOneLosses[0]+" soldiers, while "+TroopTwo.GetName()+" loses "+TroopTwoLosses[0]+" soldiers.");
+		DealWithWoundedPeople(TroopTwo,TroopTwoLosses[1]);*/
+		Debug.Log (TroopOne.GetName()+" engages on "+TroopTwo.GetName()+". The result is that he loses "+ results[0]+" soldiers and wounds "+results[1]+", while "+TroopTwo.GetName()+" loses "+results[2]+" soldiers and wounds " + results[3]);
+		}
+
 	}
 
 
 	//takes in the amount of people that got wounded and removes them from the wounded, putting them into the dead (ie. removing them period)
-	static void DealWithWoundedPeople (TroopScript Troop, int NumberOfWounded){ 
-		int WoundedDifference = Troop.GetWounded()-NumberOfWounded;
-	if (WoundedDifference<0)
-			Troop.SetWounded(WoundedDifference*-1);
-	else if (WoundedDifference>=0)
-			Troop.SetWounded(WoundedDifference);
-
-			Troop.SetNumber(Troop.GetNumber()-NumberOfWounded);
-	}
-
-
+//	static void DealWithWoundedPeople (TroopScript Troop, int NumberOfWounded){ 
+//		int WoundedDifference = Troop.GetWounded()-NumberOfWounded;
+//	if (WoundedDifference<0)
+//			Troop.SetWounded(WoundedDifference*-1);
+//	else if (WoundedDifference>=0)
+//			Troop.SetWounded(WoundedDifference);
+//
+//			Troop.SetNumber(Troop.GetNumber()-NumberOfWounded);
+//	}
 
 
+
+			              //0 ded 1 wounded
 	static int[] DeadAndWounded (List<int> DamageOnTroop, TroopScript Troop, Tile _Terrain){
 		int[] DedWounded = new int[2];
 		int Number = Troop.GetNumber();
