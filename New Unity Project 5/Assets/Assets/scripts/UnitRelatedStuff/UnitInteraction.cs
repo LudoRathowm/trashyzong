@@ -10,7 +10,7 @@ public static class UnitInteraction {
 
 
 	static int[] BattleResume (TroopScript troopOne, TroopScript troopTwo, int TroopOneWounded, int TroopTwoWounded, int TroopOneDed, int TroopTwoDed){
-		Debug.Log("TroopTwo ded: "+TroopTwoDed+" troop two wounded:" + TroopTwoWounded);
+//		Debug.Log("TroopTwo ded: "+TroopTwoDed+" troop two wounded:" + TroopTwoWounded);
 		int FinalOneWounded =0;
 		int FinalOneDead = 0;
 		int FinalTwoWounded = 0;
@@ -20,23 +20,57 @@ public static class UnitInteraction {
 		int onewounded = troopOne.GetWounded();
 		int twowounded = troopTwo.GetWounded();
 		int trooponewoundeddifference = onewounded-TroopOneWounded;
-		if (trooponewoundeddifference<0){
-			FinalOneWounded = trooponewoundeddifference*-1;
+		int trooptwowoundeddifference = twowounded-TroopTwoWounded;
+	
+		//case one: too little people alive compared to the ones killed and too many people wounded compared to the ones already wounded
+		if (troopOne.GetNumber()<TroopOneDed && trooponewoundeddifference < 0){
+			Debug.Log("A");
+			int newwounded = trooponewoundeddifference*-1;
+			FinalOneWounded = newwounded-(TroopOneDed-troopOne.GetNumber());
 			FinalOneDead = TroopOneDed+onewounded;
 		}
-		else if (trooponewoundeddifference>=0){
-			FinalOneWounded = trooponewoundeddifference;
+		//case two: too little people alive compared to the one killed and enought already wounded people compared to the new ones
+		else if (troopOne.GetNumber()<TroopOneDed && trooponewoundeddifference>=0){
+			Debug.Log("B");
+			FinalOneWounded = trooponewoundeddifference - ( TroopOneDed-troopOne.GetNumber());
 			FinalOneDead = TroopOneDed+TroopOneWounded;
 		}
-		int trooptwowoundeddifference = twowounded-TroopTwoWounded;
-		if (trooptwowoundeddifference<0){
-			FinalTwoWounded = trooptwowoundeddifference*-1;
+		//case three: enought people alive to tank the new kills but too many wounded to tank the new wounded;
+		else if (troopOne.GetNumber()>TroopOneDed && trooponewoundeddifference<0){
+			Debug.Log("C");
+			int newwounded = trooponewoundeddifference*-1;
+			FinalOneWounded = newwounded;
+			FinalOneDead = TroopOneDed+onewounded;
+		}
+		//case four: enought people alive to tank the kills and enought people wounded to tank the wounds
+		else if (troopOne.GetNumber()>TroopOneDed && trooponewoundeddifference>=0){
+			Debug.Log("D");
+			FinalOneWounded = trooponewoundeddifference;
+			FinalOneDead = TroopOneDed + TroopOneWounded;
+		}
+		//repeat for troop two
+		if (troopTwo.GetNumber()<TroopTwoDed && trooptwowoundeddifference<0){
+			Debug.Log("E");
+			int newwounded = trooptwowoundeddifference*-1;
+			FinalTwoWounded = newwounded-(TroopTwoDed-troopTwo.GetNumber());
 			FinalTwoDead = TroopTwoDed+twowounded;
 		}
-		else if (trooptwowoundeddifference>=0){
-			FinalTwoWounded = trooptwowoundeddifference;
-			FinalTwoDead = TroopTwoDed+TroopTwoWounded;
-			Debug.Log(FinalTwoDead);
+		else if (troopTwo.GetNumber()<TroopTwoDed && trooptwowoundeddifference>=0){
+			Debug.Log("F");
+			FinalTwoWounded  = trooptwowoundeddifference-(TroopTwoDed-troopTwo.GetNumber());
+		    FinalTwoDead  = TroopTwoDed+TroopOneWounded;
+			}
+		else if (troopTwo.GetNumber()>TroopTwoDed && trooptwowoundeddifference<0){
+			Debug.Log("g");
+			int newwounded = trooptwowoundeddifference*-1;
+			FinalTwoWounded = newwounded;
+			FinalTwoDead = TroopTwoDed+twowounded;
+		}
+		else if (troopTwo.GetNumber()>TroopTwoDed && trooptwowoundeddifference>=0){
+			Debug.Log("number:" + troopTwo.GetNumber()+" ded:"+ TroopTwoDed+"troopdiff:"+trooptwowoundeddifference+" trpwounded:"+TroopTwoWounded);
+			Debug.Log("h");
+			FinalTwoWounded = trooponewoundeddifference;
+			FinalTwoDead = TroopTwoWounded;
 		}
 
 		int[] Resume = new int[4];
@@ -64,6 +98,8 @@ public static class UnitInteraction {
 			int [] results = BattleResume(TroopOne,TroopTwo,0, TroopTwoLosses[1],0,TroopTwoLosses[0]);
 			TroopTwo.SetNumber(TroopTwo.GetNumber()-results[2]-TroopTwoLosses[1]);
 			TroopTwo.SetWounded(results[3]);
+			if (TroopTwo.GetNumber()<0)
+				TroopTwo.SetNumber(0);
 			Debug.Log (TroopOne.GetName()+" shoots on "+TroopTwo.GetName()+", killing "+results[2]+" soldiers and wounding "+results[3]+" people.");
 
 		}
@@ -96,7 +132,10 @@ public static class UnitInteraction {
 			TroopOne.SetWounded(results[1]);
 			TroopTwo.SetNumber(TroopTwo.GetNumber()-results[2]-TroopTwoLosses[1]);
 			TroopTwo.SetWounded(results[3]);
-			
+			if (TroopOne.GetNumber()<0)
+				TroopOne.SetNumber(0);
+			if (TroopTwo.GetNumber()<0)
+				TroopTwo.SetNumber(0);
 			/* ##REDONE WITH THE BATTLE RESUME METHOD BUT BETTER
 		//kills people off
 		TroopOne.SetNumber(TroopOne.GetNumber()-TroopOneLosses[0]);
@@ -138,6 +177,7 @@ public static class UnitInteraction {
 			_lines = new int[_NumberOfLines];
 	
 		for (int i=0;i<DamageOnTroop.Count;i++){
+	//		Debug.Log ("Damage on line "+i+" is equal to: "+DamageOnTroop[i]);
 			_lines[i]= ReturnDedWounded(DamageOnTroop[i],Troop.GetHitpoints());
 		}
 
@@ -159,8 +199,9 @@ public static class UnitInteraction {
 	}
 
 	 static int ReturnDedWounded (int Damage, int HP){
-		int percent =Mathf.FloorToInt( ((float)Damage/(float)HP)*100);
-		Debug.Log ("returndedwounded: "+percent);
+		int RNGHealth = UnityEngine.Random.Range(Mathf.RoundToInt(HP-(float)HP/7),Mathf.RoundToInt(HP+(float)HP/7));
+		int percent =Mathf.FloorToInt( ((float)Damage/((float)HP+RNGHealth))*100);
+//		Debug.Log ("returndedwounded: "+percent);
 		int returnthis=0;
 		if (percent>66)
 			returnthis= 0;

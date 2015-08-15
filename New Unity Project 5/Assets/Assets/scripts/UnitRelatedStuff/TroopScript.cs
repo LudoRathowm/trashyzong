@@ -37,9 +37,9 @@ public class TroopScript : MonoBehaviour {
 	int baseDefence;
 	int baseHitPoints;
 	int baseSpeed;
-	int NumberOfSoldiers;
-	int NumberOfWounded;
-	int baseMovement = 5;
+	int People;
+	int WoundedPeople;
+	int baseMovement = 10;
 	int baseAttackRange = 1;
 
 
@@ -126,11 +126,11 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public int GetNumber(){
-		return NumberOfSoldiers;
+		return People;
 	}
 
 	public int GetWounded(){
-		return NumberOfWounded;
+		return WoundedPeople;
 	}
 
 	public string GetName(){
@@ -179,12 +179,12 @@ public class TroopScript : MonoBehaviour {
 		baseHitPoints = hp;
 	}
 
-	public void SetNumber(int nmbr){
-		NumberOfSoldiers = nmbr;
+	public void SetNumber (int people){
+		People = people;
 	}
 
-	public void SetWounded (int wndd){
-		NumberOfWounded = wndd;
+	public void SetWounded (int wounded){
+		WoundedPeople = wounded;
 	}
 
 	public void SetName (string name){
