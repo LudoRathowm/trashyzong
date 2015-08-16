@@ -24,51 +24,53 @@ public static class UnitInteraction {
 	
 		//case one: too little people alive compared to the ones killed and too many people wounded compared to the ones already wounded
 		if (troopOne.GetNumber()<TroopOneDed && trooponewoundeddifference < 0){
-			Debug.Log("A");
+	//		Debug.Log("A");
 			int newwounded = trooponewoundeddifference*-1;
 			FinalOneWounded = newwounded-(TroopOneDed-troopOne.GetNumber());
 			FinalOneDead = TroopOneDed+onewounded;
 		}
 		//case two: too little people alive compared to the one killed and enought already wounded people compared to the new ones
 		else if (troopOne.GetNumber()<TroopOneDed && trooponewoundeddifference>=0){
-			Debug.Log("B");
+	//		Debug.Log("B");
 			FinalOneWounded = trooponewoundeddifference - ( TroopOneDed-troopOne.GetNumber());
 			FinalOneDead = TroopOneDed+TroopOneWounded;
 		}
 		//case three: enought people alive to tank the new kills but too many wounded to tank the new wounded;
 		else if (troopOne.GetNumber()>TroopOneDed && trooponewoundeddifference<0){
-			Debug.Log("C");
+	//		Debug.Log("C");
 			int newwounded = trooponewoundeddifference*-1;
 			FinalOneWounded = newwounded;
 			FinalOneDead = TroopOneDed+onewounded;
 		}
 		//case four: enought people alive to tank the kills and enought people wounded to tank the wounds
 		else if (troopOne.GetNumber()>TroopOneDed && trooponewoundeddifference>=0){
-			Debug.Log("D");
+	//		Debug.Log("D");
 			FinalOneWounded = trooponewoundeddifference;
 			FinalOneDead = TroopOneDed + TroopOneWounded;
 		}
 		//repeat for troop two
 		if (troopTwo.GetNumber()<TroopTwoDed && trooptwowoundeddifference<0){
-			Debug.Log("E");
+	//		Debug.Log("E");
 			int newwounded = trooptwowoundeddifference*-1;
 			FinalTwoWounded = newwounded-(TroopTwoDed-troopTwo.GetNumber());
 			FinalTwoDead = TroopTwoDed+twowounded;
 		}
 		else if (troopTwo.GetNumber()<TroopTwoDed && trooptwowoundeddifference>=0){
-			Debug.Log("F");
+	//		Debug.Log("F");
 			FinalTwoWounded  = trooptwowoundeddifference-(TroopTwoDed-troopTwo.GetNumber());
 		    FinalTwoDead  = TroopTwoDed+TroopOneWounded;
 			}
 		else if (troopTwo.GetNumber()>TroopTwoDed && trooptwowoundeddifference<0){
-			Debug.Log("g");
+
+//			Debug.Log("g");
+//			Debug.Log("number:" + troopTwo.GetNumber()+" ded:"+ TroopTwoDed+"troopdiff:"+trooptwowoundeddifference+" trpwounded:"+TroopTwoWounded);
 			int newwounded = trooptwowoundeddifference*-1;
 			FinalTwoWounded = newwounded;
 			FinalTwoDead = TroopTwoDed+twowounded;
 		}
 		else if (troopTwo.GetNumber()>TroopTwoDed && trooptwowoundeddifference>=0){
-			Debug.Log("number:" + troopTwo.GetNumber()+" ded:"+ TroopTwoDed+"troopdiff:"+trooptwowoundeddifference+" trpwounded:"+TroopTwoWounded);
-			Debug.Log("h");
+	//		Debug.Log("number:" + troopTwo.GetNumber()+" ded:"+ TroopTwoDed+"troopdiff:"+trooptwowoundeddifference+" trpwounded:"+TroopTwoWounded);
+	//		Debug.Log("h");
 			FinalTwoWounded = trooponewoundeddifference;
 			FinalTwoDead = TroopTwoWounded;
 		}
@@ -86,12 +88,13 @@ public static class UnitInteraction {
  public static	void InteractionMain(TroopScript TroopOne, TroopScript TroopTwo, Tile _Terrain){
 		bool True = true;
 		bool False = false;
+
 		List<int> DamageOnTroopOne = new List<int>();
 		List<int> DamageOnTroopTwo = new List<int>();
 		int TroopOneRange = TroopOne.GetMaxRange();
 		int TroopTwoRange = TroopTwo.GetMaxRange();
 		if (TroopOneRange>TroopTwoRange){
-			DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,True);
+			DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,True,False);
 			for (int i = 0;i<DamageOnTroopTwo.Count;i++)
 				DamageOnTroopTwo[i]*=(100+Triangle(TroopOne,TroopTwo))/100;
 			int[] TroopTwoLosses = DeadAndWounded(DamageOnTroopTwo,TroopTwo,_Terrain);
@@ -106,14 +109,14 @@ public static class UnitInteraction {
 		else {
 		if (PlayerOneFirst(TroopOne,TroopTwo)){
 
-			 DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,True);
-			 DamageOnTroopOne = CalculateDamageOnDefendingLines(TroopTwo,TroopOne,_Terrain, False);
+			 DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,True,isThisMelee(TroopOne));
+			 DamageOnTroopOne = CalculateDamageOnDefendingLines(TroopTwo,TroopOne,_Terrain, False,isThisMelee(TroopTwo));
 		}
 
 		else if (!PlayerOneFirst(TroopOne,TroopTwo)){
 
-			 DamageOnTroopOne = CalculateDamageOnDefendingLines(TroopTwo,TroopOne,_Terrain, True);
-			 DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,False);
+			 DamageOnTroopOne = CalculateDamageOnDefendingLines(TroopTwo,TroopOne,_Terrain, True,isThisMelee(TroopTwo));
+			 DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,False,isThisMelee(TroopOne));
 
 		}
 		//calculate the weapon triangle
@@ -166,34 +169,61 @@ public static class UnitInteraction {
 			              //0 ded 1 wounded
 	static int[] DeadAndWounded (List<int> DamageOnTroop, TroopScript Troop, Tile _Terrain){
 		int[] DedWounded = new int[2];
-		int Number = Troop.GetNumber();
+		int Number = Troop.GetNumber()+Troop.GetWounded();
 		int PeoplePerLine = _Terrain.frontLiners;
-		int _NumberOfLines = NumberOfLines(Number+Troop.GetWounded(),PeoplePerLine);
-		int Leftovers = LeftOvers(Number+Troop.GetWounded(),_NumberOfLines,PeoplePerLine);
-		int [] _lines = new int[0] ;
-		if (Leftovers>0)
-			_lines = new int[_NumberOfLines+1];
-		else if (Leftovers==0)
-			_lines = new int[_NumberOfLines];
-	
-		for (int i=0;i<DamageOnTroop.Count;i++){
-	//		Debug.Log ("Damage on line "+i+" is equal to: "+DamageOnTroop[i]);
-			_lines[i]= ReturnDedWounded(DamageOnTroop[i],Troop.GetHitpoints());
-		}
+	//	int _NumberOfLines = NumberOfLines(Number+Troop.GetWounded(),PeoplePerLine);
+	//	int Leftovers = LeftOvers(Number+Troop.GetWounded(),_NumberOfLines,PeoplePerLine);
+	//	int [] _lines = new int[0] ;
+		int [] _People = new int[Number];
+		int peopleCounter = 0;
+		int lineCounter = 0;
+//		if (Leftovers>0)	
+//			_lines = new int[_NumberOfLines+1];
+//		else if (Leftovers==0)
+//			_lines = new int[_NumberOfLines];
+//	
+//		for (int i=0;i<DamageOnTroop.Count;i++){
+//	//		Debug.Log ("Damage on line "+i+" is equal to: "+DamageOnTroop[i]);
+//			_lines[i]= ReturnDedWounded(DamageOnTroop[i],Troop.GetHitpoints());
+//		}
+//		for (int i =1;i<DamageOnTroop.Count+1;i++){
+//			for (int j = 1;j<PeoplePerLine+1;j++){
+//		//		_People[j*i] = ReturnDedWounded(DamageOnTroop[i],Troop.GetHitpoints());
+//				//Debug.Log("i: "+i+" j: "+j+"people j*i: "+_People[j*i]);
+//			}
+//		}
 
-		for (int i =0;i<_NumberOfLines;i++){
-			if (_lines[i]==0)
-				DedWounded[0]+=PeoplePerLine;
-			if (_lines[i]==1)
-				DedWounded[1]+=PeoplePerLine;
+		for (int i = 0; i<_People.Count();i++){
+			//
+			if (peopleCounter<PeoplePerLine){
+				_People[i] = ReturnDedWounded(DamageOnTroop[lineCounter],Troop.GetHitpoints());
+				peopleCounter++;
+			}else if(peopleCounter==PeoplePerLine){
+				_People[i]= ReturnDedWounded(DamageOnTroop[lineCounter+1],Troop.GetHitpoints());
+				peopleCounter = 1;
+				lineCounter++;
+			}
+		//	Debug.Log("i qeual:" +i+" and value is:"+_People[i]);
 		}
+		for (int i = 0; i<_People.Count();i++){
+			if (_People[i] == 0)
+				DedWounded[0]++;
+			if (_People[i] == 1)
+				DedWounded[1]++;
+		}
+//		for (int i =0;i<_NumberOfLines;i++){
+//			if (_lines[i]==0)
+//				DedWounded[0]+=PeoplePerLine;
+//			if (_lines[i]==1)
+//				DedWounded[1]+=PeoplePerLine;
+//		}
 
-		if (Leftovers>0){
-			if (_lines[_lines.Length-1]==0)
-				DedWounded[0]+=Leftovers;
-			else if (_lines[_lines.Length-1]==1)
-				DedWounded[1]+=Leftovers;
-		}
+//		if (Leftovers>0){
+//			if (_lines[_lines.Length-1]==0)
+//				DedWounded[0]+=Leftovers;
+//			else if (_lines[_lines.Length-1]==1)
+//				DedWounded[1]+=Leftovers;
+//		}
 
 		return DedWounded;
 	}
@@ -228,7 +258,7 @@ static	int LeftOvers (int numberOfpeople, int numberOfLines, int peoplePerLine){
 		
 	}
 
-static	List<int> CalculateDamageOnDefendingLines (TroopScript Attacker, TroopScript Defender, Tile Terrain, bool isFirstAttack){
+static	List<int> CalculateDamageOnDefendingLines (TroopScript Attacker, TroopScript Defender, Tile Terrain, bool isFirstAttack, bool isMelee){
 		int Attackers = Attacker.GetNumber()+Attacker.GetWounded();
 		int FirstOrSecond = ((isFirstAttack)?0:1);
 		int Defenders = Defender.GetNumber()+Defender.GetWounded();
@@ -243,7 +273,14 @@ static	List<int> CalculateDamageOnDefendingLines (TroopScript Attacker, TroopScr
 		int _AttackLeftOvers = LeftOvers(Attackers,_AttackingLines,PeoplePerLine);
 		int _DefendLeftOvers = LeftOvers(Defenders,_DefendingLines,PeoplePerLine);
 		int Damage = GenerateDamage(_AttackingLines,PeoplePerLine,_AttackLeftOvers,FinalAttack,FirstOrSecond);
-		int AdjustedDamage = Mathf.FloorToInt(Damage*((float)Attackers/(float)Defenders));
+		float RangedReduction = Terrain.rangedDefence;
+		int AdjustedDamage = 0;
+		if (isMelee) 
+			AdjustedDamage = Mathf.RoundToInt(Damage*((float)Attackers/(float)Defenders));
+		else if (!isMelee)		
+			AdjustedDamage = Mathf.RoundToInt(RangedReduction*(Damage/((float)Attackers/7))*(Defenders/PeoplePerLine));
+		Debug.Log(AdjustedDamage);
+		
 		List<int> DamageOnDefenders = new List<int>();
 		for (int i = 0;i<_DefendingLines;i++)
 			DamageOnDefenders.Add(Mathf.FloorToInt(AdjustedDamage/((float)i+1)));
@@ -255,9 +292,9 @@ static	List<int> CalculateDamageOnDefendingLines (TroopScript Attacker, TroopScr
 static	int GenerateDamage (int Lines, int peoplePerLine, int Leftovers, int AveragedAttack, int ZeroOrOne){
 		int TotalAttack = 0;
 		for (float i = 1;i<Lines+1;i++)
-			TotalAttack+=Mathf.FloorToInt(AveragedAttack*peoplePerLine*(1/(i+ZeroOrOne)));
+			TotalAttack+=Mathf.RoundToInt(AveragedAttack*peoplePerLine*(1/(i+ZeroOrOne)));
 		if (Leftovers>0)
-			TotalAttack+=(Mathf.FloorToInt(AveragedAttack*Leftovers*(1/((float)Lines+ZeroOrOne+1))));
+			TotalAttack+=(Mathf.RoundToInt(AveragedAttack*Leftovers*(1/((float)Lines+ZeroOrOne+1))));
 		return TotalAttack;
 	}
 
@@ -329,6 +366,16 @@ static	bool EquipTriangleDefensive (TroopScript Attacker, TroopScript Defender){
 		    (atkwpn == WeaponType.Mace && defarmr == ArmorType.NoArmor))
 			bonusdefence = true;
 		return bonusdefence;
+	}
+
+static	bool isThisMelee (TroopScript player){
+		int range = player.GetMaxRange();
+		bool ranged = true;
+		if (range>1)
+			ranged = false;
+		else if (ranged==1)
+			ranged = true;
+		return ranged;
 	}
 
 

@@ -63,7 +63,7 @@ public class Weaponry : Equipment {
 				maxRange = 0,
 				speedModifier = 0.7f,
 				movModifier = 0.7f,
-				handsUsed = NumberOfHands.OneHanded,
+				handsUsed = NumberOfHands.TwoHanded,
 				weapType = WeaponType.Mace,
 				armrType = ArmorType.NotAnArmor		
 			};

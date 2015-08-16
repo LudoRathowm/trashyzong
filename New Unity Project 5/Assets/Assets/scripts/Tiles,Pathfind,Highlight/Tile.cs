@@ -154,7 +154,7 @@ public class Tile : MonoBehaviour {
 		case TileType.Desert:
 			movementCost = 4;
 			impassible = false;
-			rangedDefence = 0.3f;
+			rangedDefence = 0.8f;
 			frontLiners = 10;
 			waterSpeed = 0;
 			softNess = 60;
@@ -170,7 +170,7 @@ public class Tile : MonoBehaviour {
 		case TileType.Forest:
 			movementCost = 5;
 			impassible = false;
-			rangedDefence = 0.6f;
+			rangedDefence = 0.4f;
 			frontLiners = 5;
 			waterSpeed = 0;
 			softNess = 20;
@@ -202,7 +202,7 @@ public class Tile : MonoBehaviour {
 		case TileType.HeavySnow:
 			movementCost = 10;
 			impassible = false;
-			rangedDefence = 0.7f;
+			rangedDefence = 0.3f;
 			frontLiners = 6;
 			waterSpeed = 0;
 			softNess = 60;
@@ -314,7 +314,7 @@ public class Tile : MonoBehaviour {
 		case TileType.Swamp:
 			movementCost = 6;
 			impassible = false;
-			rangedDefence = 0.4f;
+			rangedDefence = 0.6f;
 			frontLiners = 3;
 			waterSpeed = 0;
 			softNess = 30;
@@ -330,7 +330,7 @@ public class Tile : MonoBehaviour {
 		case TileType.TallGrass:
 			movementCost = 2;
 			impassible = false;
-			rangedDefence = 0.3f;
+			rangedDefence = 0.7f;
 			frontLiners = 12;
 			waterSpeed = 0;
 			softNess = 40;
@@ -347,7 +347,7 @@ public class Tile : MonoBehaviour {
 		case TileType.ThickForest:
 			movementCost = 10;
 			impassible = false;
-			rangedDefence = 0.9f;
+			rangedDefence = 0.1f;
 			frontLiners = 2;
 			waterSpeed = 0;
 			softNess = 20;
