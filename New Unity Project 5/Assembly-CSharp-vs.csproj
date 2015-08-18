@@ -57,7 +57,6 @@
      <Compile Include="Assets\Assets\scripts\MapStuff\TileType.cs" />
      <Compile Include="Assets\Assets\scripts\Player.cs" />
      <Compile Include="Assets\Assets\scripts\PrefabHolder.cs" />
-     <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\Abilities.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\Captain.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\EquipmentClass.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\FightScript.cs" />
@@ -74,8 +73,12 @@
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TilePath.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TilePathFinder.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\AITroop.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Abilities.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Armory.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Chief.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Equipment.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Trait.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\TroopBuildingStuff.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\TroopScript.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\UnitInteraction.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\UserTroop.cs" />

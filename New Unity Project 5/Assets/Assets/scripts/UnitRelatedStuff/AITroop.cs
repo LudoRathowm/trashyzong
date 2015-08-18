@@ -36,6 +36,11 @@ public class AITroop : TroopScript{
 				}
 				
 			} else {
+			if (GetWeapon() == WeaponType.Crossbow && GetCharge() == false){
+				SetCharge(true);
+				Debug.Log(GetName()+" has loaded his crossbow.");
+				actionPoints--;
+			}
 				//priority queueue
 				List<Tile> attacktilesInRange = TileHighlight.FindHighlight(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y], GetMaxRange(), true);
 				//List<Tile> movementToAttackTilesInRange = TileHighlight.FindHighlight(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y], movementPerActionPoint + attackRange);
@@ -50,7 +55,7 @@ public class AITroop : TroopScript{
 					attacking = true;
 				GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetMaxRange());
 					
-					GameManager.instance.attackWithCurrentPlayer(GameManager.instance.map[(int)opponent.gridPosition.x][(int)opponent.gridPosition.y]);
+				GameManager.instance.attackWithCurrentPlayer(GameManager.instance.map[(int)opponent.gridPosition.x][(int)opponent.gridPosition.y]);
 				}
 				//SHIIIIT
 				//			else if (!moving && movementToAttackTilesInRange.Where(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AIPlayer) && y.HP > 0 && y != this && y.gridPosition == x.gridPosition).Count() > 0).Count () > 0) {

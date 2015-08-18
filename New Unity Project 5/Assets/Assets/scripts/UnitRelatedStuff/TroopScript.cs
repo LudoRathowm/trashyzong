@@ -30,9 +30,9 @@ public enum ArmorType {
 
 public class TroopScript : MonoBehaviour {
 
-	string CaptainName;
-	string CaptainSurname;
+	Chief Leader;
 
+	int TroopScalingWithNumber;
 	int baseAttack;
 	int baseDefence;
 	int baseHitPoints;
@@ -40,8 +40,8 @@ public class TroopScript : MonoBehaviour {
 	int People;
 	int WoundedPeople;
 	int baseMovement = 10;
-	int baseAttackRange = 1;
-
+	int baseAttackRange = 0;
+	bool chargedWeapon = false; //for crossbows
 
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
@@ -59,6 +59,7 @@ public class TroopScript : MonoBehaviour {
 	public bool moving = false;
 	public bool attacking = false;
 
+   
 
 
 
@@ -114,7 +115,12 @@ public class TroopScript : MonoBehaviour {
 			}
 
 	public int GetAttack(){
-		return baseAttack+WeaponAdopted.Attack+ArmorAdopted.Attack;
+		int attack = 0;
+		if (WeaponAdopted.weapType != WeaponType.Crossbow)
+		attack = baseAttack+WeaponAdopted.Attack+ArmorAdopted.Attack;
+		else if (WeaponAdopted.weapType == WeaponType.Crossbow)
+		attack = WeaponAdopted.Attack+ArmorAdopted.Attack;
+		return attack;
 	}
 
 	public int GetDefence(){
@@ -134,11 +140,11 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public string GetName(){
-		return CaptainName;
+		return Leader.GetName();
 	}
 
 	public string GetSurname(){
-		return CaptainSurname;
+		return Leader.GetSurname();
 	}
 
 	public int GetMovement(){
@@ -149,6 +155,10 @@ public class TroopScript : MonoBehaviour {
 	}
 	public int GetMinRange(){
 		return baseAttackRange+WeaponAdopted.minRange;
+	}
+
+	public bool GetCharge(){
+		return chargedWeapon;
 	}
 
 		    //======================================
@@ -188,11 +198,11 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public void SetName (string name){
-		CaptainName = name;
+		Leader.SetName(name);
 	}
 
 	public void SetSurname(string srname){
-		CaptainSurname = srname;
+		Leader.SetSurname(srname);
 	}
 
 	public void SetMovement(int Mov){
@@ -201,6 +211,10 @@ public class TroopScript : MonoBehaviour {
 
 	public void SetBaseRange (int range){
 		baseAttackRange = range;
+	}
+
+	public void SetCharge (bool charge){
+		chargedWeapon = charge;
 	}
 
 

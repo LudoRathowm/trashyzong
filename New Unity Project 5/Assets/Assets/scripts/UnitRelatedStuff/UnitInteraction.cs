@@ -279,7 +279,7 @@ static	List<int> CalculateDamageOnDefendingLines (TroopScript Attacker, TroopScr
 			AdjustedDamage = Mathf.RoundToInt(Damage*((float)Attackers/(float)Defenders));
 		else if (!isMelee)		
 			AdjustedDamage = Mathf.RoundToInt(RangedReduction*(Damage/((float)Attackers/7))*(Defenders/PeoplePerLine));
-		Debug.Log(AdjustedDamage);
+//		Debug.Log(AdjustedDamage);
 		
 		List<int> DamageOnDefenders = new List<int>();
 		for (int i = 0;i<_DefendingLines;i++)
@@ -373,7 +373,7 @@ static	bool isThisMelee (TroopScript player){
 		bool ranged = true;
 		if (range>1)
 			ranged = false;
-		else if (ranged==1)
+		else if (range==1)
 			ranged = true;
 		return ranged;
 	}

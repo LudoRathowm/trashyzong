@@ -27,13 +27,33 @@ public class UserTroop : TroopScript {
 				}
 			}
 			if (Input.GetButtonDown("AttackKey")){
-				if (!attacking) {
+
+					if (!attacking && GetWeapon() == WeaponType.Crossbow && GetCharge() == false){
+						SetCharge(true);
+					Debug.Log(GetName()+" has loaded his crossbow.");
+					moving = false;
+					attacking = false;
+					GameManager.instance.removeTileHighlights();
+					actionPoints--;
+
+
+			}
+					else if (!attacking && GetWeapon() == WeaponType.Crossbow && GetCharge() == true){
+											
+
+				GameManager.instance.removeTileHighlights();
+					moving = false;
+				attacking = true;
+					GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetMaxRange());
+				GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetMinRange());
+					}
+				else if (!attacking && GetWeapon()!= WeaponType.Crossbow ){
 					GameManager.instance.removeTileHighlights();
 					moving = false;
 					attacking = true;
 					GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetMaxRange());
 					GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetMinRange());
-				} else {
+				} else if (attacking){
 					moving = false;
 					attacking = false;
 					GameManager.instance.removeTileHighlights();

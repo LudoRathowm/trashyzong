@@ -36,7 +36,7 @@ public class TileHighlight {
 			if (closed.Contains(current.lastTile)) {
 				continue;
 			} 
-			if (current.costOfPath > movementPoints + 1) {
+			if (current.costOfPath > movementPoints + 1.5f) {
 				continue;
 			}
 			

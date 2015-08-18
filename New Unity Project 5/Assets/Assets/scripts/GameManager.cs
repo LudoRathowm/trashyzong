@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour {
 	public int currentPlayerIndex = 0;
 	
 	void Awake() {
+
+
 		instance = this;
 
 		mapTransform = transform.FindChild("Map"); //so you center shit around it
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		Debug.Log("ard"+Mathf.FloorToInt(Mathf.Log(1000,1.05f)));
 		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnUpdate();
 		else nextTurn();
 	}
@@ -100,17 +102,21 @@ public class GameManager : MonoBehaviour {
 			}
 
 			if (target != null) {
-								
+				if (players[currentPlayerIndex].GetWeapon() == WeaponType.Crossbow){
+					players[currentPlayerIndex].SetCharge(false);
+					Debug.Log(players[currentPlayerIndex].GetName()+" has shot his crossbow.");
+				}
 				//Debug.Log ("p.x: " + players[currentPlayerIndex].gridPosition.x + ", p.y: " + players[currentPlayerIndex].gridPosition.y + " t.x: " + target.gridPosition.x + ", t.y: " + target.gridPosition.y);
 //				if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
 //					players[currentPlayerIndex].gridPosition.y >= target.gridPosition.y - 1 && players[currentPlayerIndex].gridPosition.y <= target.gridPosition.y + 1) {
-				
+
 				players[currentPlayerIndex].actionPoints--;
-				
+//				if (players[currentPlayerIndex].GetMaxRange() > 1) //rangeds get only one action per turn
+//					players[currentPlayerIndex].actionPoints--;
 				removeTileHighlights();
 				players[currentPlayerIndex].attacking = false;			
 
-
+		
 				//to edit
 
 			//	TroopScript TroopOne = players[currentPlayerIndex].thisTroop;
@@ -206,7 +212,7 @@ public class GameManager : MonoBehaviour {
 
 
 
-AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromName(WeaponryName.TestBow	),Armory.FromName(ArmoryName.TestGambeson));
+AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromName(WeaponryName.TestCrossbow	),Armory.FromName(ArmoryName.TestGambeson));
 
 		player.gridPosition = new Vector2(3,20);
 
@@ -252,7 +258,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromNam
 		player.gridPosition = new Vector2(2,20);
 	
 
-		AddStuffToPlayer(player, "Bashar Hafiz", "al-Asad", 12,10,100,12,100,0,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(player, "Bashar Hafiz", "al-Asad", 12,10,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 		
 		players.Add(player);
 		
