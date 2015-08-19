@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Chief : MonoBehaviour {
+public class Chief {
 
 	 string Name;
 	 string Surname;
@@ -9,6 +9,7 @@ public class Chief : MonoBehaviour {
 	 Abilities AbilityOne;
 	 Abilities AbilityTwo;
 	 Abilities AbilityThree;
+
 
 
 
@@ -42,6 +43,12 @@ public class Chief : MonoBehaviour {
 		return AbilityThree;
 	}
 
+	public float GetMuhReturns (){
+
+		float extraReturns = AbilityOne.muhReturns+AbilityTwo.muhReturns+AbilityThree.muhReturns;
+
+		return extraReturns;
+	}
 
 	// ########SETTERS###########
 	public void SetName (string _name){
@@ -67,6 +74,7 @@ public class Chief : MonoBehaviour {
 	public void SetAbilityThree(Abilities _ability){
 		AbilityThree = _ability;
 	}        
+
 
 
 

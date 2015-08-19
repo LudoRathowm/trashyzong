@@ -32,7 +32,7 @@ public class TroopScript : MonoBehaviour {
 
 	Chief Leader;
 
-	int TroopScalingWithNumber;
+
 	int baseAttack;
 	int baseDefence;
 	int baseHitPoints;
@@ -46,8 +46,10 @@ public class TroopScript : MonoBehaviour {
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
 
+	//just for the debug
 	string WeaponName;
 	string ArmorName;
+	string LeaderName; 
 
 	//stuff to make it work, not related to rpg parts
 	public int actionPoints = 2;
@@ -88,7 +90,13 @@ public class TroopScript : MonoBehaviour {
 
 
 
+	public int ReturnNumberOfPeopleToAttack (){
 
+		int attackers = Mathf.RoundToInt(People+WoundedPeople*0.7f);
+		float muhPower = 0.94f + Leader.GetMuhReturns();
+		int Total = Mathf.RoundToInt(Mathf.Pow(attackers,muhPower));
+		return Total;
+	}
 
 
 			//======================================
@@ -102,12 +110,12 @@ public class TroopScript : MonoBehaviour {
 				return WeaponAdopted.handsUsed;
 			}
 
-	public WeaponType GetWeapon (){
-				return WeaponAdopted.weapType;
+	public Weaponry GetWeapon (){
+				return WeaponAdopted;
 			}
 
-	public ArmorType GetArmor(){
-				return ArmorAdopted.armrType;
+	public Armory GetArmor(){
+				return ArmorAdopted;
 			}
 
 	public int GetSpeed(){
@@ -139,6 +147,10 @@ public class TroopScript : MonoBehaviour {
 		return WoundedPeople;
 	}
 
+	public Chief GetChief(){
+		return Leader;
+	}
+
 	public string GetName(){
 		return Leader.GetName();
 	}
@@ -146,9 +158,11 @@ public class TroopScript : MonoBehaviour {
 	public string GetSurname(){
 		return Leader.GetSurname();
 	}
-
+	public int GetBaseMovement (){
+		return baseMovement;
+	}
 	public int GetMovement(){
-		return Mathf.RoundToInt(baseMovement*WeaponAdopted.speedModifier*ArmorAdopted.speedModifier);
+		return Mathf.RoundToInt(baseMovement*WeaponAdopted.movModifier*ArmorAdopted.movModifier);
 	}
 	public int GetMaxRange(){
 		return baseAttackRange+WeaponAdopted.maxRange;
@@ -197,6 +211,10 @@ public class TroopScript : MonoBehaviour {
 		WoundedPeople = wounded;
 	}
 
+	public void SetChief (Chief leader){
+		Leader = leader;
+	}
+
 	public void SetName (string name){
 		Leader.SetName(name);
 	}
@@ -205,7 +223,7 @@ public class TroopScript : MonoBehaviour {
 		Leader.SetSurname(srname);
 	}
 
-	public void SetMovement(int Mov){
+	public void SetBaseMovement(int Mov){
 		baseMovement = Mov;
 	}
 
@@ -233,6 +251,7 @@ public class TroopScript : MonoBehaviour {
 	public virtual void Update () {		
 		WeaponName = WeaponAdopted.NameOfTheEquip;
 		ArmorName = ArmorAdopted.NameOfTheEquip;
+		LeaderName = Leader.GetName();
 		if (GetNumber()+GetWounded() <= 0) {
 			transform.rotation = Quaternion.Euler(new Vector3(90,0,0)); //yer ded nigga
 			transform.GetComponent<Renderer>().material.color = Color.red; // and bleeding

@@ -59,7 +59,6 @@
      <Compile Include="Assets\Assets\scripts\PrefabHolder.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\Captain.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\EquipmentClass.cs" />
-     <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\FightScript.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\Individual.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\NamingScript.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\Newtesttrashcan.cs" />

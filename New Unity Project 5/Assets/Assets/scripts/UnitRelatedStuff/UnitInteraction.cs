@@ -259,7 +259,7 @@ static	int LeftOvers (int numberOfpeople, int numberOfLines, int peoplePerLine){
 	}
 
 static	List<int> CalculateDamageOnDefendingLines (TroopScript Attacker, TroopScript Defender, Tile Terrain, bool isFirstAttack, bool isMelee){
-		int Attackers = Attacker.GetNumber()+Attacker.GetWounded();
+		int Attackers = Attacker.ReturnNumberOfPeopleToAttack();
 		int FirstOrSecond = ((isFirstAttack)?0:1);
 		int Defenders = Defender.GetNumber()+Defender.GetWounded();
 		int PeoplePerLine = Terrain.frontLiners;
@@ -333,8 +333,8 @@ static	bool HandsTriangle (TroopScript Attacker, TroopScript Defender){
 	
 static	bool WeaponTriangle (TroopScript Attacker, TroopScript Defender){
 		bool bonusattack = false;
-		WeaponType atkwpn = Attacker.GetWeapon();
-		WeaponType defwpn = Defender.GetWeapon();
+		WeaponType atkwpn = Attacker.GetWeapon().weapType;
+		WeaponType defwpn = Defender.GetWeapon().weapType;
 		if ((atkwpn == WeaponType.Spear && defwpn == WeaponType.Sword) ||
 		    (atkwpn == WeaponType.Sword && defwpn == WeaponType.Axe) ||
 		    (atkwpn == WeaponType.Axe && defwpn == WeaponType.Spear))
@@ -344,8 +344,8 @@ static	bool WeaponTriangle (TroopScript Attacker, TroopScript Defender){
 	
 static	bool EquipTriangleOffensive (TroopScript Attacker, TroopScript Defender){
 		bool bonusattack = false;
-		WeaponType atkwpn = Attacker.GetWeapon();
-		ArmorType defarmr = Defender.GetArmor();
+		WeaponType atkwpn = Attacker.GetWeapon().weapType;
+		ArmorType defarmr = Defender.GetArmor().armrType;
 		if ((atkwpn == WeaponType.Sword && defarmr == ArmorType.NoArmor)||
 		    (atkwpn == WeaponType.Axe && defarmr == ArmorType.NoArmor)||
 		    (atkwpn == WeaponType.Mace && defarmr == ArmorType.Heavy)||
@@ -357,8 +357,8 @@ static	bool EquipTriangleOffensive (TroopScript Attacker, TroopScript Defender){
 	
 static	bool EquipTriangleDefensive (TroopScript Attacker, TroopScript Defender){
 		bool bonusdefence = false;
-		WeaponType atkwpn = Attacker.GetWeapon();
-		ArmorType defarmr = Defender.GetArmor();
+		WeaponType atkwpn = Attacker.GetWeapon().weapType;
+		ArmorType defarmr = Defender.GetArmor().armrType;
 		if ((atkwpn == WeaponType.Sword && defarmr == ArmorType.Light)||
 		    (atkwpn == WeaponType.Sword && defarmr == ArmorType.Heavy)||
 		    (atkwpn == WeaponType.Axe && defarmr == ArmorType.Heavy)||

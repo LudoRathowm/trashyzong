@@ -36,7 +36,7 @@ public class AITroop : TroopScript{
 				}
 				
 			} else {
-			if (GetWeapon() == WeaponType.Crossbow && GetCharge() == false){
+			if (GetWeapon().weapType == WeaponType.Crossbow && GetCharge() == false){
 				SetCharge(true);
 				Debug.Log(GetName()+" has loaded his crossbow.");
 				actionPoints--;

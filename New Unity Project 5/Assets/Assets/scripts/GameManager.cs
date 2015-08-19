@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log("ard"+Mathf.FloorToInt(Mathf.Log(1000,1.05f)));
 		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnUpdate();
 		else nextTurn();
 	}
@@ -102,7 +101,7 @@ public class GameManager : MonoBehaviour {
 			}
 
 			if (target != null) {
-				if (players[currentPlayerIndex].GetWeapon() == WeaponType.Crossbow){
+				if (players[currentPlayerIndex].GetWeapon().weapType == WeaponType.Crossbow){
 					players[currentPlayerIndex].SetCharge(false);
 					Debug.Log(players[currentPlayerIndex].GetName()+" has shot his crossbow.");
 				}
@@ -165,9 +164,8 @@ public class GameManager : MonoBehaviour {
 
 	//CHECK THE PATHFINDER
 
-	void AddStuffToPlayer (TroopScript player,string CaptainName, string CaptainSurname, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers, int NumberOfWounded, Weaponry _weapon, Armory _armor){
-		player.SetName(CaptainName);
-        player.SetSurname(CaptainSurname);
+	void AddStuffToPlayer (TroopScript player,Chief leader, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers, int NumberOfWounded, Weaponry _weapon, Armory _armor){
+		player.SetChief(leader);
 		player.SetBaseAttack(Attack);
 		player.SetBaseDefence(Defence);
 		player.SetBaseHitpoints(HitPoints);
@@ -178,6 +176,16 @@ public class GameManager : MonoBehaviour {
 		player.SetArmor(_armor);
 	}
 
+	void AddStuffToChief (Chief leader, string Name, string Surname, Trait trait, Abilities one, Abilities two, Abilities three){
+		leader.SetName(Name);
+		leader.SetSurname(Surname);
+		leader.SetTrait(trait);
+		leader.SetAbilityOne(one);
+		leader.SetAbilityTwo(two);
+		leader.SetAbilityThree(three);
+	}
+	                      
+	                      
 
 
 	void loadMapFromXml() {
@@ -211,8 +219,11 @@ public class GameManager : MonoBehaviour {
 
 
 
+		Chief leader = new Chief();
+		AddStuffToChief(leader,"Barack","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
 
-AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromName(WeaponryName.TestCrossbow	),Armory.FromName(ArmoryName.TestGambeson));
+
+        AddStuffToPlayer(player, leader, 10,10,100,10,100,0, Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		player.gridPosition = new Vector2(3,20);
 
@@ -244,21 +255,21 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromNam
 		player.gridPosition = new Vector2(5,20);
 	
 
-		AddStuffToPlayer(player,"Angela", "Merkel", 20,5,200,5,100,0,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
+		AddStuffToPlayer(player,leader, 20,5,200,5,100,0,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
 				
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(4 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(4,20);
 	
 
-		AddStuffToPlayer(player, "Vladimir", "Putin", 14,7,70,12,100,0,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
+		AddStuffToPlayer(player,leader, 14,7,70,12,100,0,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
 		players.Add(player);
 
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(2,20);
 	
 
-		AddStuffToPlayer(player, "Bashar Hafiz", "al-Asad", 12,10,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(player, leader, 12,10,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 		
 		players.Add(player);
 		
@@ -266,7 +277,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromNam
 		aiplayer.gridPosition = new Vector2(6,4);
 	
 
-		AddStuffToPlayer(aiplayer, "Reuven", "Rivlin", 12,2,100,12,100,0,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
+		AddStuffToPlayer(aiplayer,leader, 12,2,100,12,100,0,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		players.Add(aiplayer);
 
@@ -274,7 +285,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromNam
 		aiplayer.gridPosition = new Vector2(8,4);
 	
 
-		AddStuffToPlayer(aiplayer, "Benjamin", "Netanyahu", 22,1,100,13,100,0,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(aiplayer,leader, 22,1,100,13,100,0,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		
 		players.Add(aiplayer);
@@ -283,7 +294,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromNam
 		aiplayer.gridPosition = new Vector2(12,1);
 	
 
-		AddStuffToPlayer(aiplayer, "Mr", "Edelstein", 22,3,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
+		AddStuffToPlayer(aiplayer, leader, 22,3,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		
 		players.Add(aiplayer);
@@ -292,7 +303,7 @@ AddStuffToPlayer(player, "Obama", "Barack", 10,10,100,10,100,0, Weaponry.FromNam
 		aiplayer.gridPosition = new Vector2(18,8);
 	
 
-		AddStuffToPlayer(aiplayer, "Avigdor", "Lieberman", 12,4,100,22,100,0,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
+		AddStuffToPlayer(aiplayer, leader, 12,4,100,22,100,0,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
 
 
 		players.Add(aiplayer);
