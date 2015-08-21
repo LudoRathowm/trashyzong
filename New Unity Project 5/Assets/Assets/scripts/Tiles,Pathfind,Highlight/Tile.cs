@@ -69,6 +69,9 @@ public class Tile : MonoBehaviour {
 	}
 	
 	void OnMouseEnter() {
+		if (Application.loadedLevelName == "gameScene") {
+			GameManager.instance.MousePosition = new Vector2(gridPosition.x,gridPosition.y);
+		}
 		if (Application.loadedLevelName == "MapCreatorScene" && Input.GetMouseButton(0)) {
 			setType(MapCreatorManager.instance.palletSelection);
 		}
@@ -187,7 +190,7 @@ public class Tile : MonoBehaviour {
 			movementCost = 1.5f;
 			impassible = false;
 			rangedDefence = 0;
-			frontLiners = 15;
+			frontLiners = 20;
 			waterSpeed = 0;
 			softNess = 30;
 			turnLeft = 0;

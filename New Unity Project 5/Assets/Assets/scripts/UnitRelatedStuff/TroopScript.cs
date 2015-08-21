@@ -41,7 +41,7 @@ public class TroopScript : MonoBehaviour {
 	int WoundedPeople;
 	int baseMovement = 10;
 	int baseAttackRange = 0;
-	bool chargedWeapon = false; //for crossbows
+
 
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
@@ -52,6 +52,8 @@ public class TroopScript : MonoBehaviour {
 	string LeaderName; 
 
 	//stuff to make it work, not related to rpg parts
+	bool chargedWeapon = false; //for crossbows
+	bool isPhalanxing = false; //for AI and pathfinding
 	public int actionPoints = 2;
 	public Vector2 gridPosition = Vector2.zero;
 	
@@ -175,6 +177,11 @@ public class TroopScript : MonoBehaviour {
 		return chargedWeapon;
 	}
 
+	public bool GetPhalanx(){
+		return isPhalanxing;
+	}
+
+
 		    //======================================
 		    //             SETTERS
 		    //======================================
@@ -235,6 +242,9 @@ public class TroopScript : MonoBehaviour {
 		chargedWeapon = charge;
 	}
 
+	public void SetPhalanx (bool phalanx){
+		isPhalanxing = phalanx;
+	}
 
 
 	//movement animation
@@ -267,15 +277,16 @@ public class TroopScript : MonoBehaviour {
 		}
 	}
 	
-	public virtual void TurnOnGUI () {
-		
-	}
-	
-	/*	public void OnGUI() {
-		//display HP just to check shit
-		Vector3 location = Camera.main.WorldToScreenPoint(transform.position) + Vector3.up * 35;
-		GUI.TextArea(new Rect(location.x, Screen.height - location.y, 30, 35), "hp:" + HP.ToString());
-	}*/
+//	public virtual void TurnOnGUI () {
+//	}
+//
+//
+//	public void OnGUI() {
+//		if (TurnOnGUI)
+//		//display HP just to check shit
+//		Vector3 location = Camera.main.WorldToScreenPoint(transform.position) + Vector3.up * 35;
+//		GUI.TextArea(new Rect(location.x, Screen.height - location.y, 100, 40), "hp:" + People.ToString());
+//	}
 
 
 }

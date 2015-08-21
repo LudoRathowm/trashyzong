@@ -15,6 +15,7 @@ public class MapCreatorManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+		mapSize = 2000;
 		instance = this;
 
 		mapTransform = transform.FindChild("Map");

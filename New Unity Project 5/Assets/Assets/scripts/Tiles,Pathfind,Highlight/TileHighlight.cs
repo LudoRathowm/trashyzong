@@ -39,11 +39,16 @@ public class TileHighlight {
 			if (current.costOfPath > movementPoints + 1.5f) {
 				continue;
 			}
-			
-			closed.Add(current.lastTile);
+
+
+	
+
+
+		closed.Add(current.lastTile);
 			
 			foreach (Tile t in current.lastTile.neighbors) {	
-				if (t.impassible || occupied.Contains(t.gridPosition)) continue;
+				if (t.impassible || occupied.Contains(t.gridPosition)||
+				    (GameManager.instance.GetComponent<GameManager>().players[GameManager.instance.GetComponent<GameManager>().currentPlayerIndex].GetPhalanx()==true&&t.frontLiners<16)) continue;
 				TilePath newTilePath = new TilePath(current);
 				if (staticRange) newTilePath.addStaticTile(t);
 				else newTilePath.addTile(t);

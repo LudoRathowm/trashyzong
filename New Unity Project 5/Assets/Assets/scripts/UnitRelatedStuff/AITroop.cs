@@ -105,7 +105,7 @@ public class AITroop : TroopScript{
 			base.TurnUpdate ();
 		}
 		
-		public override void TurnOnGUI () {
-			base.TurnOnGUI ();
-		}
+//		public override void TurnOnGUI () {
+//			base.TurnOnGUI ();
+//		}
 	}

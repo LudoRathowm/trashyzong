@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class GameManager : MonoBehaviour {
+	public Vector2 MousePosition;
 	public static GameManager instance;
-	
+	public LayerMask Units;
 	public GameObject TilePrefab;
 	public GameObject UserTroopPrefab;
 	public GameObject AITroopPrefab;
 	
-	public int mapSize = 22;
+	public int mapSize = 2233;
 	Transform mapTransform;
 	
 	public List <List<Tile>> map = new List<List<Tile>>();
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour {
 	public int currentPlayerIndex = 0;
 	
 	void Awake() {
-
+		AdjustCamera();
 
 		instance = this;
 
@@ -33,13 +34,16 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+	//	GiveInformationOnPlayer();
+
+
 		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnUpdate();
 		else nextTurn();
 	}
 	
-	void OnGUI () {
-		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnOnGUI();
-	}
+//	void OnGUI () {
+//		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnOnGUI();
+//	}
 	
 	public void nextTurn() {
 		if (currentPlayerIndex + 1 < players.Count) {
@@ -253,21 +257,27 @@ public class GameManager : MonoBehaviour {
 
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(5- Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(5,20);
-	
+		leader = new Chief();
+		AddStuffToChief(leader,"nigga","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
+
 
 		AddStuffToPlayer(player,leader, 20,5,200,5,100,0,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
-				
+
+
+
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(4 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(4,20);
-	
+		leader = new Chief();
+		AddStuffToChief(leader,"man","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
 
 		AddStuffToPlayer(player,leader, 14,7,70,12,100,0,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
 		players.Add(player);
 
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(2,20);
-	
+		leader = new Chief();
+		AddStuffToChief(leader,"asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
 
 		AddStuffToPlayer(player, leader, 12,10,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 		
@@ -275,7 +285,8 @@ public class GameManager : MonoBehaviour {
 		
 		AITroop aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(6,4);
-	
+		leader = new Chief();
+		AddStuffToChief(leader,"another asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
 
 		AddStuffToPlayer(aiplayer,leader, 12,2,100,12,100,0,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
 
@@ -283,7 +294,8 @@ public class GameManager : MonoBehaviour {
 
 		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(8 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(8,4);
-	
+		leader = new Chief();
+		AddStuffToChief(leader,"yet another nigga","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
 
 		AddStuffToPlayer(aiplayer,leader, 22,1,100,13,100,0,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
@@ -292,7 +304,8 @@ public class GameManager : MonoBehaviour {
 
 		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(12 - Mathf.Floor(mapSize/2),1.5f, -1 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(12,1);
-	
+		leader = new Chief();
+		AddStuffToChief(leader,"zzz","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
 
 		AddStuffToPlayer(aiplayer, leader, 22,3,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
 
@@ -301,11 +314,33 @@ public class GameManager : MonoBehaviour {
 
 		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(18 - Mathf.Floor(mapSize/2),1.5f, -8 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(18,8);
-	
+		leader = new Chief();
+		AddStuffToChief(leader,"glorious leader","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
 
 		AddStuffToPlayer(aiplayer, leader, 12,4,100,22,100,0,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
 
 
 		players.Add(aiplayer);
 	}
+
+	void AdjustCamera(){
+		GameObject muhCamera = GameObject.Find("Main Camera");
+		muhCamera.transform.position = new Vector3(0,12	, 0.5f);
+		int size = mapSize/2;
+		GetComponentInChildren<Camera>().orthographicSize= size;
+//		Debug.Log("The Screen Resolution is: "+Screen.currentResolution.width+ "x"+Screen.currentResolution.height+ " and refresh: "+Screen.currentResolution.refreshRate);
+
+	}
+
+	void GiveInformationOnPlayer(){
+		for (int i = 0; i<players.Count;i++)
+		if (players[i].gridPosition == MousePosition){
+			Debug.Log(players[i].GetName()+" has "+players[i].GetNumber()+" healthy soldiers and " + players[i].GetWounded() + " wounded soldiers. Those soldiers are using " + players[i].GetWeapon().NameOfTheEquip+"s as weapon and "+players[i].GetArmor().NameOfTheEquip+"s as armor.");
+		
+		}
+				
+	}
+
+
+
 }
