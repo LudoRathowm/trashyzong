@@ -41,7 +41,7 @@ public class TroopScript : MonoBehaviour {
 	int WoundedPeople;
 	int baseMovement = 10;
 	int baseAttackRange = 0;
-
+	int baseTurnSpeed = 1;
 
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
@@ -52,6 +52,7 @@ public class TroopScript : MonoBehaviour {
 	string LeaderName; 
 
 	//stuff to make it work, not related to rpg parts
+	public int TurnRecoveryTime = 0;
 	bool chargedWeapon = false; //for crossbows
 	bool isPhalanxing = false; //for AI and pathfinding
 	public int actionPoints = 2;
@@ -181,6 +182,10 @@ public class TroopScript : MonoBehaviour {
 		return isPhalanxing;
 	}
 
+	public int GetTurnSpeed(){
+		return baseTurnSpeed;
+	}
+
 
 		    //======================================
 		    //             SETTERS
@@ -246,6 +251,9 @@ public class TroopScript : MonoBehaviour {
 		isPhalanxing = phalanx;
 	}
 
+	public void SetBaseTurnSpeed (int turnspeed){
+		baseTurnSpeed = turnspeed;
+	}
 
 	//movement animation
 	public List<Vector3> positionQueue = new List<Vector3>();	

@@ -11,7 +11,7 @@ public class UserTroop : TroopScript {
 	
 	// Update is called once per frame
 	public override void Update () {
-		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex] == this) {
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
 			transform.GetChild(1).gameObject.SetActive(true);
 			if (Input.GetButtonDown("MoveKey")){
 

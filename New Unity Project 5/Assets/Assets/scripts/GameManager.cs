@@ -16,9 +16,16 @@ public class GameManager : MonoBehaviour {
 	
 	public List <List<Tile>> map = new List<List<Tile>>();
 	public List <TroopScript> players = new List<TroopScript>();
-	public int currentPlayerIndex = 0;
-	
+	public List <TroopScript> playerTurns = new List<TroopScript>();
+public	int PlayerTurnIndex = 0;
+	public List<string> playerTurnNamesForShow = new List<string>();
+//	public int currentPlayerIndex = 0;
+
+	bool CalculatedNextPlayerTurn = false;
+
+
 	void Awake() {
+
 		AdjustCamera();
 
 		instance = this;
@@ -30,6 +37,8 @@ public class GameManager : MonoBehaviour {
 	void Start () {		
 		generateMap();
 		generatePlayers();
+		while (playerTurns.Count<10)
+		DecideNextTurn();
 	}
 	
 	// Update is called once per frame
@@ -37,7 +46,7 @@ public class GameManager : MonoBehaviour {
 	//	GiveInformationOnPlayer();
 
 
-		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnUpdate();
+		if (playerTurns[PlayerTurnIndex].GetNumber()+playerTurns[PlayerTurnIndex].GetWounded() > 0) players[PlayerTurnIndex].TurnUpdate();
 		else nextTurn();
 	}
 	
@@ -45,12 +54,9 @@ public class GameManager : MonoBehaviour {
 //		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnOnGUI();
 //	}
 	
-	public void nextTurn() {
-		if (currentPlayerIndex + 1 < players.Count) {
-			currentPlayerIndex++;
-		} else {
-			currentPlayerIndex = 0;
-		}
+	public void nextTurn() {	
+		DecideNextTurn();
+		PlayerTurnIndex++;
 	}
 
 	public void highlightTilesAt(Vector2 originLocation, Color highlightColor, int distance) {
@@ -78,14 +84,14 @@ public class GameManager : MonoBehaviour {
 	}
  	
 	public void moveCurrentPlayer(Tile destTile) {
-		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && players[currentPlayerIndex].positionQueue.Count == 0) {
+		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && players[PlayerTurnIndex].positionQueue.Count == 0) {
 			removeTileHighlights();
-			players[currentPlayerIndex].moving = false;
-			foreach(Tile t in TilePathFinder.FindPath(map[(int)players[currentPlayerIndex].gridPosition.x][(int)players[currentPlayerIndex].gridPosition.y],destTile, players.Where(x => x.gridPosition != destTile.gridPosition && x.gridPosition != players[currentPlayerIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
-				players[currentPlayerIndex].positionQueue.Add(map[(int)t.gridPosition.x][(int)t.gridPosition.y].transform.position + 1.5f * Vector3.up);
+			playerTurns[PlayerTurnIndex].moving = false;
+			foreach(Tile t in TilePathFinder.FindPath(map[(int)players[PlayerTurnIndex].gridPosition.x][(int)players[PlayerTurnIndex].gridPosition.y],destTile, players.Where(x => x.gridPosition != destTile.gridPosition && x.gridPosition != players[PlayerTurnIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
+				players[PlayerTurnIndex].positionQueue.Add(map[(int)t.gridPosition.x][(int)t.gridPosition.y].transform.position + 1.5f * Vector3.up);
 			//	Debug.Log("(" + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].x + "," + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].y + ")"); //debug shit
 			}			
-			players[currentPlayerIndex].gridPosition = destTile.gridPosition;
+			playerTurns[PlayerTurnIndex].gridPosition = destTile.gridPosition;
 
 		} else {
 			Debug.Log ("destination invalid");
@@ -105,19 +111,19 @@ public class GameManager : MonoBehaviour {
 			}
 
 			if (target != null) {
-				if (players[currentPlayerIndex].GetWeapon().weapType == WeaponType.Crossbow){
-					players[currentPlayerIndex].SetCharge(false);
-					Debug.Log(players[currentPlayerIndex].GetName()+" has shot his crossbow.");
+				if (playerTurns[PlayerTurnIndex].GetWeapon().weapType == WeaponType.Crossbow){
+					playerTurns[PlayerTurnIndex].SetCharge(false);
+					Debug.Log(players[PlayerTurnIndex].GetName()+" has shot his crossbow.");
 				}
 				//Debug.Log ("p.x: " + players[currentPlayerIndex].gridPosition.x + ", p.y: " + players[currentPlayerIndex].gridPosition.y + " t.x: " + target.gridPosition.x + ", t.y: " + target.gridPosition.y);
 //				if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
 //					players[currentPlayerIndex].gridPosition.y >= target.gridPosition.y - 1 && players[currentPlayerIndex].gridPosition.y <= target.gridPosition.y + 1) {
 
-				players[currentPlayerIndex].actionPoints--;
+				playerTurns[PlayerTurnIndex].actionPoints--;
 //				if (players[currentPlayerIndex].GetMaxRange() > 1) //rangeds get only one action per turn
 //					players[currentPlayerIndex].actionPoints--;
 				removeTileHighlights();
-				players[currentPlayerIndex].attacking = false;			
+				playerTurns[PlayerTurnIndex].attacking = false;			
 
 		
 				//to edit
@@ -127,7 +133,7 @@ public class GameManager : MonoBehaviour {
 				int i = Mathf.RoundToInt(target.gridPosition.x);
 				int j = Mathf.RoundToInt(target.gridPosition.y);
 			    Tile _terrain = map[i][j];
-				UnitInteraction.InteractionMain(players[currentPlayerIndex],target,_terrain);
+				UnitInteraction.InteractionMain(playerTurns[PlayerTurnIndex],target,_terrain);
 
 				//attack logic
 				//rng is fun
@@ -270,7 +276,7 @@ public class GameManager : MonoBehaviour {
 		player.gridPosition = new Vector2(4,20);
 		leader = new Chief();
 		AddStuffToChief(leader,"man","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
-
+		player.SetBaseTurnSpeed (2);
 		AddStuffToPlayer(player,leader, 14,7,70,12,100,0,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
 		players.Add(player);
 
@@ -319,7 +325,7 @@ public class GameManager : MonoBehaviour {
 
 		AddStuffToPlayer(aiplayer, leader, 12,4,100,22,100,0,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
 
-
+		aiplayer.SetBaseTurnSpeed(3);
 		players.Add(aiplayer);
 	}
 
@@ -336,9 +342,25 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i<players.Count;i++)
 		if (players[i].gridPosition == MousePosition){
 			Debug.Log(players[i].GetName()+" has "+players[i].GetNumber()+" healthy soldiers and " + players[i].GetWounded() + " wounded soldiers. Those soldiers are using " + players[i].GetWeapon().NameOfTheEquip+"s as weapon and "+players[i].GetArmor().NameOfTheEquip+"s as armor.");
-		
+		}				
+	}
+
+	void DecideNextTurn(){
+		CalculatedNextPlayerTurn = false;
+		while (!CalculatedNextPlayerTurn)
+			for (int i = 0; i<players.Count;i++)
+				if (players[i].TurnRecoveryTime < 100)
+					players[i].TurnRecoveryTime+=players[i].GetTurnSpeed();
+		else if (players[i].TurnRecoveryTime>=100)
+		{   players[i].TurnRecoveryTime= 0;
+			playerTurns.Add(players[i]);
+			playerTurnNamesForShow.Add(players[i].GetName());
+			CalculatedNextPlayerTurn = true;
 		}
-				
+		else if (players[i].TurnRecoveryTime ==0)
+			playerTurns.Remove(players[i]);
+
+
 	}
 
 

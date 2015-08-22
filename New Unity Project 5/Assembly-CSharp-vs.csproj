@@ -66,6 +66,7 @@
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\UnitScript.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\WeaponTestData.cs" />
      <Compile Include="Assets\Assets\scripts\Satan.cs" />
+     <Compile Include="Assets\Assets\scripts\TestTurnSpeed.cs" />
      <Compile Include="Assets\Assets\scripts\TestingSatan.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\Tile.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TileHighlight.cs" />
