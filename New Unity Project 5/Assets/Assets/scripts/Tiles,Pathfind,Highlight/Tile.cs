@@ -84,9 +84,9 @@ public class Tile : MonoBehaviour {
 	
 	void OnMouseDown() { //i think this might be the one giving the bug but im not sure
 		if (Application.loadedLevelName == "gameScene") {
-			if (GameManager.instance.players[GameManager.instance.PlayerTurnIndex].moving) {
+			if (GameManager.instance. playerTurns[GameManager.instance.PlayerTurnIndex].moving) {
 				GameManager.instance.moveCurrentPlayer(this);
-			} else if (GameManager.instance.players[GameManager.instance.PlayerTurnIndex].attacking) {
+			} else if (GameManager.instance. playerTurns[GameManager.instance.PlayerTurnIndex].attacking) {
 				GameManager.instance.attackWithCurrentPlayer(this);
 			} /*else {
 				impassible = impassible ? false : true;

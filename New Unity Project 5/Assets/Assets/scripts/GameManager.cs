@@ -46,7 +46,7 @@ public	int PlayerTurnIndex = 0;
 	//	GiveInformationOnPlayer();
 
 
-		if (playerTurns[PlayerTurnIndex].GetNumber()+playerTurns[PlayerTurnIndex].GetWounded() > 0) players[PlayerTurnIndex].TurnUpdate();
+		if (playerTurns[PlayerTurnIndex].GetNumber()+playerTurns[PlayerTurnIndex].GetWounded() > 0) playerTurns[PlayerTurnIndex].TurnUpdate();
 		else nextTurn();
 	}
 	
@@ -68,7 +68,7 @@ public	int PlayerTurnIndex = 0;
 		List <Tile> highlightedTiles = new List<Tile>();
 
 		if (ignorePlayers) highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance, highlightColor == Color.red);
-		else highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance, players.Where(x => x.gridPosition != originLocation).Select(x => x.gridPosition).ToArray(), highlightColor == Color.red);
+		else highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance,  playerTurns.Where(x => x.gridPosition != originLocation).Select(x => x.gridPosition).ToArray(), highlightColor == Color.red);
 		
 		foreach (Tile t in highlightedTiles) {
 			t.visual.transform.GetComponent<Renderer>().materials[0].color = highlightColor;
@@ -84,11 +84,11 @@ public	int PlayerTurnIndex = 0;
 	}
  	
 	public void moveCurrentPlayer(Tile destTile) {
-		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && players[PlayerTurnIndex].positionQueue.Count == 0) {
+		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && playerTurns[PlayerTurnIndex].positionQueue.Count == 0) {
 			removeTileHighlights();
 			playerTurns[PlayerTurnIndex].moving = false;
-			foreach(Tile t in TilePathFinder.FindPath(map[(int)players[PlayerTurnIndex].gridPosition.x][(int)players[PlayerTurnIndex].gridPosition.y],destTile, players.Where(x => x.gridPosition != destTile.gridPosition && x.gridPosition != players[PlayerTurnIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
-				players[PlayerTurnIndex].positionQueue.Add(map[(int)t.gridPosition.x][(int)t.gridPosition.y].transform.position + 1.5f * Vector3.up);
+			foreach(Tile t in TilePathFinder.FindPath(map[(int)playerTurns[PlayerTurnIndex].gridPosition.x][(int)playerTurns[PlayerTurnIndex].gridPosition.y],destTile, playerTurns.Where(x => x.gridPosition != destTile.gridPosition && x.gridPosition != playerTurns[PlayerTurnIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
+				playerTurns[PlayerTurnIndex].positionQueue.Add(map[(int)t.gridPosition.x][(int)t.gridPosition.y].transform.position + 1.5f * Vector3.up);
 			//	Debug.Log("(" + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].x + "," + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].y + ")"); //debug shit
 			}			
 			playerTurns[PlayerTurnIndex].gridPosition = destTile.gridPosition;
@@ -104,7 +104,7 @@ public	int PlayerTurnIndex = 0;
 		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible) {
 			
 			TroopScript target = null;
-			foreach (TroopScript p in players) {
+			foreach (TroopScript p in  playerTurns) {
 				if (p.gridPosition == destTile.gridPosition) {
 					target = p;
 				}
@@ -113,7 +113,7 @@ public	int PlayerTurnIndex = 0;
 			if (target != null) {
 				if (playerTurns[PlayerTurnIndex].GetWeapon().weapType == WeaponType.Crossbow){
 					playerTurns[PlayerTurnIndex].SetCharge(false);
-					Debug.Log(players[PlayerTurnIndex].GetName()+" has shot his crossbow.");
+					Debug.Log( playerTurns[PlayerTurnIndex].GetName()+" has shot his crossbow.");
 				}
 				//Debug.Log ("p.x: " + players[currentPlayerIndex].gridPosition.x + ", p.y: " + players[currentPlayerIndex].gridPosition.y + " t.x: " + target.gridPosition.x + ", t.y: " + target.gridPosition.y);
 //				if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
