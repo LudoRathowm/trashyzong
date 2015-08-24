@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class GameManager : MonoBehaviour {
+	public Tile TileUnderMouse;
 	public Vector2 MousePosition;
 	public static GameManager instance;
 	public LayerMask Units;
@@ -104,7 +105,7 @@ public	int PlayerTurnIndex = 0;
 		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible) {
 			
 			TroopScript target = null;
-			foreach (TroopScript p in  playerTurns) {
+			foreach (TroopScript p in  players) {
 				if (p.gridPosition == destTile.gridPosition) {
 					target = p;
 				}
@@ -339,6 +340,8 @@ public	int PlayerTurnIndex = 0;
 	}
 
 	void GiveInformationOnPlayer(){
+		if (TileUnderMouse)
+		Debug.Log(TileUnderMouse.TileName);
 		for (int i = 0; i<players.Count;i++)
 		if (players[i].gridPosition == MousePosition){
 			Debug.Log(players[i].GetName()+" has "+players[i].GetNumber()+" healthy soldiers and " + players[i].GetWounded() + " wounded soldiers. Those soldiers are using " + players[i].GetWeapon().NameOfTheEquip+"s as weapon and "+players[i].GetArmor().NameOfTheEquip+"s as armor.");

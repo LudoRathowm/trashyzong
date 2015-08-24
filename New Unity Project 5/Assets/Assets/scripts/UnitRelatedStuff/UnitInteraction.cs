@@ -107,18 +107,13 @@ public static class UnitInteraction {
 
 		}
 		else {
-		if (PlayerOneFirst(TroopOne,TroopTwo)){
+		
 
 			 DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,True,isThisMelee(TroopOne));
 			 DamageOnTroopOne = CalculateDamageOnDefendingLines(TroopTwo,TroopOne,_Terrain, False,isThisMelee(TroopTwo));
-		}
+		
 
-		else if (!PlayerOneFirst(TroopOne,TroopTwo)){
-
-			 DamageOnTroopOne = CalculateDamageOnDefendingLines(TroopTwo,TroopOne,_Terrain, True,isThisMelee(TroopTwo));
-			 DamageOnTroopTwo = CalculateDamageOnDefendingLines(TroopOne,TroopTwo,_Terrain,False,isThisMelee(TroopOne));
-
-		}
+	
 		//calculate the weapon triangle
 		for (int i = 0;i<DamageOnTroopOne.Count;i++)
 			DamageOnTroopOne[i]*=(100+Triangle(TroopTwo,TroopOne))/100;

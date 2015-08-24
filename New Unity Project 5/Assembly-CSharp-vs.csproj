@@ -77,6 +77,7 @@
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Armory.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Chief.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Equipment.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\NewFightScript.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Trait.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\TroopBuildingStuff.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\TroopScript.cs" />

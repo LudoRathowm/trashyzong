@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Tile : MonoBehaviour {
+	public string TileName;
 	public float rangedDefence;
 	public int frontLiners;
 	public int waterSpeed;
@@ -71,6 +72,7 @@ public class Tile : MonoBehaviour {
 	void OnMouseEnter() {
 		if (Application.loadedLevelName == "gameScene") {
 			GameManager.instance.MousePosition = new Vector2(gridPosition.x,gridPosition.y);
+			GameManager.instance.TileUnderMouse = this;
 		}
 		if (Application.loadedLevelName == "MapCreatorScene" && Input.GetMouseButton(0)) {
 			setType(MapCreatorManager.instance.palletSelection);
@@ -107,6 +109,7 @@ public class Tile : MonoBehaviour {
 		switch(t) {
 
 		case TileType.BraidedStreamBed:
+			TileName = "Braided Stream Bed";
 			movementCost = 1.7f;
 			impassible = false;
 			rangedDefence = 0;
@@ -123,6 +126,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Cliff:
+			TileName = "Cliff";
 			movementCost = 9999;
 			impassible = true;
 			rangedDefence = 0;
@@ -139,6 +143,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.CompressedSnow:
+			TileName = "Compressed Snow";
 			movementCost = 2;
 			impassible = false;
 			rangedDefence = 0;
@@ -155,6 +160,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Desert:
+			TileName = "Desert";
 			movementCost = 4;
 			impassible = false;
 			rangedDefence = 0.8f;
@@ -171,6 +177,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Forest:
+			TileName = "Forest";
 			movementCost = 5;
 			impassible = false;
 			rangedDefence = 0.4f;
@@ -187,6 +194,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Grass:
+			TileName = "Grassland";
 			movementCost = 1.5f;
 			impassible = false;
 			rangedDefence = 0;
@@ -203,6 +211,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.HeavySnow:
+			TileName = "Snowstorm";
 			movementCost = 10;
 			impassible = false;
 			rangedDefence = 0.3f;
@@ -219,6 +228,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Ice:
+			TileName = "Frozen Lake";
 			movementCost = 3;
 			impassible = false;
 			rangedDefence = 0;
@@ -235,6 +245,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Lava:
+			TileName = "The floor is lava";
 			movementCost = 9999;
 			impassible = true;
 			rangedDefence = 0;
@@ -251,6 +262,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.RockOutcrop:
+			TileName = "Rock Outcrop";
 			movementCost = 5;
 			impassible = false;
 			rangedDefence = 0;
@@ -267,6 +279,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Snow:
+			TileName = "Snow";
 			movementCost = 5;
 			impassible = false;
 			rangedDefence = 0;
@@ -283,6 +296,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Street:
+			TileName = "Street";
 			movementCost = 0.5f;
 			impassible = false;
 			rangedDefence = 0;
@@ -299,6 +313,7 @@ public class Tile : MonoBehaviour {
 			break;
 		
 		case TileType.SunDesert:
+			TileName = "Sunny Desert";
 			movementCost = 4;
 			impassible = false;
 			rangedDefence = 0;
@@ -315,6 +330,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Swamp:
+			TileName = "Swamp";
 			movementCost = 6;
 			impassible = false;
 			rangedDefence = 0.6f;
@@ -331,6 +347,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.TallGrass:
+			TileName = "Tall Grass";
 			movementCost = 2;
 			impassible = false;
 			rangedDefence = 0.7f;
@@ -348,6 +365,7 @@ public class Tile : MonoBehaviour {
 
 
 		case TileType.ThickForest:
+			TileName = "Thick Forest";
 			movementCost = 10;
 			impassible = false;
 			rangedDefence = 0.1f;
@@ -364,6 +382,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Water:
+			TileName = "Water";
 			movementCost = 15;
 			impassible = false;
 			rangedDefence = 0;
