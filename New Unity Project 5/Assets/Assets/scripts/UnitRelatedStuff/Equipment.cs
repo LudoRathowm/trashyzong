@@ -2,7 +2,10 @@
 using System.Collections;
 
 public class Equipment  {
+	public bool physical;
 	public string NameOfTheEquip;
+	public float AttackModifier;
+	public int CounterAttackValue;
 	public int Attack;
 	public int Defence;
 	public int minRange;

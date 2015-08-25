@@ -45,7 +45,7 @@ public class TroopScript : MonoBehaviour {
 
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
-
+	Classes myClass;
 	//just for the debug
 	string WeaponName;
 	string ArmorName;
@@ -186,6 +186,10 @@ public class TroopScript : MonoBehaviour {
 		return baseTurnSpeed;
 	}
 
+	public Classes GetClass(){
+		return myClass;
+	}
+
 
 		    //======================================
 		    //             SETTERS
@@ -253,6 +257,10 @@ public class TroopScript : MonoBehaviour {
 
 	public void SetBaseTurnSpeed (int turnspeed){
 		baseTurnSpeed = turnspeed;
+	}
+
+	public void SetClassDONTUSETHISAREYOUSUREYOUWANTTOUSETHISYOUREALLYSHOULDNT (Classes classy){
+		myClass = classy;
 	}
 
 	//movement animation

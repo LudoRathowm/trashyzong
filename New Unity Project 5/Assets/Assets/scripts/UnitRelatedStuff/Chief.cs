@@ -9,7 +9,11 @@ public class Chief {
 	 Abilities AbilityOne;
 	 Abilities AbilityTwo;
 	 Abilities AbilityThree;
-
+	int Attack;
+	int Defense;
+	int Intelligence;
+	int Speed;
+	int CounterAttackValue;
 
 
 
@@ -49,6 +53,25 @@ public class Chief {
 
 		return extraReturns;
 	}
+	public int GetAttack (){
+		return Attack;
+	}
+	public int GetDefense(){
+		return Defense;
+	}
+	public int GetIntelligence(){
+		return Intelligence;
+	}
+	public int GetSpeed(){
+		return Speed;
+	} 
+	public int GetCounterAttack(){
+		return CounterAttackValue;
+	}
+
+
+
+
 
 	// ########SETTERS###########
 	public void SetName (string _name){
@@ -75,9 +98,25 @@ public class Chief {
 		AbilityThree = _ability;
 	}        
 
+	public void SetAttack(int atk){
+		Attack = atk;
+	}
 
+	public void SetDefense(int def){
+		Defense = def;
+	}
 
+	public void SetIntelligence(int inte){
+		Intelligence = inte;
+	}
 
+	public void SetSpeed (int spd){
+		Speed = spd;
+	}
+
+	public void SetCounterAttack(int cntr){
+		CounterAttackValue = cntr;
+	}
 
 
 }
