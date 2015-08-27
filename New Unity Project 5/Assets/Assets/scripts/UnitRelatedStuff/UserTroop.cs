@@ -68,7 +68,14 @@ public class UserTroop : TroopScript {
 				GameManager.instance.nextTurn();
 			}
 			
-			
+			if (Input.GetButtonUp("Cancel")){
+
+				if(actionPoints>=1){
+					actionPoints++;
+					GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition	=GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].previousGridPosition;
+					GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].transform.position	=GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].previousWorldPosition;
+				}
+			}
 			
 			
 			

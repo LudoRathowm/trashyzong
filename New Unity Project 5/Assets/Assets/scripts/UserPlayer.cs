@@ -12,7 +12,7 @@ public class UserPlayer : Player {
 	public override void Update () {
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
 			transform.GetChild(1).gameObject.SetActive(true);
-			if (Input.GetButtonDown("MoveKey")){
+			if (Input.GetButtonDown("Cancel")){
 				if (!moving) {
 					GameManager.instance.removeTileHighlights();
 					moving = true;
@@ -36,16 +36,25 @@ public class UserPlayer : Player {
 					GameManager.instance.removeTileHighlights();
 				}
 			}
-			if (Input.GetButtonUp("EndTurn"))
-			{Input.ResetInputAxes();
+			if (Input.GetButtonUp("Cancel")){
+				Debug.Log("waw");
+				if(actionPoints>=1){
+					actionPoints++;
+					GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition	=GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].previousGridPosition;
+					
+				}
+			}
+
+
+			if (Input.GetButtonUp("EndTurn")){
+				Input.ResetInputAxes();
 				GameManager.instance.removeTileHighlights();
 				actionPoints = 2;
 				moving = false;
 				attacking = false;			
 				GameManager.instance.nextTurn();
 			}
-
-
+	
 
 
 

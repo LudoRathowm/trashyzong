@@ -11,6 +11,7 @@ public enum ListOfAbilities {
 }
 
 
+
 public class Abilities  {
 	public bool isActive;
 	public int CostToLearn;

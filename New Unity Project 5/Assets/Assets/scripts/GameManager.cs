@@ -36,6 +36,7 @@ public	int PlayerTurnIndex = 0;
 	
 	// Use this for initialization
 	void Start () {		
+
 		generateMap();
 		generatePlayers();
 		while (playerTurns.Count<10)
@@ -47,7 +48,7 @@ public	int PlayerTurnIndex = 0;
 	//	GiveInformationOnPlayer();
 
 
-		if (playerTurns[PlayerTurnIndex].GetNumber()+playerTurns[PlayerTurnIndex].GetWounded() > 0) playerTurns[PlayerTurnIndex].TurnUpdate();
+		if (playerTurns[PlayerTurnIndex].GetNumber() > 0) playerTurns[PlayerTurnIndex].TurnUpdate();
 		else nextTurn();
 	}
 	
@@ -85,6 +86,7 @@ public	int PlayerTurnIndex = 0;
 	}
  	
 	public void moveCurrentPlayer(Tile destTile) {
+		playerTurns[PlayerTurnIndex].previousWorldPosition = playerTurns[PlayerTurnIndex].transform.position;
 		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && playerTurns[PlayerTurnIndex].positionQueue.Count == 0) {
 			removeTileHighlights();
 			playerTurns[PlayerTurnIndex].moving = false;
@@ -92,6 +94,7 @@ public	int PlayerTurnIndex = 0;
 				playerTurns[PlayerTurnIndex].positionQueue.Add(map[(int)t.gridPosition.x][(int)t.gridPosition.y].transform.position + 1.5f * Vector3.up);
 			//	Debug.Log("(" + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].x + "," + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].y + ")"); //debug shit
 			}			
+			playerTurns[PlayerTurnIndex].previousGridPosition = playerTurns[PlayerTurnIndex].gridPosition;
 			playerTurns[PlayerTurnIndex].gridPosition = destTile.gridPosition;
 
 		} else {
@@ -134,7 +137,8 @@ public	int PlayerTurnIndex = 0;
 				int i = Mathf.RoundToInt(target.gridPosition.x);
 				int j = Mathf.RoundToInt(target.gridPosition.y);
 			    Tile _terrain = map[i][j];
-				UnitInteraction.InteractionMain(playerTurns[PlayerTurnIndex],target,_terrain);
+				NewFightScript.ActualFightingScript(playerTurns[PlayerTurnIndex],target,_terrain,1);
+			//	UnitInteraction.InteractionMain(playerTurns[PlayerTurnIndex],target,_terrain);
 
 				//attack logic
 				//rng is fun
@@ -175,25 +179,30 @@ public	int PlayerTurnIndex = 0;
 
 	//CHECK THE PATHFINDER
 
-	void AddStuffToPlayer (TroopScript player,Chief leader, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers, int NumberOfWounded, Weaponry _weapon, Armory _armor){
+	void AddStuffToPlayer (TroopScript player,muhClasses muhclass,Chief leader, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers,  Weaponry _weapon, Armory _armor){
+		Classes ClassToSet = Classes.fromList(muhclass);
+		player.SetClassDONTUSETHISAREYOUSUREYOUWANTTOUSETHISYOUREALLYSHOULDNT(ClassToSet);
 		player.SetChief(leader);
 		player.SetBaseAttack(Attack);
 		player.SetBaseDefence(Defence);
 		player.SetBaseHitpoints(HitPoints);
 		player.SetBaseSpeed(Speed);
 		player.SetNumber(NumberOfSoldiers);
-		player.SetWounded(NumberOfWounded);
 		player.SetWeapon(_weapon);
 		player.SetArmor(_armor);
 	}
 
-	void AddStuffToChief (Chief leader, string Name, string Surname, Trait trait, Abilities one, Abilities two, Abilities three){
+	void AddStuffToChief (Chief leader, string Name, string Surname, Trait trait, Abilities one, Abilities two, Abilities three,int atk, int def,int inte,int spd){
 		leader.SetName(Name);
 		leader.SetSurname(Surname);
 		leader.SetTrait(trait);
 		leader.SetAbilityOne(one);
 		leader.SetAbilityTwo(two);
 		leader.SetAbilityThree(three);
+		leader.SetAttack(atk);
+		leader.SetDefense(def);
+		leader.SetIntelligence(inte);
+		leader.SetSpeed(spd);
 	}
 	                      
 	                      
@@ -231,10 +240,10 @@ public	int PlayerTurnIndex = 0;
 
 
 		Chief leader = new Chief();
-		AddStuffToChief(leader,"Barack","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
+		AddStuffToChief(leader,"Barack","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,3,2,4);
 
 
-        AddStuffToPlayer(player, leader, 10,10,100,10,100,0, Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
+        AddStuffToPlayer(player, muhClasses.Animal, leader, 10,10,100,10,100, Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		player.gridPosition = new Vector2(3,20);
 
@@ -265,10 +274,10 @@ public	int PlayerTurnIndex = 0;
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(5- Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(5,20);
 		leader = new Chief();
-		AddStuffToChief(leader,"nigga","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
+		AddStuffToChief(leader,"nigga","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,4,2,5);
 
 
-		AddStuffToPlayer(player,leader, 20,5,200,5,100,0,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
+		AddStuffToPlayer(player,muhClasses.Animal,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
 
 
@@ -276,35 +285,35 @@ public	int PlayerTurnIndex = 0;
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(4 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(4,20);
 		leader = new Chief();
-		AddStuffToChief(leader,"man","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
+		AddStuffToChief(leader,"man","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),6,6,2,1);
 		player.SetBaseTurnSpeed (2);
-		AddStuffToPlayer(player,leader, 14,7,70,12,100,0,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
+		AddStuffToPlayer(player,muhClasses.Warrior,leader, 14,7,70,12,100,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
 		players.Add(player);
 
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(2,20);
 		leader = new Chief();
-		AddStuffToChief(leader,"asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
+		AddStuffToChief(leader,"asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,0,2,1);
 
-		AddStuffToPlayer(player, leader, 12,10,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(player,muhClasses.Animal, leader, 12,10,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 		
 		players.Add(player);
 		
 		AITroop aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(6,4);
 		leader = new Chief();
-		AddStuffToChief(leader,"another asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
+		AddStuffToChief(leader,"another asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,1,3);
 
-		AddStuffToPlayer(aiplayer,leader, 12,2,100,12,100,0,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
-
+		AddStuffToPlayer(aiplayer,muhClasses.Animal,leader, 12,2,100,12,100,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
+	
 		players.Add(aiplayer);
 
 		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(8 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(8,4);
 		leader = new Chief();
-		AddStuffToChief(leader,"yet another nigga","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
+		AddStuffToChief(leader,"yet another nigga","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),8,8,8,8);
 
-		AddStuffToPlayer(aiplayer,leader, 22,1,100,13,100,0,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(aiplayer,muhClasses.Animal,leader, 22,1,100,13,100,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		
 		players.Add(aiplayer);
@@ -312,9 +321,9 @@ public	int PlayerTurnIndex = 0;
 		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(12 - Mathf.Floor(mapSize/2),1.5f, -1 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(12,1);
 		leader = new Chief();
-		AddStuffToChief(leader,"zzz","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
+		AddStuffToChief(leader,"zzz","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,3,1);
 
-		AddStuffToPlayer(aiplayer, leader, 22,3,100,12,100,0,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
+		AddStuffToPlayer(aiplayer, muhClasses.Animal,leader, 22,3,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		
 		players.Add(aiplayer);
@@ -322,9 +331,9 @@ public	int PlayerTurnIndex = 0;
 		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(18 - Mathf.Floor(mapSize/2),1.5f, -8 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(18,8);
 		leader = new Chief();
-		AddStuffToChief(leader,"glorious leader","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx));
+		AddStuffToChief(leader,"glorious leader","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,2,3,1);
 
-		AddStuffToPlayer(aiplayer, leader, 12,4,100,22,100,0,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
+		AddStuffToPlayer(aiplayer,muhClasses.Animal, leader, 12,4,100,22,100,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
 
 		aiplayer.SetBaseTurnSpeed(3);
 		players.Add(aiplayer);
@@ -344,7 +353,7 @@ public	int PlayerTurnIndex = 0;
 		Debug.Log(TileUnderMouse.TileName);
 		for (int i = 0; i<players.Count;i++)
 		if (players[i].gridPosition == MousePosition){
-			Debug.Log(players[i].GetName()+" has "+players[i].GetNumber()+" healthy soldiers and " + players[i].GetWounded() + " wounded soldiers. Those soldiers are using " + players[i].GetWeapon().NameOfTheEquip+"s as weapon and "+players[i].GetArmor().NameOfTheEquip+"s as armor.");
+			Debug.Log(players[i].GetName()+" has "+players[i].GetNumber()+" healthy soldiers. Those soldiers are using " + players[i].GetWeapon().NameOfTheEquip+"s as weapon and "+players[i].GetArmor().NameOfTheEquip+"s as armor.");
 		}				
 	}
 

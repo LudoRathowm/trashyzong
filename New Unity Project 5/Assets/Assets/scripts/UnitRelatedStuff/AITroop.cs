@@ -46,9 +46,9 @@ public class AITroop : TroopScript{
 				//List<Tile> movementToAttackTilesInRange = TileHighlight.FindHighlight(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y], movementPerActionPoint + attackRange);
 				List<Tile> movementTilesInRange = TileHighlight.FindHighlight(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y],GetMovement() + 1000);
 				//blabla range, lowest hp, not ai
-				if (attacktilesInRange.Where(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()+y.GetWounded()) > 0 && y != this && y.gridPosition == x.gridPosition).Count() > 0).Count () > 0) {
-				var opponentsInRange = attacktilesInRange.Select(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()+y.GetWounded()) > 0 && y != this && y.gridPosition == x.gridPosition).Count () > 0 ? GameManager.instance.players.Where(y => y.gridPosition == x.gridPosition).First() : null).ToList();
-				TroopScript opponent = opponentsInRange.OrderBy (x => x != null ? -(x.GetNumber()+x.GetWounded()) : 1000).First ();
+				if (attacktilesInRange.Where(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()) > 0 && y != this && y.gridPosition == x.gridPosition).Count() > 0).Count () > 0) {
+				var opponentsInRange = attacktilesInRange.Select(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()) > 0 && y != this && y.gridPosition == x.gridPosition).Count () > 0 ? GameManager.instance.players.Where(y => y.gridPosition == x.gridPosition).First() : null).ToList();
+				TroopScript opponent = opponentsInRange.OrderBy (x => x != null ? -(x.GetNumber()) : 1000).First ();
 					
 					GameManager.instance.removeTileHighlights();
 					moving = false;
@@ -73,9 +73,9 @@ public class AITroop : TroopScript{
 				//				}
 				//			}
 				//move toward nearest opponent, same shit
-			else if (!moving && movementTilesInRange.Where(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()+y.GetWounded()) > 0 && y != this && y.gridPosition == x.gridPosition).Count() > 0).Count () > 0) {
-				var opponentsInRange = movementTilesInRange.Select(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()+y.GetWounded()) > 0 && y != this && y.gridPosition == x.gridPosition).Count () > 0 ? GameManager.instance.players.Where(y => y.gridPosition == x.gridPosition).First() : null).ToList();
-				TroopScript opponent = opponentsInRange.OrderBy (x => x != null ? -(x.GetNumber()+x.GetWounded()) : 1000).ThenBy (x => x != null ? TilePathFinder.FindPath(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y],GameManager.instance.map[(int)x.gridPosition.x][(int)x.gridPosition.y]).Count() : 1000).First ();
+			else if (!moving && movementTilesInRange.Where(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()) > 0 && y != this && y.gridPosition == x.gridPosition).Count() > 0).Count () > 0) {
+				var opponentsInRange = movementTilesInRange.Select(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()) > 0 && y != this && y.gridPosition == x.gridPosition).Count () > 0 ? GameManager.instance.players.Where(y => y.gridPosition == x.gridPosition).First() : null).ToList();
+				TroopScript opponent = opponentsInRange.OrderBy (x => x != null ? -(x.GetNumber()) : 1000).ThenBy (x => x != null ? TilePathFinder.FindPath(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y],GameManager.instance.map[(int)x.gridPosition.x][(int)x.gridPosition.y]).Count() : 1000).First ();
 					
 					GameManager.instance.removeTileHighlights();
 					moving = true;

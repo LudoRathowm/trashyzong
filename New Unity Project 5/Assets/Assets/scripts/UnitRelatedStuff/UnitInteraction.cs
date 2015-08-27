@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 using System.Collections;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ public static class UnitInteraction {
 
 
 
-	static int[] BattleResume (TroopScript troopOne, TroopScript troopTwo, int TroopOneWounded, int TroopTwoWounded, int TroopOneDed, int TroopTwoDed){
+/*	static int[] BattleResume (TroopScript troopOne, TroopScript troopTwo, int TroopOneWounded, int TroopTwoWounded, int TroopOneDed, int TroopTwoDed){
 //		Debug.Log("TroopTwo ded: "+TroopTwoDed+" troop two wounded:" + TroopTwoWounded);
 		int FinalOneWounded =0;
 		int FinalOneDead = 0;
@@ -141,7 +141,7 @@ public static class UnitInteraction {
 
 		//deals with wounded people
 		DealWithWoundedPeople(TroopOne,TroopOneLosses[1]);
-		DealWithWoundedPeople(TroopTwo,TroopTwoLosses[1]);*/
+		DealWithWoundedPeople(TroopTwo,TroopTwoLosses[1]);
 		Debug.Log (TroopOne.GetName()+" engages on "+TroopTwo.GetName()+". The result is that he loses "+ results[0]+" soldiers and wounds "+results[1]+", while "+TroopTwo.GetName()+" loses "+results[2]+" soldiers and wounds " + results[3]);
 		}
 
@@ -321,7 +321,7 @@ static	bool HandsTriangle (TroopScript Attacker, TroopScript Defender){
 		 Axe>Pole>Sword(estoc)>Axe
 		 2H weapon > 1H weapon > Ranged > 2H weapon
 		 Light Armor > Slashing Weapon > No Armor > Bludgeoning Weapons > Heavy Armor > Piercing Weapons > Light Armor
-*/	
+
 		
 		return bonusattack;
 	}
@@ -376,3 +376,4 @@ static	bool isThisMelee (TroopScript player){
 
 
 }
+*/

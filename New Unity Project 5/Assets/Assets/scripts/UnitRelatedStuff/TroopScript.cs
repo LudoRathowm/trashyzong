@@ -38,11 +38,11 @@ public class TroopScript : MonoBehaviour {
 	int baseHitPoints;
 	int baseSpeed;
 	int People;
-	int WoundedPeople;
+	int maxPeople;
 	int baseMovement = 10;
 	int baseAttackRange = 0;
 	int baseTurnSpeed = 1;
-
+	int Energy;
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
 	Classes myClass;
@@ -56,8 +56,9 @@ public class TroopScript : MonoBehaviour {
 	bool chargedWeapon = false; //for crossbows
 	bool isPhalanxing = false; //for AI and pathfinding
 	public int actionPoints = 2;
+	public Vector2 previousGridPosition = Vector2.zero;
 	public Vector2 gridPosition = Vector2.zero;
-	
+	public Vector3 previousWorldPosition;
 	public Vector3 moveDestination;
 	public float moveSpeed = 10.0f;
 	
@@ -93,13 +94,7 @@ public class TroopScript : MonoBehaviour {
 
 
 
-	public int ReturnNumberOfPeopleToAttack (){
 
-		int attackers = Mathf.RoundToInt(People+WoundedPeople*0.7f);
-		float muhPower = 0.94f + Leader.GetMuhReturns();
-		int Total = Mathf.RoundToInt(Mathf.Pow(attackers,muhPower));
-		return Total;
-	}
 
 
 			//======================================
@@ -146,8 +141,8 @@ public class TroopScript : MonoBehaviour {
 		return People;
 	}
 
-	public int GetWounded(){
-		return WoundedPeople;
+	public int GetmaxNumber(){
+		return maxPeople;
 	}
 
 	public Chief GetChief(){
@@ -190,6 +185,10 @@ public class TroopScript : MonoBehaviour {
 		return myClass;
 	}
 
+	public int GetEnergy(){
+		return Energy;
+	}
+
 
 		    //======================================
 		    //             SETTERS
@@ -223,8 +222,8 @@ public class TroopScript : MonoBehaviour {
 		People = people;
 	}
 
-	public void SetWounded (int wounded){
-		WoundedPeople = wounded;
+	public void SetmaxNumber (int wounded){
+		maxPeople = wounded;
 	}
 
 	public void SetChief (Chief leader){
@@ -263,13 +262,17 @@ public class TroopScript : MonoBehaviour {
 		myClass = classy;
 	}
 
+	public void SetEnergy(int energy){
+		Energy = energy;
+	}
+
 	//movement animation
 	public List<Vector3> positionQueue = new List<Vector3>();	
 	//
 	
 	void Awake () {
 		moveDestination = transform.position;
-
+		previousWorldPosition = transform.position;
 	}
 	
 	
@@ -278,7 +281,7 @@ public class TroopScript : MonoBehaviour {
 		WeaponName = WeaponAdopted.NameOfTheEquip;
 		ArmorName = ArmorAdopted.NameOfTheEquip;
 		LeaderName = Leader.GetName();
-		if (GetNumber()+GetWounded() <= 0) {
+		if (GetNumber() <= 0) {
 			transform.rotation = Quaternion.Euler(new Vector3(90,0,0)); //yer ded nigga
 			transform.GetComponent<Renderer>().material.color = Color.red; // and bleeding
 		}

@@ -25,6 +25,8 @@ public class NewFightScript : MonoBehaviour {
 		int AttackerCaptainIntelligence = Attacker.GetChief().GetIntelligence();
 		float AttackerMatkBuffModifier = 0; //stillneedtoimplementbuffs
 		float AttackerMdefBuffModifier = 0; //^
+		int AttackerMaxRange = Attacker.GetMaxRange();
+		int AttackerMinRange = Attacker.GetMinRange();
 		int DefenderBaseAttack = Defender.GetClass().GetAttack();
 		int DefenderCaptainAttack = Defender.GetChief().GetAttack();
 		int DefenderBaseDefense = Defender.GetClass().GetDefense();
@@ -35,7 +37,7 @@ public class NewFightScript : MonoBehaviour {
 		float DefenderWeaponModifier = Defender.GetWeapon().AttackModifier; //there is no weapon with atk modifiers for now;
 		int DefenderFlatWeapon = Defender.GetWeapon().Attack;
 		bool DefenderFlatWeaponPhysical = Defender.GetWeapon().physical;
-		float DefenderSkillModifier = 1;
+
 		float DefenderCaptainAbility = Defender.GetChief().GetMuhReturns();
 		bool DefenderisPhysical = Defender.GetClass().GetIfItsPhysical();
 		int DefenderBaseInt = Defender.GetClass().GetIntelligence();
@@ -44,18 +46,25 @@ public class NewFightScript : MonoBehaviour {
 		int DefenderCounterAttackFromEquip = Defender.GetWeapon().CounterAttackValue + Defender.GetArmor().CounterAttackValue;
 		float DefenderMatkBuffModifier = 0; //stillneedtoimplementbuffs
 		float DefenderMdefBuffModifier = 0; //^
+		int DefenderMaxRange = Defender.GetMaxRange();
+		int DefenderMinRange = Defender.GetMinRange();
 
 
 		int DamageOnDefenders = FinalDamage(AttackerBaseAttack,AttackerCaptainAttack,AttackerAttackBuffModifier,DefenderBaseDefense,DefenderCaptainDefense,DefenderDefenseBuffModifier,AttackerTroopSize, AttackerWeaponModifier,AttackerFlatWeapon,AttackerFlatWeaponPhysical, AttackerSkillModifier,
 		                                    AttackerBattlefieldEffect,PeoplePerLine,AttackerCaptainAbility,AttackerisPhysical,AttackerBaseInt, DefenderCaptainIntelligence, AttackerCaptainIntelligence, AttackerMatkBuffModifier, DefenderMdefBuffModifier);
-		int FlatCounterAttackDamage = FinalDamage(DefenderBaseAttack,DefenderCaptainAttack,DefenderAttackBuffModifier, AttackerBaseDefense, AttackerCaptainDefense, AttackerDefenseBuffModifier, DefenderTroopSize,DefenderWeaponModifier, DefenderFlatWeapon,DefenderFlatWeaponPhysical,DefenderSkillModifier,
-		                                          DefenderBattlefieldEffect,PeoplePerLine,DefenderCaptainAbility,DefenderisPhysical, DefenderBaseInt, AttackerCaptainIntelligence, DefenderCaptainIntelligence, DefenderMatkBuffModifier, AttackerMatkBuffModifier);
+
+		float CounterScaling = CounterAttackDamage(DefenderCounterAttackFromSkill,DefenderCounterAttackFromEquip);
+		int DamageOnAttackers = FinalDamage(DefenderBaseAttack,DefenderCaptainAttack,DefenderAttackBuffModifier, AttackerBaseDefense, AttackerCaptainDefense, AttackerDefenseBuffModifier, DefenderTroopSize,DefenderWeaponModifier, DefenderFlatWeapon,DefenderFlatWeaponPhysical,CounterScaling,
+		                                          DefenderBattlefieldEffect,PeoplePerLine,DefenderCaptainAbility,DefenderisPhysical, DefenderBaseInt, AttackerCaptainIntelligence, DefenderCaptainIntelligence, DefenderMatkBuffModifier, AttackerMdefBuffModifier);
 	
-		int DamageOnAttackers = CounterAttackDamage(FlatCounterAttackDamage, DefenderCounterAttackFromSkill,DefenderCounterAttackFromEquip);
+
 	
 		//deal with this
 		Defender.SetNumber(Defender.GetNumber()-DamageOnDefenders);
+		if (AttackerMaxRange<=DefenderMaxRange && AttackerMinRange>=DefenderMinRange)
 		Attacker.SetNumber(Attacker.GetNumber()-DamageOnAttackers);
+		Debug.Log("dmg:" +DamageOnDefenders);
+		Debug.Log("counter:" +DamageOnAttackers);
 
 	}
 
@@ -66,36 +75,45 @@ public class NewFightScript : MonoBehaviour {
 	                        int PeoplePerLine, float CptAbility, bool isPhysical, int BaseIntAtk, int IntCptDef, int IntCpt,float MatkBuffModifier,float MdefBuffModifier){
 		int AdjustedTroopSize = CalculateAdjustedTroopSize (TroopSize,PeoplePerLine,CptAbility);
 		int TroopDamage = 0;
+		Debug.Log("is physical:" +isPhysical);
 		if (isPhysical)
-		TroopDamage = (AdjustedTroopSize*(CalculateAttack(BaseAttack,CptAttack,AtkBuffModifier)-CalculateDefense(BaseDefense,CptDefense,DefBuffModifier)));
+		TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(BaseAttack,CptAttack,AtkBuffModifier)-(float)CalculateDefense(BaseDefense,CptDefense,DefBuffModifier))/10));
 		else if (!isPhysical)
-			TroopDamage = (AdjustedTroopSize*(CalculateMagicAttack(BaseIntAtk,IntCpt,MatkBuffModifier)-CalculateMagicDefense(IntCptDef,MdefBuffModifier)));
+			TroopDamage = Mathf.RoundToInt((AdjustedTroopSize*(((float)CalculateMagicAttack(BaseIntAtk,IntCpt,MatkBuffModifier)-(float)CalculateMagicDefense(IntCptDef,MdefBuffModifier))/10)));
+		Debug.Log("troop dmg"+TroopDamage);
 		if (TroopDamage> TroopSize)
 			TroopDamage = TroopSize;
+
 		int FlatWeaponValue = 0;
 		FlatWeaponValue = FlatWeapon*((isPhysical&&FlatWeaponPhysical||!isPhysical&&!FlatWeaponPhysical)?1:0);
+		Debug.Log("weap:" +WeaponModifier);
 		int Final = Mathf.RoundToInt(((TroopDamage*WeaponModifier+FlatWeaponValue)*SkillModifier)*BattlefieldEffect);
+
 		return Final;
 	}
 
 
-	static int CounterAttackDamage (int NormalDamage, int SkillBonus, int EquipBonus){
-		return Mathf.RoundToInt((30+SkillBonus+EquipBonus)*((float)NormalDamage/100));
+	static float CounterAttackDamage ( int SkillBonus, int EquipBonus){
+		return ((float)(30+SkillBonus+EquipBonus)/100);
 	}
 
 
 
 	static int CalculateAttack (int BaseAttack, int CptAttack, float BuffModifier){
-		return Mathf.RoundToInt(BaseAttack+CptAttack*(1+BuffModifier)*10);
+		int value = Mathf.RoundToInt(BaseAttack+CptAttack*(1+BuffModifier)*10);
+		Debug.Log("atk"+value);
+		return value;
 	}
 	static int CalculateDefense (int BaseDefense, int CptDefense, float BuffModifier){
-		return Mathf.RoundToInt(BaseDefense+CptDefense*(1+BuffModifier)*8);
+		int value = Mathf.RoundToInt(BaseDefense+CptDefense*(1+BuffModifier)*08f);
+		Debug.Log("def"+value);
+		return value;
 	}
 	static int CalculateMagicAttack (int BaseIntelligence, int CptIntelligence, float BuffModifier){
 		return Mathf.RoundToInt(BaseIntelligence+CptIntelligence*(1+BuffModifier)*10);
 	}
 	static int CalculateMagicDefense(int CptIntelligence,float BuffModifier){
-		return Mathf.RoundToInt(CptIntelligence*(1+BuffModifier)*7);
+		return Mathf.RoundToInt(CptIntelligence*(1+BuffModifier)*7f);
 	}
 
 
