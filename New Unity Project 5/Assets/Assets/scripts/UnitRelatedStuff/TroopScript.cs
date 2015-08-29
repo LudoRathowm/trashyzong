@@ -39,7 +39,7 @@ public class TroopScript : MonoBehaviour {
 	float MatkCounterBuff = 0;
 	float MdefBuff = 0;
 	float DefenseBuff = 0;
-
+	List<Skill> SkillsPossessed = new List<Skill>();
 	int baseAttack;
 	int baseDefence;
 	int baseHitPoints;
@@ -333,6 +333,10 @@ public class TroopScript : MonoBehaviour {
 		MdefBuff = value;
 	}
 
+	public void AddSkillToList (Skill _skill){
+		SkillsPossessed.Add(_skill);
+	}
+
 
 	//movement animation
 	public List<Vector3> positionQueue = new List<Vector3>();	
@@ -341,6 +345,8 @@ public class TroopScript : MonoBehaviour {
 	void Awake () {
 		moveDestination = transform.position;
 		previousWorldPosition = transform.position;
+		for (int i=0;i<myClass.GetCountBaseClassSkills();i++)
+			SkillsPossessed.Add(myClass.GetBaseClassSkills(i));
 	}
 	
 	
@@ -363,7 +369,28 @@ public class TroopScript : MonoBehaviour {
 			GameManager.instance.nextTurn();
 		}
 	}
-	
+
+	void UpgradeSkill (Skill SkillYouWant){
+		bool FoundIt = false;
+		if (SkillYouWant.PrerequisiteSkill != null){
+		Skill Prerequisite = Skill.FromListOfSkills(SkillYouWant.PrerequisiteSkill);
+
+		for (int i = 0;i<SkillsPossessed.Count;i++){
+			if (SkillsPossessed[i]==Prerequisite){
+				SkillsPossessed.Remove(SkillsPossessed[i]);
+				SkillsPossessed.Add(SkillYouWant);
+				FoundIt = true;
+				break;
+			}
+		}
+		 if (!FoundIt)
+		Debug.Log("YOU ARE MISSING THE PRE-REQUISITE SKILL: "+Prerequisite);
+			
+		}
+	else if (SkillYouWant.PrerequisiteSkill == null)
+			SkillsPossessed.Add(SkillYouWant);
+	}
+
 //	public virtual void TurnOnGUI () {
 //	}
 //

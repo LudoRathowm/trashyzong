@@ -49,8 +49,6 @@ public enum muhSkills{
 	Overtime2,
 	Depoison,
 	//KNIGHT
-	Carry,
-	CounterRange,
 	KnightAttack,
 	KnightAttack2,
 	KnightCharge,
@@ -74,6 +72,8 @@ public enum muhSkills{
 	SonicShuriken,
 	Assassinate, //hp and energy based all energy
 	//CAVALRY
+	Carry,
+	CounterRange,
 	MuhFlags, //battle rating up
 	MuhFlags2,
 	CavalryCharge,
@@ -114,8 +114,10 @@ public enum muhSkills{
 	MikoStorm,
 	MikoStorm2,
 	//MAGE
+	FrostDiver,
 	FireBlast,
 	Icewall,
+	StormGust,
 	EnchantWeapon,
 	WhiteDestructionBeam
 
@@ -137,6 +139,7 @@ public class Skill {
 	public bool CancelsPreparation = false;
 	public bool ReducesEnergy = false;
 	public 	bool CanCounter = true;
+	public bool Freezes = false;
 	public bool CancelsGuard = false;
 	public bool HalvesEnergy = false;
 	public bool GlobalPlayer = false;
@@ -147,10 +150,12 @@ public class Skill {
 	public int BattleGaugeEffect = 0;
 	public float BattleEffect = 0;
 	public int BattleTurns = 0;
+	public muhSkills PrerequisiteSkill;
 
 	public static Skill FromListOfSkills (muhSkills skilleados) {
 			Skill _skill = new Skill();
-	switch (skilleados) {
+	switch (skilleados)
+		{
 		case muhSkills.AccurateShots:
 		_skill = new Skill() {
 				EnergyCost = 1,
@@ -161,6 +166,7 @@ public class Skill {
 				ReducesEnergy = true,
 				SkillMinRange = 2,
 				SkillMaxRange = 5
+
 		
 			};
 			break;
@@ -176,7 +182,8 @@ public class Skill {
 		case muhSkills.AdvanceTime2:
 			_skill = new Skill() {
 				EnergyCost = 2,
-				SkillRecoveryTime = 30
+				SkillRecoveryTime = 30,
+				PrerequisiteSkill = muhSkills.AdvanceTime
 
 				
 				
@@ -196,7 +203,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 20,
-				SkillMaxRange = 2
+				SkillMaxRange = 2,
+				PrerequisiteSkill = muhSkills.AllGuard
 
 				
 				
@@ -214,8 +222,8 @@ public class Skill {
 		case muhSkills.AllyGuardPlus:
 			_skill = new Skill() {
 				EnergyCost = 1,
-				SkillRecoveryTime = 15
-				
+				SkillRecoveryTime = 15,
+				PrerequisiteSkill = muhSkills.AllyGuard
 				
 				
 			};
@@ -271,8 +279,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
-				BattleGaugeEffect = -10
-				
+				BattleGaugeEffect = -10,
+				PrerequisiteSkill = muhSkills.BattleRatingDown
 				
 			};
 			break;
@@ -288,7 +296,8 @@ public class Skill {
 		case muhSkills.BattleStrategy2:
 			_skill = new Skill() {
 				EnergyCost = 1,
-				SkillRecoveryTime = 15
+				SkillRecoveryTime = 15,
+				PrerequisiteSkill = muhSkills.BattleStrategy
 				
 				
 				
@@ -297,7 +306,8 @@ public class Skill {
 		case muhSkills.BattleStrategy3:
 			_skill = new Skill() {
 				EnergyCost = 1,
-				SkillRecoveryTime = 15
+				SkillRecoveryTime = 15,
+				PrerequisiteSkill = muhSkills.BattleStrategy2
 				
 				
 				
@@ -331,7 +341,8 @@ public class Skill {
 				SkillRecoveryTime = 10,
 				DamageScaling = 1.1f,
 				SkillMaxRange = 6,
-				SkillMinRange = 2
+				SkillMinRange = 2,
+				PrerequisiteSkill = muhSkills.BowAttack
 				
 			};
 			break;
@@ -395,7 +406,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
-				DamageScaling = 1.1f
+				DamageScaling = 1.1f,
+				PrerequisiteSkill = muhSkills.CavalryCharge,
 				
 				
 			};
@@ -435,8 +447,8 @@ public class Skill {
 		case muhSkills.ConvertAction2: //2 energy
 			_skill = new Skill() {
 				EnergyCost = 2,
-				SkillRecoveryTime = 2
-				
+				SkillRecoveryTime = 2,
+				PrerequisiteSkill = muhSkills.ConvertAction
 				
 				
 			};
@@ -465,7 +477,8 @@ public class Skill {
 				SkillRecoveryTime = 40,
 				DamageScaling = 3,
 				RequiresPreparation = true,
-				SkillMaxRange = 3
+				SkillMaxRange = 3,
+				PrerequisiteSkill = muhSkills.CrossbowAttack
 				
 				
 			};
@@ -532,7 +545,17 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 1.1f,
+				PrerequisiteSkill = muhSkills.FootSoldierAttack
 				
+			};
+			break;
+		case muhSkills.FrostDiver:
+			_skill = new Skill() {
+				EnergyCost = 1,
+				SkillRecoveryTime = 25,
+				DamageScaling = 0.3f,
+				isPhysical = false,
+				Freezes = true
 				
 			};
 			break;
@@ -550,7 +573,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 2.5f,
-				
+				PrerequisiteSkill = muhSkills.FullPowerCharge
 				
 			};
 			break;
@@ -569,7 +592,7 @@ public class Skill {
 				DepleteEnergy = true,
 				SkillRecoveryTime = 10,
 				DamageScaling = Random.Range ( 1f,3f),
-				
+				PrerequisiteSkill = muhSkills.GambleCharge
 				
 			};
 			break;
@@ -607,7 +630,7 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
 				GlobalPlayer = true,
-				
+
 				
 			};
 			break;
@@ -635,7 +658,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 1.1f,
-				
+				PrerequisiteSkill = muhSkills.KnightAttack
 				
 			};
 			break;
@@ -692,7 +715,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
-				SkillMaxRange = 2
+				SkillMaxRange = 2,
+				PrerequisiteSkill = muhSkills.MagicGuard
 				
 				
 			};
@@ -720,7 +744,7 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = -1,
 				SkillRecoveryTime = 10,
-				
+				PrerequisiteSkill = muhSkills.Meditate
 				
 				
 			};
@@ -739,7 +763,8 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
 				HealScaling = 2,
-				SkillMaxRange = 3
+				SkillMaxRange = 3,
+				PrerequisiteSkill = muhSkills.MikoDance
 				
 			};
 			break;
@@ -748,7 +773,8 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
 				HealScaling = 2,				
-				SkillMaxRange = 2
+				SkillMaxRange = 2,
+				PrerequisiteSkill = muhSkills.MikoDancePlus
 			};
 			break;
 		case muhSkills.MikoStorm:
@@ -769,7 +795,7 @@ public class Skill {
 				SkillRecoveryTime = 10,
 				FullHPPercentDamage = 20,
 				GlobalEnemy = true,
-				
+				PrerequisiteSkill = muhSkills.MikoStorm
 				
 			};
 			break;
@@ -789,7 +815,7 @@ public class Skill {
 				SkillRecoveryTime = 20,
 				DamageScaling = 1.2f,
 				//add auto buff removal
-				
+				PrerequisiteSkill = muhSkills.MonkCharge
 				
 			};
 			break;
@@ -807,7 +833,7 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 15,
 				BattleEffect = 15,
-				
+				PrerequisiteSkill = muhSkills.MuhFlags
 				
 			};
 			break;
@@ -835,7 +861,7 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
 				BattleTurns = 6,
-				
+				PrerequisiteSkill = muhSkills.Overtime
 				
 			};
 			break;
@@ -858,8 +884,8 @@ public class Skill {
 				DamageScaling = 0.7f,
 				Penetrating = true,
 				SkillMaxRange = 5,
-				SkillMinRange = 2
-				
+				SkillMinRange = 2,
+				PrerequisiteSkill = muhSkills.PenetrationShoot
 				
 			};
 			break;
@@ -912,7 +938,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 25,
-				SkillMaxRange = 2
+				SkillMaxRange = 2,
+				PrerequisiteSkill = muhSkills.RemoveBuffs
 				
 				
 			};
@@ -921,7 +948,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 20,
-				SkillMaxRange = 4
+				SkillMaxRange = 4,
+				PrerequisiteSkill = muhSkills.RemoveBuffs
 				
 				
 			};
@@ -957,7 +985,8 @@ public class Skill {
 				DamageScaling = 2.5f,
 				isPhysical = false,
 				RequiresPreparation = true,
-				SkillMaxRange = 5
+				SkillMaxRange = 5,
+				PrerequisiteSkill = muhSkills.Shikigami
 				
 			};
 			break;
@@ -996,7 +1025,8 @@ public class Skill {
 				SkillRecoveryTime = 15,
 				CancelsPreparation = true,
 				DamageScaling = 1f,
-				SkillMaxRange = 3
+				SkillMaxRange = 3,
+				PrerequisiteSkill = muhSkills.Shuriken
 				
 			};
 			break;
@@ -1017,7 +1047,20 @@ public class Skill {
 				DamageScaling = 1f,
 				CancelsPreparation = true,
 				SkillMaxRange = 3
+
 				
+			};
+			break;
+		case muhSkills.StormGust:
+			_skill = new Skill() {
+				EnergyCost = 3,
+				SkillRecoveryTime = 30,
+				DamageScaling = 2.5f,
+				SkillMaxRange = 6,
+				SkillMinRange = 2,
+				RequiresPreparation = true,
+				isPhysical= false,
+				Freezes = true				
 			};
 			break;
 		case muhSkills.StrongBowAttack:
@@ -1046,6 +1089,7 @@ public class Skill {
 				EnergyCost = 3,
 				SkillRecoveryTime = 15,
 				DamageScaling = 3,
+				PrerequisiteSkill = muhSkills.StrongFootAttack
 				
 				
 				
@@ -1087,7 +1131,7 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 20,
 				HealScaling = 8,
-				
+				PrerequisiteSkill = muhSkills.TenshiDivineTrash
 				
 				
 			};
@@ -1118,6 +1162,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 1.2f,
+				PrerequisiteSkill = muhSkills.WarriorAttack
 				
 				
 			};
@@ -1135,15 +1180,8 @@ public class Skill {
 			};
 			break;
 
-
-
-
-
-		
-
-
-
-		} return _skill;
+		} 
+		return _skill;
 	}
 
 

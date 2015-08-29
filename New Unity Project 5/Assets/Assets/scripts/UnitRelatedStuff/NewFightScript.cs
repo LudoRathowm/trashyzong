@@ -14,7 +14,7 @@ public class NewFightScript {
 		int DamageOnAtk = 0;
 		int DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
 		if (CanCounter(Attacker,Defender,SkillUsed)){
-			bool CounterPhysically = Defender.GetClass().GetIfItsPhysical();
+
 		float CounterScaling = CounterAttackDamage(Defender.GetChief().GetCounterAttack(),Defender.GetArmor().CounterAttackValue+Defender.GetWeapon().CounterAttackValue);
 			DamageOnAtk = CalculateCounterDamage(Defender,Attacker,CounterScaling,DefenderBattlefieldEffect);
          
@@ -53,7 +53,7 @@ public class NewFightScript {
 	}
 
 	public static void MikoStorm (TroopScript Caster,List<TroopScript> listofPlayers,int MikoScaling){
-		int Faction = Caster.Faction;
+
 		for (int i = 0;i<listofPlayers.Count;i++)
 			if (listofPlayers[i].Faction != Caster.Faction)
 				listofPlayers[i].SetNumber(listofPlayers[i].GetNumber()-Mathf.RoundToInt(((float)listofPlayers[i].GetmaxNumber()/100)*MikoScaling));
@@ -257,7 +257,7 @@ public class NewFightScript {
 		int max = Defender.GetCounterMaxRange();
 		int min = Defender.GetCounterMinRange();
 		float value = Mathf.Abs(AttackerPosition.x-DefenderPosition.x)+Mathf.Abs(AttackerPosition.y-DefenderPosition.y);
-		if (value > min && value < max)
+		if (value > min && value < max && SkillAllows)
 			ret = true;
 			//yadda yadda check distance and skills
 			return ret;
