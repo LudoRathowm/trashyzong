@@ -1,96 +1,125 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class NewFightScript : MonoBehaviour {
-
-
-	public static void ActualFightingScript (TroopScript Attacker, TroopScript Defender, Tile muhTerrain, float SkillModifier){
-		float AttackerBattlefieldEffect = 1; //still to impement
-		float DefenderBattlefieldEffect = 1; //still to impement
-		int PeoplePerLine = muhTerrain.frontLiners;
-		int AttackerBaseAttack = Attacker.GetClass().GetAttack();
-		int AttackerCaptainAttack = Attacker.GetChief().GetAttack();
-		int AttackerBaseDefense = Attacker.GetClass().GetDefense();
-		int AttackerCaptainDefense = Attacker.GetChief().GetDefense();
-		int AttackerAttackBuffModifier =  0; //still need to implement buffs ALSO NEED TO DIFFERENCIATE BETWEEN ATTACK AND COUNTER ATTACK REMEMBER
-		int AttackerDefenseBuffModifier = 0; //still need to implement buffs
-		int AttackerTroopSize = Attacker.GetNumber();
-		float AttackerWeaponModifier = Attacker.GetWeapon().AttackModifier; //there is no weapon with atk modifiers for now;
-		int AttackerFlatWeapon = Attacker.GetWeapon().Attack;
-		bool AttackerFlatWeaponPhysical = Attacker.GetWeapon().physical;
-		float AttackerSkillModifier = SkillModifier;
-		float AttackerCaptainAbility = Attacker.GetChief().GetMuhReturns();
-		bool AttackerisPhysical = Attacker.GetClass().GetIfItsPhysical();
-		int AttackerBaseInt = Attacker.GetClass().GetIntelligence();
-		int AttackerCaptainIntelligence = Attacker.GetChief().GetIntelligence();
-		float AttackerMatkBuffModifier = 0; //stillneedtoimplementbuffs
-		float AttackerMdefBuffModifier = 0; //^
-		int AttackerMaxRange = Attacker.GetMaxRange();
-		int AttackerMinRange = Attacker.GetMinRange();
-		int DefenderBaseAttack = Defender.GetClass().GetAttack();
-		int DefenderCaptainAttack = Defender.GetChief().GetAttack();
-		int DefenderBaseDefense = Defender.GetClass().GetDefense();
-		int DefenderCaptainDefense = Defender.GetChief().GetDefense();
-		int DefenderAttackBuffModifier =  0; //still need to implement buffs
-		int DefenderDefenseBuffModifier = 0; //still need to implement buffs
-		int DefenderTroopSize = Defender.GetNumber();
-		float DefenderWeaponModifier = Defender.GetWeapon().AttackModifier; //there is no weapon with atk modifiers for now;
-		int DefenderFlatWeapon = Defender.GetWeapon().Attack;
-		bool DefenderFlatWeaponPhysical = Defender.GetWeapon().physical;
-
-		float DefenderCaptainAbility = Defender.GetChief().GetMuhReturns();
-		bool DefenderisPhysical = Defender.GetClass().GetIfItsPhysical();
-		int DefenderBaseInt = Defender.GetClass().GetIntelligence();
-		int DefenderCaptainIntelligence = Defender.GetChief().GetIntelligence();
-		int DefenderCounterAttackFromSkill = Defender.GetChief().GetCounterAttack();
-		int DefenderCounterAttackFromEquip = Defender.GetWeapon().CounterAttackValue + Defender.GetArmor().CounterAttackValue;
-		float DefenderMatkBuffModifier = 0; //stillneedtoimplementbuffs
-		float DefenderMdefBuffModifier = 0; //^
-		int DefenderMaxRange = Defender.GetMaxRange();
-		int DefenderMinRange = Defender.GetMinRange();
+using System.Collections.Generic;
+using System.Linq;
 
 
-		int DamageOnDefenders = FinalDamage(AttackerBaseAttack,AttackerCaptainAttack,AttackerAttackBuffModifier,DefenderBaseDefense,DefenderCaptainDefense,DefenderDefenseBuffModifier,AttackerTroopSize, AttackerWeaponModifier,AttackerFlatWeapon,AttackerFlatWeaponPhysical, AttackerSkillModifier,
-		                                    AttackerBattlefieldEffect,PeoplePerLine,AttackerCaptainAbility,AttackerisPhysical,AttackerBaseInt, DefenderCaptainIntelligence, AttackerCaptainIntelligence, AttackerMatkBuffModifier, DefenderMdefBuffModifier);
+public class NewFightScript {
 
-		float CounterScaling = CounterAttackDamage(DefenderCounterAttackFromSkill,DefenderCounterAttackFromEquip);
-		int DamageOnAttackers = FinalDamage(DefenderBaseAttack,DefenderCaptainAttack,DefenderAttackBuffModifier, AttackerBaseDefense, AttackerCaptainDefense, AttackerDefenseBuffModifier, DefenderTroopSize,DefenderWeaponModifier, DefenderFlatWeapon,DefenderFlatWeaponPhysical,CounterScaling,
-		                                          DefenderBattlefieldEffect,PeoplePerLine,DefenderCaptainAbility,DefenderisPhysical, DefenderBaseInt, AttackerCaptainIntelligence, DefenderCaptainIntelligence, DefenderMatkBuffModifier, AttackerMdefBuffModifier);
-	
 
+	public static void MeleeFightingScript (TroopScript Attacker, TroopScript Defender, Skill SkillUsed){
+		int AttackerBattlefieldEffect = 1; //still to impement
+		int DefenderBattlefieldEffect = 1; //still to impement
+
+		int DamageOnAtk = 0;
+		int DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
+		if (CanCounter(Attacker,Defender,SkillUsed)){
+			bool CounterPhysically = Defender.GetClass().GetIfItsPhysical();
+		float CounterScaling = CounterAttackDamage(Defender.GetChief().GetCounterAttack(),Defender.GetArmor().CounterAttackValue+Defender.GetWeapon().CounterAttackValue);
+			DamageOnAtk = CalculateCounterDamage(Defender,Attacker,CounterScaling,DefenderBattlefieldEffect);
+         
+		}
 	
 		//deal with this
-		Defender.SetNumber(Defender.GetNumber()-DamageOnDefenders);
-		if (AttackerMaxRange<=DefenderMaxRange && AttackerMinRange>=DefenderMinRange)
-		Attacker.SetNumber(Attacker.GetNumber()-DamageOnAttackers);
-		Debug.Log("dmg:" +DamageOnDefenders);
-		Debug.Log("counter:" +DamageOnAttackers);
+		Defender.SetNumber(Defender.GetNumber()-DamageOnDef);
+		Attacker.SetNumber(Attacker.GetNumber()-DamageOnAtk);
+		Debug.Log("dmg:" +DamageOnDef);
+		Debug.Log("counter:" +DamageOnAtk);
 
 	}
 
+	public static void HealingTarget (TroopScript Healer, TroopScript Healed, float SkillModifier){
+		int PeoplePerLine = ReturnPeoplePerLine(Healer);
+		int TroopSize = CalculateAdjustedTroopSize(Healer.GetNumber(),PeoplePerLine,Healer.GetChief().GetMuhReturns());
+		int Healing = HealAmount(TroopSize,Healer.GetChief().GetIntelligence(),SkillModifier,0); //NEED BUFF MODIFIERS FUGG
+		Healed.SetNumber(Healed.GetNumber()+Healing);
+		if (Healed.GetNumber()>Healed.GetmaxNumber())
+			Healed.SetNumber(Healed.GetmaxNumber());
+	}
 
-	 //atkbuffmodifier needs a method. first you need to check your ATKONLY COUNTERONLY buffs and then decide the final modifier
-	    static int FinalDamage (int BaseAttack, int CptAttack, int AtkBuffModifier, int BaseDefense, int CptDefense, int DefBuffModifier,
-	                        int TroopSize, float WeaponModifier, int FlatWeapon, bool FlatWeaponPhysical, float SkillModifier, float BattlefieldEffect, 
-	                        int PeoplePerLine, float CptAbility, bool isPhysical, int BaseIntAtk, int IntCptDef, int IntCpt,float MatkBuffModifier,float MdefBuffModifier){
-		int AdjustedTroopSize = CalculateAdjustedTroopSize (TroopSize,PeoplePerLine,CptAbility);
+	public static void MonkSelfHeal (TroopScript Monk, float SkillModifier){
+		int TroopSize = CalculateAdjustedTroopSize(Monk.GetNumber(),ReturnPeoplePerLine(Monk),Monk.GetChief().GetMuhReturns());
+		int Heal = HealAmount (TroopSize,Monk.GetChief().GetIntelligence(),SkillModifier,0); //MUH BUFFEADOS
+		Monk.SetNumber(Monk.GetNumber()+Heal);
+		if (Monk.GetNumber()>Monk.GetmaxNumber())
+		Monk.SetNumber(Monk.GetmaxNumber());
+	}
+
+	public static void Assassinate (TroopScript Assassin, TroopScript Victim){
+		int AssassinChance = Mathf.RoundToInt(((float)Assassin.GetEnergy()/(float)Assassin.GetMaxEnergy())*900+((float)Assassin.GetNumber()/(float)Assassin.GetmaxNumber())*100);
+		int VictimChance = Mathf.RoundToInt(((float)Victim.GetEnergy()/(float)Victim.GetMaxEnergy())*100+((float)Victim.GetNumber()/(float)Victim.GetmaxNumber())*900);
+		if (AssassinChance>VictimChance && Victim.boss == false)
+			Victim.SetNumber(0);
+	}
+
+	public static void MikoStorm (TroopScript Caster,List<TroopScript> listofPlayers,int MikoScaling){
+		int Faction = Caster.Faction;
+		for (int i = 0;i<listofPlayers.Count;i++)
+			if (listofPlayers[i].Faction != Caster.Faction)
+				listofPlayers[i].SetNumber(listofPlayers[i].GetNumber()-Mathf.RoundToInt(((float)listofPlayers[i].GetmaxNumber()/100)*MikoScaling));
+			}
+
+
+	static int CalculateDamage (TroopScript Attacker, TroopScript Defender, Skill Skillused, int BattlefieldEffect){
+		TroopScript thisGuysTerrain;
 		int TroopDamage = 0;
-		Debug.Log("is physical:" +isPhysical);
+		if (Skillused.SkillMaxRange > 1)
+			thisGuysTerrain = Attacker;
+		else thisGuysTerrain = Defender;
+		int	AdjustedTroopSize= CalculateAdjustedTroopSize ( Attacker.GetNumber(),ReturnPeoplePerLine(thisGuysTerrain),Attacker.GetChief().GetMuhReturns());
+		bool isPhysical = Skillused.isPhysical;
 		if (isPhysical)
-		TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(BaseAttack,CptAttack,AtkBuffModifier)-(float)CalculateDefense(BaseDefense,CptDefense,DefBuffModifier))/10));
-		else if (!isPhysical)
-			TroopDamage = Mathf.RoundToInt((AdjustedTroopSize*(((float)CalculateMagicAttack(BaseIntAtk,IntCpt,MatkBuffModifier)-(float)CalculateMagicDefense(IntCptDef,MdefBuffModifier))/10)));
-		Debug.Log("troop dmg"+TroopDamage);
-		if (TroopDamage> TroopSize)
-			TroopDamage = TroopSize;
-
-		int FlatWeaponValue = 0;
-		FlatWeaponValue = FlatWeapon*((isPhysical&&FlatWeaponPhysical||!isPhysical&&!FlatWeaponPhysical)?1:0);
-		Debug.Log("weap:" +WeaponModifier);
-		int Final = Mathf.RoundToInt(((TroopDamage*WeaponModifier+FlatWeaponValue)*SkillModifier)*BattlefieldEffect);
-
+		TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff()))/15));
+		else 
+		TroopDamage = Mathf.RoundToInt((AdjustedTroopSize*(((float)CalculateMagicAttack(Attacker.GetClass().GetIntelligence(),Attacker.GetChief().GetIntelligence(),Attacker.GetDirectMatkBuff())-(float)CalculateMagicDefense(Defender.GetChief().GetIntelligence(),Defender.GetMdefBuff()))/15)));
+		if (TroopDamage>Attacker.GetNumber())
+			TroopDamage = Attacker.GetNumber();
+		int flatWeaponValue = Attacker.GetWeapon().Attack*((isPhysical&&Attacker.GetWeapon().physical||!Attacker.GetWeapon().physical&&!isPhysical)?1:0);
+		int Final = Mathf.RoundToInt(((TroopDamage*Attacker.GetWeapon().AttackModifier+flatWeaponValue)*Skillused.DamageScaling)*BattlefieldEffect);
 		return Final;
 	}
+
+	static int CalculateCounterDamage (TroopScript Attacker, TroopScript Defender, float CounterAtkScale,  int BattlefieldEffect){
+
+		int	AdjustedTroopSize= CalculateAdjustedTroopSize ( Attacker.GetNumber(),ReturnPeoplePerLine(Attacker),Attacker.GetChief().GetMuhReturns());
+		int TroopDamage = 0;
+		if (Attacker.GetClass().GetIfItsPhysical())
+			TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetCounterAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff()))/15));
+		else 
+			TroopDamage = Mathf.RoundToInt((AdjustedTroopSize*(((float)CalculateMagicAttack(Attacker.GetClass().GetIntelligence(),Attacker.GetChief().GetIntelligence(),Attacker.GetCounterMatkBuff())-(float)CalculateMagicDefense(Defender.GetChief().GetIntelligence(),Defender.GetMdefBuff()))/15)));
+		if (TroopDamage>Attacker.GetNumber())
+			TroopDamage = Attacker.GetNumber();
+		int flatWeaponValue = Attacker.GetWeapon().Attack*((Attacker.GetClass().GetIfItsPhysical()&&Attacker.GetWeapon().physical||!Attacker.GetWeapon().physical&&!Attacker.GetClass().GetIfItsPhysical())?1:0);
+		int Final = Mathf.RoundToInt(((TroopDamage*Attacker.GetWeapon().AttackModifier+flatWeaponValue)*CounterAtkScale)*BattlefieldEffect);
+		return Final;
+	}
+
+
+
+
+
+//	 //atkbuffmodifier needs a method. first you need to check your ATKONLY COUNTERONLY buffs and then decide the final modifier
+//	    static int FinalDamage (int BaseAttack, int CptAttack, int AtkBuffModifier, int BaseDefense, int CptDefense, int DefBuffModifier,
+//	                        int TroopSize, float WeaponModifier, int FlatWeapon, bool FlatWeaponPhysical, float SkillModifier, float BattlefieldEffect, 
+//	                        int PeoplePerLine, float CptAbility, bool isPhysical, int BaseIntAtk, int IntCptDef, int IntCpt,float MatkBuffModifier,float MdefBuffModifier){
+//		int AdjustedTroopSize = CalculateAdjustedTroopSize (TroopSize,PeoplePerLine,CptAbility);
+//		int TroopDamage = 0;
+//		Debug.Log("is physical:" +isPhysical);
+//		if (isPhysical)
+//		TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(BaseAttack,CptAttack,AtkBuffModifier)-(float)CalculateDefense(BaseDefense,CptDefense,DefBuffModifier))/15));
+//		else if (!isPhysical)
+//			TroopDamage = Mathf.RoundToInt((AdjustedTroopSize*(((float)CalculateMagicAttack(BaseIntAtk,IntCpt,MatkBuffModifier)-(float)CalculateMagicDefense(IntCptDef,MdefBuffModifier))/15)));
+//		Debug.Log("troop dmg"+TroopDamage);
+//		if (TroopDamage> TroopSize)
+//			TroopDamage = TroopSize;
+//
+//		int FlatWeaponValue = 0;
+//		FlatWeaponValue = FlatWeapon*((isPhysical&&FlatWeaponPhysical||!isPhysical&&!FlatWeaponPhysical)?1:0);
+//		Debug.Log("weap:" +WeaponModifier);
+//		int Final = Mathf.RoundToInt(((TroopDamage*WeaponModifier+FlatWeaponValue)*SkillModifier)*BattlefieldEffect);
+//
+//		return Final;
+//	}
 
 
 	static float CounterAttackDamage ( int SkillBonus, int EquipBonus){
@@ -197,16 +226,42 @@ public class NewFightScript : MonoBehaviour {
 		return bonusdefence;
 	}
 	
-	static	bool isThisMelee (TroopScript player){
-		int range = player.GetMaxRange();
-		bool ranged = true;
-		if (range>1)
-			ranged = false;
-		else if (range==1)
-			ranged = true;
-		return ranged;
+//	static	bool isThisMelee (TroopScript player){
+//		int range = player.GetMaxRange();
+//		bool ranged = true;
+//		if (range>1)
+//			ranged = false;
+//		else if (range==1)
+//			ranged = true;
+//		return ranged;
+//	}
+
+	static int HealAmount (int AdjustedTroopSize, int Intelligence, float SkillModifier, float buffmodifier){
+		int Heal = Mathf.RoundToInt(AdjustedTroopSize * ((float)Intelligence * 3)/15* SkillModifier * (1 + buffmodifier));
+		return Heal;
 	}
 
+	static int ReturnPeoplePerLine (TroopScript Unit){
+		int x = Mathf.RoundToInt(Unit.gridPosition.x);
+		int y = Mathf.RoundToInt(Unit.gridPosition.y);
+		Tile _terrain = GameManager.instance.map[x][y];
+		int PeoplePerLine = _terrain.frontLiners;
+		return PeoplePerLine;
+	}
+
+		static bool CanCounter(TroopScript Attacker, TroopScript Defender, Skill SkillUsedToAttack){
+			bool ret = false;
+		bool SkillAllows = SkillUsedToAttack.CanCounter;
+		Vector2 AttackerPosition = Attacker.gridPosition;
+		Vector2 DefenderPosition = Defender.gridPosition;
+		int max = Defender.GetCounterMaxRange();
+		int min = Defender.GetCounterMinRange();
+		float value = Mathf.Abs(AttackerPosition.x-DefenderPosition.x)+Mathf.Abs(AttackerPosition.y-DefenderPosition.y);
+		if (value > min && value < max)
+			ret = true;
+			//yadda yadda check distance and skills
+			return ret;
+		}
 
 
 

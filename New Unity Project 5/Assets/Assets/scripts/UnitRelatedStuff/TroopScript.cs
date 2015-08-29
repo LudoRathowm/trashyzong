@@ -31,7 +31,14 @@ public enum ArmorType {
 public class TroopScript : MonoBehaviour {
 
 	Chief Leader;
-
+	float AttackTotalBuff = 0;
+	float AttackDirectBuff = 0;
+	float AttackCounterBuff = 0;
+	float MatkTotalBuff = 0;
+	float MatkDirectBuff = 0;
+	float MatkCounterBuff = 0;
+	float MdefBuff = 0;
+	float DefenseBuff = 0;
 
 	int baseAttack;
 	int baseDefence;
@@ -40,9 +47,10 @@ public class TroopScript : MonoBehaviour {
 	int People;
 	int maxPeople;
 	int baseMovement = 10;
-	int baseAttackRange = 0;
+	int baseCounterAttackRange = 0;
 	int baseTurnSpeed = 1;
 	int Energy;
+	int MaxEnergy;
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
 	Classes myClass;
@@ -56,12 +64,13 @@ public class TroopScript : MonoBehaviour {
 	bool chargedWeapon = false; //for crossbows
 	bool isPhalanxing = false; //for AI and pathfinding
 	public int actionPoints = 2;
+	public bool boss = false;
 	public Vector2 previousGridPosition = Vector2.zero;
 	public Vector2 gridPosition = Vector2.zero;
 	public Vector3 previousWorldPosition;
 	public Vector3 moveDestination;
 	public float moveSpeed = 10.0f;
-	
+	public int Faction; //0 player 1 opponent 2 third faction
 	public bool moving = false;
 	public bool attacking = false;
 
@@ -162,11 +171,11 @@ public class TroopScript : MonoBehaviour {
 	public int GetMovement(){
 		return Mathf.RoundToInt(baseMovement*WeaponAdopted.movModifier*ArmorAdopted.movModifier);
 	}
-	public int GetMaxRange(){
-		return baseAttackRange+WeaponAdopted.maxRange;
+	public int GetCounterMaxRange(){
+		return baseCounterAttackRange+WeaponAdopted.maxRange;
 	}
-	public int GetMinRange(){
-		return baseAttackRange+WeaponAdopted.minRange;
+	public int GetCounterMinRange(){
+		return baseCounterAttackRange+WeaponAdopted.minRange;
 	}
 
 	public bool GetCharge(){
@@ -189,6 +198,33 @@ public class TroopScript : MonoBehaviour {
 		return Energy;
 	}
 
+	public int GetMaxEnergy(){
+		return MaxEnergy;
+	}
+
+	public float GetDirectAttackBuff (){
+		return AttackDirectBuff+AttackTotalBuff;
+	}
+
+	public float GetCounterAttackBuff (){
+		return AttackCounterBuff + AttackTotalBuff;
+	}
+
+	public float GetDirectMatkBuff(){
+		return MatkTotalBuff + MatkDirectBuff;
+	}
+
+	public float GetCounterMatkBuff(){
+		return MatkTotalBuff + MatkCounterBuff;
+	}
+
+	public float GetDefenseBuff (){
+		return DefenseBuff;
+	}
+
+	public float GetMdefBuff (){
+		return MdefBuff;
+	}
 
 		    //======================================
 		    //             SETTERS
@@ -243,7 +279,7 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public void SetBaseRange (int range){
-		baseAttackRange = range;
+		baseCounterAttackRange = range;
 	}
 
 	public void SetCharge (bool charge){
@@ -265,6 +301,38 @@ public class TroopScript : MonoBehaviour {
 	public void SetEnergy(int energy){
 		Energy = energy;
 	}
+
+	public void SetMaxEnergy(int menergy){
+		MaxEnergy = menergy;
+	}
+
+	public void SetDirectAttackBuff (float value){
+		AttackDirectBuff = value;
+	}
+	public void SetTotalAttackBuff (float value){
+		AttackTotalBuff = value;
+	}
+	public void SetCounterAttackBuff (float value){
+		AttackCounterBuff = value;
+	}
+
+	public void SetDirectMatkBuff (float value){
+		MatkDirectBuff = value;
+	}
+	public void SetTotalMatkBuff (float value){
+		MatkTotalBuff = value;
+	}
+	public void SetCounterMatkBuff (float value){
+		MatkCounterBuff = value;
+	}
+	public void SetDefenseBuff (float value){
+		DefenseBuff = value;
+	}
+
+	public void SetMdefBuff ( float value){
+		MdefBuff = value;
+	}
+
 
 	//movement animation
 	public List<Vector3> positionQueue = new List<Vector3>();	

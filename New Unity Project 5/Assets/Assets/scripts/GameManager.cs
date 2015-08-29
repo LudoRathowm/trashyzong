@@ -39,6 +39,7 @@ public	int PlayerTurnIndex = 0;
 
 		generateMap();
 		generatePlayers();
+	
 		while (playerTurns.Count<10)
 		DecideNextTurn();
 	}
@@ -46,7 +47,10 @@ public	int PlayerTurnIndex = 0;
 	// Update is called once per frame
 	void Update () {
 	//	GiveInformationOnPlayer();
-
+//		float value = Mathf.Abs(players[0].gridPosition.x-players[1].gridPosition.x)+Mathf.Abs(players[0].gridPosition.y-players[1].gridPosition.y);
+//		if (value > 1 && value < 5)
+//
+//		Debug.Log("the distance between "+ players[0].GetName()+" and "+players[1].GetName()+" is "+value+ " ");
 
 		if (playerTurns[PlayerTurnIndex].GetNumber() > 0) playerTurns[PlayerTurnIndex].TurnUpdate();
 		else nextTurn();
@@ -134,10 +138,8 @@ public	int PlayerTurnIndex = 0;
 
 			//	TroopScript TroopOne = players[currentPlayerIndex].thisTroop;
 			//	TroopScript TroopTwo = target.thisTroop;
-				int i = Mathf.RoundToInt(target.gridPosition.x);
-				int j = Mathf.RoundToInt(target.gridPosition.y);
-			    Tile _terrain = map[i][j];
-				NewFightScript.ActualFightingScript(playerTurns[PlayerTurnIndex],target,_terrain,1);
+				//melee
+		//		NewFightScript.MeleeFightingScript(playerTurns[PlayerTurnIndex],target,1);
 			//	UnitInteraction.InteractionMain(playerTurns[PlayerTurnIndex],target,_terrain);
 
 				//attack logic

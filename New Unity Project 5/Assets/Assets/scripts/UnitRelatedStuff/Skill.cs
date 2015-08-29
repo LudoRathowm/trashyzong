@@ -117,33 +117,36 @@ public enum muhSkills{
 	FireBlast,
 	Icewall,
 	EnchantWeapon,
-	WhiteDestructionBean
+	WhiteDestructionBeam
+
 }
 
 
 public class Skill {
-	int EnergyCost;
-	bool DepleteEnergy = false;
-	int SkillRecoveryTime;
-	float DamageScaling = 0;
-	float FullHPPercentDamage = 0;
-	float HealScaling = 0;
-	bool Penetrating = false;
-	bool PiercesDefence = false;
-	bool RequiresPreparation = false;
-	bool CancelsPreparation = false;
-	bool ReducesEnergy = false;
-	bool CanCounter = true;
-	bool CancelsGuard = false;
-	bool HalvesEnergy = false;
-	bool GlobalPlayer = false;
-	bool GlobalEnemy = false;
-	bool isPhysical = true;
-	bool AppliesPoison = false;
-	bool RemovesPoison = false;
-	int BattleGaugeEffect = 0;
-	float BattleEffect = 0;
-	int BattleTurns = 0;
+	public int EnergyCost;
+	public bool DepleteEnergy = false;
+	public int SkillRecoveryTime;
+	public int SkillMaxRange = 1;
+	public int SkillMinRange = 0;
+	public float DamageScaling = 0;
+	public float FullHPPercentDamage = 0;
+	public float HealScaling = 0;
+	public bool Penetrating = false;
+	public bool PiercesDefence = false;
+	public bool RequiresPreparation = false;
+	public bool CancelsPreparation = false;
+	public bool ReducesEnergy = false;
+	public 	bool CanCounter = true;
+	public bool CancelsGuard = false;
+	public bool HalvesEnergy = false;
+	public bool GlobalPlayer = false;
+	public bool GlobalEnemy = false;
+	public bool isPhysical = true;
+	public bool AppliesPoison = false;
+	public bool RemovesPoison = false;
+	public int BattleGaugeEffect = 0;
+	public float BattleEffect = 0;
+	public int BattleTurns = 0;
 
 	public static Skill FromListOfSkills (muhSkills skilleados) {
 			Skill _skill = new Skill();
@@ -155,7 +158,9 @@ public class Skill {
 				SkillRecoveryTime = 25,
 				DamageScaling = 5, //5 for 1 tile, 5/9 for a 3x3 area, etc..
 				CancelsPreparation = true,
-				ReducesEnergy = true
+				ReducesEnergy = true,
+				SkillMinRange = 2,
+				SkillMaxRange = 5
 		
 			};
 			break;
@@ -182,14 +187,16 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 25,
 				DamageScaling = 1.5f,
-				Penetrating = true
+				Penetrating = true,
+				SkillMaxRange = 4
 				
 			};
 			break;
 		case muhSkills.AllGuard:
 			_skill = new Skill() {
 				EnergyCost = 2,
-				SkillRecoveryTime = 20
+				SkillRecoveryTime = 20,
+				SkillMaxRange = 2
 
 				
 				
@@ -199,7 +206,7 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15
-				
+
 				
 				
 			};
@@ -300,8 +307,9 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
-				DamageScaling = 1
-				
+				DamageScaling = 1,
+				SkillMaxRange = 6,
+				SkillMinRange = 2
 				
 				
 			};
@@ -310,7 +318,9 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
-				DamageScaling = 1
+				DamageScaling = 0.8f,
+				SkillMaxRange = 5,
+				SkillMinRange = 2
 				
 				
 			};
@@ -319,8 +329,9 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
-				DamageScaling = 1.1f
-				
+				DamageScaling = 1.1f,
+				SkillMaxRange = 6,
+				SkillMinRange = 2
 				
 			};
 			break;
@@ -328,8 +339,9 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 30,
-				DamageScaling = 1
-				
+				DamageScaling = 1,
+				SkillMaxRange = 3
+
 				
 			};
 			break;
@@ -394,7 +406,8 @@ public class Skill {
 				SkillRecoveryTime = 10,
 				DamageScaling = 0.9f,
 				Penetrating = true,
-				CancelsPreparation = true
+				CancelsPreparation = true,
+				SkillMaxRange = 3
 				
 				
 			};
@@ -440,7 +453,8 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 40,
 				DamageScaling = 2,
-				RequiresPreparation = true
+				RequiresPreparation = true,
+				SkillMaxRange= 3
 				
 				
 			};
@@ -450,7 +464,8 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 40,
 				DamageScaling = 3,
-				RequiresPreparation = true
+				RequiresPreparation = true,
+				SkillMaxRange = 3
 				
 				
 			};
@@ -489,7 +504,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 30,
 				DamageScaling = 1.2f,
-				
+				SkillMaxRange = 4,
 				
 			};
 			break;
@@ -600,6 +615,7 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
+				SkillMaxRange = 4
 				
 				
 				
@@ -648,7 +664,7 @@ public class Skill {
 				SkillRecoveryTime = 10,
 				isPhysical = false,
 				DamageScaling = 3,
-				
+				SkillMaxRange = 3
 				
 				
 			};
@@ -676,7 +692,7 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
-				
+				SkillMaxRange = 2
 				
 				
 			};
@@ -714,7 +730,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
 				HealScaling = 1,
-				
+				SkillMaxRange = 2
 				
 			};
 			break;
@@ -723,7 +739,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
 				HealScaling = 2,
-				
+				SkillMaxRange = 3
 				
 			};
 			break;
@@ -731,9 +747,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
-				HealScaling = 2,
-				
-				
+				HealScaling = 2,				
+				SkillMaxRange = 2
 			};
 			break;
 		case muhSkills.MikoStorm:
@@ -830,7 +845,8 @@ public class Skill {
 				SkillRecoveryTime = 20,
 				DamageScaling = 0.5f,
 				Penetrating = true,
-				
+				SkillMaxRange = 5,
+				SkillMinRange = 2
 				
 				
 			};
@@ -841,7 +857,8 @@ public class Skill {
 				SkillRecoveryTime = 20,
 				DamageScaling = 0.7f,
 				Penetrating = true,
-				
+				SkillMaxRange = 5,
+				SkillMinRange = 2
 				
 				
 			};
@@ -886,7 +903,7 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
-				
+
 				
 				
 			};
@@ -895,7 +912,7 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 25,
-				
+				SkillMaxRange = 2
 				
 				
 			};
@@ -904,7 +921,7 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 20,
-				
+				SkillMaxRange = 4
 				
 				
 			};
@@ -914,6 +931,8 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 25,
 				DamageScaling = 1.4f, //add that if target hit, hit behind
+				SkillMaxRange = 5,
+				SkillMinRange = 2
 				
 				
 			};
@@ -925,7 +944,9 @@ public class Skill {
 				DamageScaling = 2,
 				isPhysical = false,
 				RequiresPreparation = true,
-				
+				SkillMaxRange = 4,
+
+
 				
 			};
 			break;
@@ -936,7 +957,7 @@ public class Skill {
 				DamageScaling = 2.5f,
 				isPhysical = false,
 				RequiresPreparation = true,
-				
+				SkillMaxRange = 5
 				
 			};
 			break;
@@ -945,7 +966,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
 				DamageScaling = 1,
-								
+                SkillMaxRange = 4								
 				
 			};
 			break;
@@ -965,7 +986,7 @@ public class Skill {
 				SkillRecoveryTime = 15,
 				CancelsPreparation = true,
 				DamageScaling = 0.7f,
-				
+				SkillMaxRange = 3
 				
 			};
 			break;
@@ -975,7 +996,7 @@ public class Skill {
 				SkillRecoveryTime = 15,
 				CancelsPreparation = true,
 				DamageScaling = 1f,
-				
+				SkillMaxRange = 3
 				
 			};
 			break;
@@ -995,7 +1016,7 @@ public class Skill {
 				SkillRecoveryTime = 1,
 				DamageScaling = 1f,
 				CancelsPreparation = true,
-				
+				SkillMaxRange = 3
 				
 			};
 			break;
@@ -1004,7 +1025,8 @@ public class Skill {
 				EnergyCost = 3,
 				SkillRecoveryTime = 25,
 				DamageScaling = 2.5f,
-				
+				SkillMaxRange = 6,
+				SkillMinRange = 2
 				
 			};
 			break;
@@ -1035,7 +1057,7 @@ public class Skill {
 				DepleteEnergy = true,
 				SkillRecoveryTime = 10,
 				//spawn a monster that attacks anyone, based on summoner stats
-				
+				SkillMaxRange = 2
 				
 			};
 			break;
@@ -1045,7 +1067,8 @@ public class Skill {
 				SkillRecoveryTime = 20,
 				DamageScaling = 0.9f,
 				Penetrating = true,
-				
+				SkillMaxRange = 5,
+				SkillMinRange = 1
 				
 			};
 			break;
@@ -1075,7 +1098,8 @@ public class Skill {
 				DepleteEnergy = true,
 				SkillRecoveryTime = 20,
 				DamageScaling = 0.5f, //4x4 area 
-				
+				SkillMaxRange = 5,
+				SkillMinRange = 2
 				
 				
 			};
@@ -1098,33 +1122,18 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.WhiteDestructionBean:
+		case muhSkills.WhiteDestructionBeam:
 			_skill = new Skill() {
 				EnergyCost = 3,
 				DepleteEnergy = true,
 				SkillRecoveryTime = 30,
 				DamageScaling = 2,
 				Penetrating = true //damage in a line till the end of the map
-				
+
 				
 				
 			};
 			break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1136,4 +1145,6 @@ public class Skill {
 
 		} return _skill;
 	}
+
+
 }
