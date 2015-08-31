@@ -31,14 +31,7 @@ public enum ArmorType {
 public class TroopScript : MonoBehaviour {
 
 	Chief Leader;
-	float AttackTotalBuff = 0;
-	float AttackDirectBuff = 0;
-	float AttackCounterBuff = 0;
-	float MatkTotalBuff = 0;
-	float MatkDirectBuff = 0;
-	float MatkCounterBuff = 0;
-	float MdefBuff = 0;
-	float DefenseBuff = 0;
+	Buffs myBuffs;
 	List<Skill> SkillsPossessed = new List<Skill>();
 	int baseAttack;
 	int baseDefence;
@@ -51,6 +44,7 @@ public class TroopScript : MonoBehaviour {
 	int baseTurnSpeed = 1;
 	int Energy;
 	int MaxEnergy;
+	int BuffsLeftToAssign; //for classes that can buff others
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
 	Classes myClass;
@@ -58,7 +52,7 @@ public class TroopScript : MonoBehaviour {
 	string WeaponName;
 	string ArmorName;
 	string LeaderName; 
-
+	
 	//stuff to make it work, not related to rpg parts
 	public int TurnRecoveryTime = 0;
 	bool chargedWeapon = false; //for crossbows
@@ -203,27 +197,36 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public float GetDirectAttackBuff (){
-		return AttackDirectBuff+AttackTotalBuff;
+
+			return myBuffs.AttackDirect+myBuffs.AttackTotal;
 	}
 
 	public float GetCounterAttackBuff (){
-		return AttackCounterBuff + AttackTotalBuff;
+		return myBuffs.AttackCounter + myBuffs.AttackTotal;
 	}
 
 	public float GetDirectMatkBuff(){
-		return MatkTotalBuff + MatkDirectBuff;
+		return myBuffs.MatkTotal + myBuffs.MatkDirect;
 	}
 
 	public float GetCounterMatkBuff(){
-		return MatkTotalBuff + MatkCounterBuff;
+		return myBuffs.MatkTotal + myBuffs.MatkCounter;
 	}
 
 	public float GetDefenseBuff (){
-		return DefenseBuff;
+		return myBuffs.Defense;
 	}
 
 	public float GetMdefBuff (){
-		return MdefBuff;
+		return myBuffs.Mdef;
+	}
+
+	public float GetSpeedBuff(){
+		return myBuffs.Speed;
+	}
+
+	public int GetBuffLeftToAssign(){
+		return BuffsLeftToAssign;
 	}
 
 		    //======================================
@@ -307,30 +310,38 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public void SetDirectAttackBuff (float value){
-		AttackDirectBuff = value;
+		myBuffs.AttackDirect = value;
 	}
 	public void SetTotalAttackBuff (float value){
-		AttackTotalBuff = value;
+		myBuffs.AttackTotal = value;
 	}
 	public void SetCounterAttackBuff (float value){
-		AttackCounterBuff = value;
+		myBuffs.AttackCounter = value;
 	}
 
 	public void SetDirectMatkBuff (float value){
-		MatkDirectBuff = value;
+		myBuffs.MatkDirect = value;
 	}
 	public void SetTotalMatkBuff (float value){
-		MatkTotalBuff = value;
+		myBuffs.MatkTotal = value;
 	}
 	public void SetCounterMatkBuff (float value){
-		MatkCounterBuff = value;
+		myBuffs.MatkCounter = value;
 	}
 	public void SetDefenseBuff (float value){
-		DefenseBuff = value;
+		myBuffs.Defense = value;
 	}
 
 	public void SetMdefBuff ( float value){
-		MdefBuff = value;
+		myBuffs.Mdef = value;
+	}
+
+	public void SetSpeedBuff (float value){
+		myBuffs.Speed = value;
+	}
+
+	public void SetBuffLeftToAssign(int buffnumber){
+		BuffsLeftToAssign = buffnumber;
 	}
 
 	public void AddSkillToList (Skill _skill){
@@ -345,6 +356,11 @@ public class TroopScript : MonoBehaviour {
 	void Awake () {
 		moveDestination = transform.position;
 		previousWorldPosition = transform.position;
+
+	}
+
+	void Start (){
+		Debug.Log(myClass);
 		for (int i=0;i<myClass.GetCountBaseClassSkills();i++)
 			SkillsPossessed.Add(myClass.GetBaseClassSkills(i));
 	}
@@ -372,7 +388,7 @@ public class TroopScript : MonoBehaviour {
 
 	void UpgradeSkill (Skill SkillYouWant){
 		bool FoundIt = false;
-		if (SkillYouWant.PrerequisiteSkill != null){
+		if (SkillYouWant.PrerequisiteSkill != muhSkills.NoSkill){
 		Skill Prerequisite = Skill.FromListOfSkills(SkillYouWant.PrerequisiteSkill);
 
 		for (int i = 0;i<SkillsPossessed.Count;i++){
@@ -387,7 +403,7 @@ public class TroopScript : MonoBehaviour {
 		Debug.Log("YOU ARE MISSING THE PRE-REQUISITE SKILL: "+Prerequisite);
 			
 		}
-	else if (SkillYouWant.PrerequisiteSkill == null)
+	else if (SkillYouWant.PrerequisiteSkill == muhSkills.NoSkill)
 			SkillsPossessed.Add(SkillYouWant);
 	}
 

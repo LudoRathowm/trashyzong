@@ -183,6 +183,7 @@ public	int PlayerTurnIndex = 0;
 
 	void AddStuffToPlayer (TroopScript player,muhClasses muhclass,Chief leader, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers,  Weaponry _weapon, Armory _armor){
 		Classes ClassToSet = Classes.fromList(muhclass);
+
 		player.SetClassDONTUSETHISAREYOUSUREYOUWANTTOUSETHISYOUREALLYSHOULDNT(ClassToSet);
 		player.SetChief(leader);
 		player.SetBaseAttack(Attack);

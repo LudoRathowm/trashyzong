@@ -119,7 +119,9 @@ public enum muhSkills{
 	Icewall,
 	StormGust,
 	EnchantWeapon,
-	WhiteDestructionBeam
+	WhiteDestructionBeam,
+    //SYSTEM 
+	NoSkill //to check if there's a skill pre-requisite
 
 }
 
@@ -150,7 +152,8 @@ public class Skill {
 	public int BattleGaugeEffect = 0;
 	public float BattleEffect = 0;
 	public int BattleTurns = 0;
-	public muhSkills PrerequisiteSkill;
+	public muhSkills PrerequisiteSkill = muhSkills.NoSkill;
+	public float TroopSizeBuffMultiplier = 0;
 
 	public static Skill FromListOfSkills (muhSkills skilleados) {
 			Skill _skill = new Skill();
@@ -287,7 +290,8 @@ public class Skill {
 		case muhSkills.BattleStrategy:
 			_skill = new Skill() {
 				EnergyCost = 1,
-				SkillRecoveryTime = 15
+				SkillRecoveryTime = 15,
+				TroopSizeBuffMultiplier = 1.5f
 				
 				
 				
@@ -297,7 +301,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
-				PrerequisiteSkill = muhSkills.BattleStrategy
+				PrerequisiteSkill = muhSkills.BattleStrategy,
+				TroopSizeBuffMultiplier = 2
 				
 				
 				
@@ -307,8 +312,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
-				PrerequisiteSkill = muhSkills.BattleStrategy2
-				
+				PrerequisiteSkill = muhSkills.BattleStrategy2,
+				TroopSizeBuffMultiplier = 2.5f
 				
 				
 			};

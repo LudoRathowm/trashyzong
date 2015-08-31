@@ -262,7 +262,50 @@ public class NewFightScript {
 			//yadda yadda check distance and skills
 			return ret;
 		}
+	static float BuffValue (TroopScript BuffCaster){ //5% buff for point of int
+		return BuffCaster.GetChief().GetIntelligence()*0.05f;
+	}
+	static int CountAndSetNumberOfPeopleYouCanBuff (TroopScript BuffCaster, TroopScript Target, Skill BuffSkill){
+		float multiply = BuffSkill.TroopSizeBuffMultiplier;
+		int people = BuffCaster.GetNumber();
+		int buffedpeople = Target.GetNumber();
+		int total = Mathf.RoundToInt((float)people*multiply/(float)buffedpeople);
+		BuffCaster.SetBuffLeftToAssign(total);
+		return total;
+	}
+
+	public static void MainBuffMethod (TroopScript Buffer, TroopScript Target, Skill _buffSkill, List<TypeOfBuff> _dabuffsecsdee){
+
+		for (int i = 0;i<_dabuffsecsdee.Count;i++)
+			//logic to pick the target buff
+				ApplyBuffOnTarget(Buffer,Target,_dabuffsecsdee[i]);
+			
+		}
 
 
+
+	 static void ApplyBuffOnTarget (TroopScript Buffer, TroopScript Buffed , TypeOfBuff bufftype){
+
+			float strenght = BuffValue(Buffer);
+
+		if (bufftype == TypeOfBuff.AttackCounter)
+			Buffed.SetCounterAttackBuff(strenght);
+		else if (bufftype == TypeOfBuff.AttackDirect)
+			Buffed.SetDirectAttackBuff(strenght);
+		else if (bufftype == TypeOfBuff.AttackTotal)
+			Buffed.SetTotalAttackBuff(strenght);
+		else if (bufftype == TypeOfBuff.MatkCounter)
+			Buffed.SetCounterMatkBuff(strenght);
+		else if (bufftype == TypeOfBuff.MatkDirect)
+			Buffed.SetDirectMatkBuff(strenght);
+		else if (bufftype == TypeOfBuff.MatkTotal)
+			Buffed.SetTotalMatkBuff(strenght);
+		else if (bufftype == TypeOfBuff.Defense)
+			Buffed.SetDefenseBuff(strenght);
+		else if (bufftype == TypeOfBuff.Mdef)
+			Buffed.SetMdefBuff(strenght);
+		else if (bufftype == TypeOfBuff.Speed)
+			Buffed.SetSpeedBuff(strenght);
+	}
 
 }
