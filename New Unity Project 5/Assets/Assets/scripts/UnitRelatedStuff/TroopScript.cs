@@ -44,7 +44,7 @@ public class TroopScript : MonoBehaviour {
 	int baseTurnSpeed = 1;
 	int Energy;
 	int MaxEnergy;
-	int BuffsLeftToAssign; //for classes that can buff others
+
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
 	Classes myClass;
@@ -225,9 +225,7 @@ public class TroopScript : MonoBehaviour {
 		return myBuffs.Speed;
 	}
 
-	public int GetBuffLeftToAssign(){
-		return BuffsLeftToAssign;
-	}
+
 
 		    //======================================
 		    //             SETTERS
@@ -340,9 +338,7 @@ public class TroopScript : MonoBehaviour {
 		myBuffs.Speed = value;
 	}
 
-	public void SetBuffLeftToAssign(int buffnumber){
-		BuffsLeftToAssign = buffnumber;
-	}
+
 
 	public void AddSkillToList (Skill _skill){
 		SkillsPossessed.Add(_skill);

@@ -269,19 +269,23 @@ public class NewFightScript {
 		float multiply = BuffSkill.TroopSizeBuffMultiplier;
 		int people = BuffCaster.GetNumber();
 		int buffedpeople = Target.GetNumber();
-		int total = Mathf.RoundToInt((float)people*multiply/(float)buffedpeople);
-		BuffCaster.SetBuffLeftToAssign(total);
-		return total;
+		int total = Mathf.RoundToInt(((float)people*multiply/(float)buffedpeople)+multiply);
+		return total; //for the list of buffs
 	}
 
-	public static void MainBuffMethod (TroopScript Buffer, TroopScript Target, Skill _buffSkill, List<TypeOfBuff> _dabuffsecsdee){
+	public static void MainBuffMethod (TroopScript Buffer, TroopScript Target, Skill _buffSkill, TypeOfBuff[] _dabuffsecsdee){
 
-		for (int i = 0;i<_dabuffsecsdee.Count;i++)
-			//logic to pick the target buff
+		for (int i = 0;i<_dabuffsecsdee.Length;i++)
+			//logic to pick the target buff goes on _dabuffsecsdee
 				ApplyBuffOnTarget(Buffer,Target,_dabuffsecsdee[i]);
 			
 		}
-
+	public static TypeOfBuff[] CreateBuffList (TroopScript Buffer, TroopScript Target,Skill Buffskill){
+		int value = CountAndSetNumberOfPeopleYouCanBuff(Buffer,Target,Buffskill);
+		TypeOfBuff[] BuffsImmaCast = new TypeOfBuff[value];
+		//add all the buffs to the list because i really cant this should go in the AI Troop and UserTroop script in the future
+		return BuffsImmaCast;
+	}
 
 
 	 static void ApplyBuffOnTarget (TroopScript Buffer, TroopScript Buffed , TypeOfBuff bufftype){
@@ -293,13 +297,13 @@ public class NewFightScript {
 		else if (bufftype == TypeOfBuff.AttackDirect)
 			Buffed.SetDirectAttackBuff(strenght);
 		else if (bufftype == TypeOfBuff.AttackTotal)
-			Buffed.SetTotalAttackBuff(strenght);
+			Buffed.SetTotalAttackBuff(strenght*0.7f);
 		else if (bufftype == TypeOfBuff.MatkCounter)
 			Buffed.SetCounterMatkBuff(strenght);
 		else if (bufftype == TypeOfBuff.MatkDirect)
 			Buffed.SetDirectMatkBuff(strenght);
 		else if (bufftype == TypeOfBuff.MatkTotal)
-			Buffed.SetTotalMatkBuff(strenght);
+			Buffed.SetTotalMatkBuff(strenght*0.7f);
 		else if (bufftype == TypeOfBuff.Defense)
 			Buffed.SetDefenseBuff(strenght);
 		else if (bufftype == TypeOfBuff.Mdef)
