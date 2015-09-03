@@ -10,23 +10,36 @@ public class TileHighlight {
 	}
 
 	public static List<Tile> FindHighlight(Tile originTile, int movementPoints) {
-		return FindHighlight(originTile, movementPoints, new Vector2[0], false);
+		return FindHighlight(originTile, movementPoints, new Vector2[0], false,false);
 	}
 	public static List<Tile> FindHighlight(Tile originTile, int movementPoints, bool staticRange) {
-		return FindHighlight(originTile, movementPoints, new Vector2[0], staticRange);
+		return FindHighlight(originTile, movementPoints, new Vector2[0], staticRange,false);
 	}
 	public static List<Tile> FindHighlight(Tile originTile, int movementPoints, Vector2[] occupied) {
-		return FindHighlight(originTile, movementPoints, occupied, false);
+
+		return FindHighlight(originTile, movementPoints, occupied, false,false);
 	}
 
-	public static List<Tile> FindHighlight(Tile originTile, int movementPoints, Vector2[] occupied, bool staticRange) {
+
+
+	public static List<Tile> FindHighlight (Tile originTile, int movementPoints, bool staticRange, bool dontremoveorigin){
+		return FindHighlight(originTile,movementPoints,new Vector2[0],staticRange,dontremoveorigin);
+	}
+
+	public static List<Tile> FindHighlight (Tile originTile, int movementPoints, Vector2[] occupied, bool dontremoveorigin){
+		Debug.Log("highlight"+FindHighlight(originTile, movementPoints, occupied, true,true).Count);
+		return FindHighlight(originTile,movementPoints,occupied,true,dontremoveorigin);
+	}
+
+	public static List<Tile> FindHighlight(Tile originTile, int movementPoints, Vector2[] occupied, bool staticRange, bool dontremoveorigin) {
 		List<Tile> closed = new List<Tile>();
 		List<TilePath> open = new List<TilePath>();
+
 		
 		TilePath originPath = new TilePath();
 		if (staticRange) originPath.addStaticTile(originTile);
 		else originPath.addTile(originTile);
-		
+
 		open.Add(originPath);
 		
 		while (open.Count > 0) {
@@ -55,8 +68,12 @@ public class TileHighlight {
 				open.Add(newTilePath);
 			}
 		}
+
 		closed.Remove(originTile);
 		closed.Distinct();
+
+		if (dontremoveorigin && !occupied.Contains(originTile.gridPosition))
+		closed.Add(originTile);
 		return closed;
 	}
 }

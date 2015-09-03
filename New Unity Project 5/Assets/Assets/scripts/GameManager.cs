@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+
 public class GameManager : MonoBehaviour {
+	public bool calc;
 	public Tile TileUnderMouse;
 	public Vector2 MousePosition;
 	public static GameManager instance;
-	public LayerMask Units;
+	//public LayerMask Units;
 	public GameObject TilePrefab;
 	public GameObject UserTroopPrefab;
 	public GameObject AITroopPrefab;
@@ -46,7 +48,9 @@ public	int PlayerTurnIndex = 0;
 	
 	// Update is called once per frame
 	void Update () {
-	//	GiveInformationOnPlayer();
+
+
+		//	GiveInformationOnPlayer();
 //		float value = Mathf.Abs(players[0].gridPosition.x-players[1].gridPosition.x)+Mathf.Abs(players[0].gridPosition.y-players[1].gridPosition.y);
 //		if (value > 1 && value < 5)
 //
@@ -73,14 +77,58 @@ public	int PlayerTurnIndex = 0;
 		//you dont want to highlight a tile where there's someone usually (movement)
 		List <Tile> highlightedTiles = new List<Tile>();
 
-		if (ignorePlayers) highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance, highlightColor == Color.red);
-		else highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance,  playerTurns.Where(x => x.gridPosition != originLocation).Select(x => x.gridPosition).ToArray(), highlightColor == Color.red);
+		if (ignorePlayers) highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance, highlightColor == Color.red,false);
+		else highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance,  playerTurns.Where(x => x.gridPosition != originLocation).Select(x => x.gridPosition).ToArray(), highlightColor == Color.red,false);
+
+		foreach (Tile t in highlightedTiles) {
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = highlightColor;
+		}
+	}
+
+	public void AccuShotsHighlight(Vector2 originLocation, int distance) {
+		Color SHIThighlightColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
+
+		Color highlightColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
+
+		List <Tile> highlightedTiles = new List<Tile>();
+	//	List<Tile> donotcounthighlightedTiles = new List<Tile>();
+	//	donotcounthighlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], 1);
+
+		highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance, true,true);
+		//Vector2[] ignore= donotcounthighlightedTiles.Select(x=>x.gridPosition).ToArray();
+
+		//highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance, true);
+
 		
 		foreach (Tile t in highlightedTiles) {
 			t.visual.transform.GetComponent<Renderer>().materials[0].color = highlightColor;
 		}
 	}
-	
+
+
+
+	public void AccuShotTargetLight (Vector2 originLocation, Vector2 mousePosition, int distance){
+		Color highlightColor = new Color(ColorAdapter(0),ColorAdapter(255),ColorAdapter(0),1);
+		Color SHIThighlightColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
+
+		List <Tile> highlightedTiles = new List<Tile>();
+		List <Tile> donotcounthighlightedTiles = new List<Tile>();
+		donotcounthighlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], 999, true,true);
+
+		Vector2[] ignore= donotcounthighlightedTiles.Where(x=>x.visual.transform.GetComponent<Renderer>().materials[0].color != SHIThighlightColor).Select(x=>x.gridPosition).ToArray();
+	//	Vector2[] ignore = new Vector2[0];
+		highlightedTiles = TileHighlight.FindHighlight(map[(int)mousePosition.x][(int)mousePosition.y], distance, ignore,true,true);
+		
+		
+		foreach (Tile t in highlightedTiles) {
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = highlightColor;
+		}
+
+	}
+
+	float ColorAdapter(float color){
+		return color/255;
+	}
 	public void removeTileHighlights() {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {

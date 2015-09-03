@@ -12,6 +12,9 @@ public class UserTroop : TroopScript {
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
+			if (GameManager.instance.calc){
+			//	GameManager.instance.calc = false;
+				NewFightScript.AccurateShots(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex],1);}
 			transform.GetChild(1).gameObject.SetActive(true);
 			if (Input.GetButtonDown("MoveKey")){
 
@@ -48,9 +51,11 @@ public class UserTroop : TroopScript {
 				GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetCounterMinRange());
 					}
 				else if (!attacking && GetWeapon().weapType!= WeaponType.Crossbow ){
+
 					GameManager.instance.removeTileHighlights();
 					moving = false;
 					attacking = true;
+
 					GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetCounterMaxRange());
 					GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetCounterMinRange());
 				} else if (attacking){

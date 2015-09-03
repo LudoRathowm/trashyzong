@@ -76,12 +76,12 @@ public class AITroop : TroopScript{
 			else if (!moving && movementTilesInRange.Where(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()) > 0 && y != this && y.gridPosition == x.gridPosition).Count() > 0).Count () > 0) {
 				var opponentsInRange = movementTilesInRange.Select(x => GameManager.instance.players.Where (y => y.GetType() != typeof(AITroop) && (y.GetNumber()) > 0 && y != this && y.gridPosition == x.gridPosition).Count () > 0 ? GameManager.instance.players.Where(y => y.gridPosition == x.gridPosition).First() : null).ToList();
 				TroopScript opponent = opponentsInRange.OrderBy (x => x != null ? -(x.GetNumber()) : 1000).ThenBy (x => x != null ? TilePathFinder.FindPath(GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y],GameManager.instance.map[(int)x.gridPosition.x][(int)x.gridPosition.y]).Count() : 1000).First ();
-					
+		
 					GameManager.instance.removeTileHighlights();
 					moving = true;
 					attacking = false;
 					GameManager.instance.highlightTilesAt(gridPosition, Color.blue, GetMovement(), false);
-					
+
 					List<Tile> path = TilePathFinder.FindPath (GameManager.instance.map[(int)gridPosition.x][(int)gridPosition.y],GameManager.instance.map[(int)opponent.gridPosition.x][(int)opponent.gridPosition.y], GameManager.instance.players.Where(x => x.gridPosition != gridPosition && x.gridPosition != opponent.gridPosition).Select(x => x.gridPosition).ToArray());
 					
 					if (path.Count() > 1) {

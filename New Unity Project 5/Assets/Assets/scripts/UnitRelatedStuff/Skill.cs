@@ -168,7 +168,7 @@ public class Skill {
 				CancelsPreparation = true,
 				ReducesEnergy = true,
 				SkillMinRange = 2,
-				SkillMaxRange = 5
+				SkillMaxRange = 7
 
 		
 			};

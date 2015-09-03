@@ -312,4 +312,24 @@ public class NewFightScript {
 			Buffed.SetSpeedBuff(strenght);
 	}
 
+	public static void AccurateShots (TroopScript Caster, int range){
+
+	Vector2 casterPosition = Caster.gridPosition;
+
+	Vector2 mousePosition = GameManager.instance.MousePosition;
+
+		GameManager.instance.highlightTilesAt(casterPosition,Color.white, 999);
+
+		GameManager.instance.AccuShotsHighlight(casterPosition,12);
+
+		GameManager.instance.highlightTilesAt(casterPosition,Color.white, 2);
+
+		GameManager.instance.AccuShotTargetLight(casterPosition,mousePosition, range);
+
+
+
+
+	}
+
+
 }
