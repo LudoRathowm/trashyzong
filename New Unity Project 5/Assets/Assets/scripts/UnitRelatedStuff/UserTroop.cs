@@ -47,17 +47,16 @@ public class UserTroop : TroopScript {
 				GameManager.instance.removeTileHighlights();
 					moving = false;
 				attacking = true;
-					GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetCounterMaxRange());
-				GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetCounterMinRange());
+					GameManager.instance.highlightTilesRing(gridPosition,Color.red,GetCounterMinRange(),GetCounterMaxRange());
+				//GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetCounterMaxRange());
+				//GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetCounterMinRange());
 					}
 				else if (!attacking && GetWeapon().weapType!= WeaponType.Crossbow ){
 
 					GameManager.instance.removeTileHighlights();
 					moving = false;
 					attacking = true;
-
-					GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetCounterMaxRange());
-					GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetCounterMinRange());
+					GameManager.instance.highlightTilesRing(gridPosition,Color.red,GetCounterMinRange(),GetCounterMaxRange());
 				} else if (attacking){
 					moving = false;
 					attacking = false;

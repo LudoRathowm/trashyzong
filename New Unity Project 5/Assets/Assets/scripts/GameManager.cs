@@ -85,48 +85,50 @@ public	int PlayerTurnIndex = 0;
 		}
 	}
 
-	public void AccuShotsHighlight(Vector2 originLocation, int distance) {
-		Color SHIThighlightColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
-
-		Color highlightColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
-
-		List <Tile> highlightedTiles = new List<Tile>();
-	//	List<Tile> donotcounthighlightedTiles = new List<Tile>();
-	//	donotcounthighlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], 1);
-
-		highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance, true,true);
-		//Vector2[] ignore= donotcounthighlightedTiles.Select(x=>x.gridPosition).ToArray();
-
-		//highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance, true);
-
-		
-		foreach (Tile t in highlightedTiles) {
-			t.visual.transform.GetComponent<Renderer>().materials[0].color = highlightColor;
-		}
-	}
-
-
-
-	public void AccuShotTargetLight (Vector2 originLocation, Vector2 mousePosition, int distance){
-		Color highlightColor = new Color(ColorAdapter(0),ColorAdapter(255),ColorAdapter(0),1);
-		Color SHIThighlightColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
-
-		List <Tile> highlightedTiles = new List<Tile>();
-		List <Tile> donotcounthighlightedTiles = new List<Tile>();
-		donotcounthighlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], 999, true,true);
-
-		Vector2[] ignore= donotcounthighlightedTiles.Where(x=>x.visual.transform.GetComponent<Renderer>().materials[0].color != SHIThighlightColor).Select(x=>x.gridPosition).ToArray();
-	//	Vector2[] ignore = new Vector2[0];
-		highlightedTiles = TileHighlight.FindHighlight(map[(int)mousePosition.x][(int)mousePosition.y], distance, ignore,true,true);
-		
-		
-		foreach (Tile t in highlightedTiles) {
-			t.visual.transform.GetComponent<Renderer>().materials[0].color = highlightColor;
+	public void highlightTilesRing (Vector2 originLocation, Color highLightColor, int internDistance, int outerDistance){
+		List <Tile> Intern = new List<Tile>();
+		List <Tile> Extern = new List<Tile>();
+		Intern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],internDistance,true,false);
+		Extern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],outerDistance,true,false);
+		var _ring = Extern.Except(Intern);
+		List <Tile> FinalRing = _ring.ToList();
+		foreach (Tile t in FinalRing) {
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = highLightColor;
 		}
 
 	}
 
-	float ColorAdapter(float color){
+	public void AccurateShotsHighlights (Vector2 originLocation, Vector2 mousePosition, int distance, int mouseArea){
+		Color targetColor = new Color(ColorAdapter(0),ColorAdapter(255),ColorAdapter(0),1);
+		Color AreaColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
+
+		List<Tile> MouseHighlightedTiles = new List<Tile>();
+		List<Tile> TotalArea = new List<Tile>();
+		List<Tile> IgnoreCloserTiles = new List<Tile>();
+		IgnoreCloserTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], 2, true,true);
+		//Vector2[]_ignoreCloserTiles = IgnoreCloserTiles.Select(x=>x.gridPosition).ToArray();
+		TotalArea = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],distance,true,true);
+        var	_AreaHighlightedTiles = TotalArea.Except(IgnoreCloserTiles);
+		List <Tile> AreaHighlighted = _AreaHighlightedTiles.ToList();
+
+		MouseHighlightedTiles = TileHighlight.FindHighlight(map[(int)mousePosition.x][(int)mousePosition.y], mouseArea, true,true);
+
+		var _ActuallyMouse = AreaHighlighted.Intersect(MouseHighlightedTiles);
+		List<Tile> IntesectionArea = _ActuallyMouse.ToList();
+		if (_ActuallyMouse.Count()>0)
+		Debug.Log(_ActuallyMouse.Count());
+		foreach (Tile t in AreaHighlighted) {
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.blue;
+		}
+		foreach (Tile t in IntesectionArea) {
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
+		}
+	
+	}
+
+
+
+	public static float ColorAdapter(float color){
 		return color/255;
 	}
 	public void removeTileHighlights() {

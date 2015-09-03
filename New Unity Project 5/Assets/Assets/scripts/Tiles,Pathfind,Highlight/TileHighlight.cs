@@ -20,7 +20,10 @@ public class TileHighlight {
 		return FindHighlight(originTile, movementPoints, occupied, false,false);
 	}
 
+	public static List<Tile> AreaHighlight (Tile originTile, int distance, Vector2[] removethis){
+		return FindHighlight (originTile,distance,removethis,true,true);
 
+	}
 
 	public static List<Tile> FindHighlight (Tile originTile, int movementPoints, bool staticRange, bool dontremoveorigin){
 		return FindHighlight(originTile,movementPoints,new Vector2[0],staticRange,dontremoveorigin);
@@ -60,7 +63,9 @@ public class TileHighlight {
 		closed.Add(current.lastTile);
 			
 			foreach (Tile t in current.lastTile.neighbors) {	
-				if (t.impassible || occupied.Contains(t.gridPosition)||
+
+				if (t.impassible ||
+				    //occupied.Contains(t.gridPosition)||
 				    (GameManager.instance.GetComponent<GameManager>(). playerTurns[GameManager.instance.GetComponent<GameManager>().PlayerTurnIndex].GetPhalanx()==true&&t.frontLiners<16)) continue;
 				TilePath newTilePath = new TilePath(current);
 				if (staticRange) newTilePath.addStaticTile(t);

@@ -313,19 +313,31 @@ public class NewFightScript {
 	}
 
 	public static void AccurateShots (TroopScript Caster, int range){
+//		Color highlightColor = new Color(GameManager.ColorAdapter(0),GameManager.ColorAdapter(255),GameManager.ColorAdapter(0),1);
+//		Color SHIThighlightColor  = new Color(GameManager.ColorAdapter(153),GameManager.ColorAdapter(153),GameManager.ColorAdapter(0),1);
 
-	Vector2 casterPosition = Caster.gridPosition;
+
+		Vector2 casterPosition = Caster.gridPosition;
 
 	Vector2 mousePosition = GameManager.instance.MousePosition;
-
-		GameManager.instance.highlightTilesAt(casterPosition,Color.white, 999);
-
-		GameManager.instance.AccuShotsHighlight(casterPosition,12);
-
-		GameManager.instance.highlightTilesAt(casterPosition,Color.white, 2);
-
-		GameManager.instance.AccuShotTargetLight(casterPosition,mousePosition, range);
-
+		GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,mousePosition,10,2);
+//
+//			for (int i = 0; i < GameManager.instance.mapSize; i++) {
+//				for (int j = 0; j < GameManager.instance.mapSize; j++) {
+//					if (GameManager.instance.map[i][j].visual.transform.GetComponent<Renderer>().materials[0].color != highlightColor)
+//
+//			
+//				}
+//			}
+//		GameManager.instance.highlightTilesAt(casterPosition,Color.white, 999);
+//		
+//		
+//		GameManager.instance.AccuShotsHighlight(casterPosition,12);
+//
+//		GameManager.instance.highlightTilesAt(casterPosition,Color.white, 2);
+//
+//		GameManager.instance.AccuShotTargetLight(casterPosition,mousePosition, range);
+//
 
 
 
