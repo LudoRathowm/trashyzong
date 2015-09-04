@@ -65,7 +65,7 @@ public class TileHighlight {
 			foreach (Tile t in current.lastTile.neighbors) {	
 
 				if (t.impassible ||
-				    //occupied.Contains(t.gridPosition)||
+				    occupied.Contains(t.gridPosition)||
 				    (GameManager.instance.GetComponent<GameManager>(). playerTurns[GameManager.instance.GetComponent<GameManager>().PlayerTurnIndex].GetPhalanx()==true&&t.frontLiners<16)) continue;
 				TilePath newTilePath = new TilePath(current);
 				if (staticRange) newTilePath.addStaticTile(t);

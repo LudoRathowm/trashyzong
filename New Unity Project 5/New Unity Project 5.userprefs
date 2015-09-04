@@ -1,14 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Assets\scripts\UnitRelatedStuff\UserTroop.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Assets\scripts\UnitRelatedStuff\NewFightScript.cs">
     <Files>
-      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\NewFightScript.cs" Line="320" Column="48" />
+      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\NewFightScript.cs" Line="335" Column="3" />
       <File FileName="Assets\Assets\scripts\UnitRelatedStuff\Skill.cs" Line="1" Column="1" />
       <File FileName="Assets\Assets\scripts\UnitRelatedStuff\TroopScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Assets\scripts\GameManager.cs" Line="99" Column="3" />
+      <File FileName="Assets\Assets\scripts\GameManager.cs" Line="8" Column="18" />
       <File FileName="Assets\Assets\scripts\UnitRelatedStuff\AITroop.cs" Line="1" Column="1" />
       <File FileName="Assets\Assets\scripts\UnitRelatedStuff\Weaponry.cs" Line="1" Column="1" />
-      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\UserTroop.cs" Line="51" Column="7" />
+      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\UserTroop.cs" Line="16" Column="6" />
       <File FileName="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TileHighlight.cs" Line="68" Column="9" />
       <File FileName="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TilePath.cs" Line="1" Column="1" />
     </Files>

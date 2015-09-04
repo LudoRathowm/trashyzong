@@ -98,7 +98,7 @@ public	int PlayerTurnIndex = 0;
 
 	}
 
-	public void AccurateShotsHighlights (Vector2 originLocation, Vector2 mousePosition, int distance, int mouseArea){
+	public List<Tile> AccurateShotsHighlights (Vector2 originLocation, Vector2 mousePosition, int distance, int mouseArea){
 		Color targetColor = new Color(ColorAdapter(0),ColorAdapter(255),ColorAdapter(0),1);
 		Color AreaColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
 
@@ -115,15 +115,15 @@ public	int PlayerTurnIndex = 0;
 
 		var _ActuallyMouse = AreaHighlighted.Intersect(MouseHighlightedTiles);
 		List<Tile> IntesectionArea = _ActuallyMouse.ToList();
-		if (_ActuallyMouse.Count()>0)
-		Debug.Log(_ActuallyMouse.Count());
+
+		
 		foreach (Tile t in AreaHighlighted) {
 			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.blue;
 		}
 		foreach (Tile t in IntesectionArea) {
 			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
 		}
-	
+		return IntesectionArea;
 	}
 
 
@@ -231,9 +231,9 @@ public	int PlayerTurnIndex = 0;
 
 	//CHECK THE PATHFINDER
 
-	void AddStuffToPlayer (TroopScript player,muhClasses muhclass,Chief leader, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers,  Weaponry _weapon, Armory _armor){
+	void AddStuffToPlayer (TroopScript player,int faction,muhClasses muhclass,Chief leader, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers,  Weaponry _weapon, Armory _armor){
 		Classes ClassToSet = Classes.fromList(muhclass);
-
+		player.Faction = faction;
 		player.SetClassDONTUSETHISAREYOUSUREYOUWANTTOUSETHISYOUREALLYSHOULDNT(ClassToSet);
 		player.SetChief(leader);
 		player.SetBaseAttack(Attack);
@@ -296,7 +296,7 @@ public	int PlayerTurnIndex = 0;
 		AddStuffToChief(leader,"Barack","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,3,2,4);
 
 
-        AddStuffToPlayer(player, muhClasses.Animal, leader, 10,10,100,10,100, Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
+        AddStuffToPlayer(player, 0,muhClasses.Animal, leader, 10,10,100,10,100, Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		player.gridPosition = new Vector2(3,20);
 
@@ -330,7 +330,7 @@ public	int PlayerTurnIndex = 0;
 		AddStuffToChief(leader,"nigga","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,4,2,5);
 
 
-		AddStuffToPlayer(player,muhClasses.Animal,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
+		AddStuffToPlayer(player,0,muhClasses.Animal,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
 
 
@@ -340,7 +340,7 @@ public	int PlayerTurnIndex = 0;
 		leader = new Chief();
 		AddStuffToChief(leader,"man","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),6,6,2,1);
 		player.SetBaseTurnSpeed (2);
-		AddStuffToPlayer(player,muhClasses.Warrior,leader, 14,7,70,12,100,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
+		AddStuffToPlayer(player,0,muhClasses.Warrior,leader, 14,7,70,12,100,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
 		players.Add(player);
 
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
@@ -348,7 +348,7 @@ public	int PlayerTurnIndex = 0;
 		leader = new Chief();
 		AddStuffToChief(leader,"asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,0,2,1);
 
-		AddStuffToPlayer(player,muhClasses.Animal, leader, 12,10,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(player,0,muhClasses.Animal, leader, 12,10,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 		
 		players.Add(player);
 		
@@ -357,7 +357,7 @@ public	int PlayerTurnIndex = 0;
 		leader = new Chief();
 		AddStuffToChief(leader,"another asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,1,3);
 
-		AddStuffToPlayer(aiplayer,muhClasses.Animal,leader, 12,2,100,12,100,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
+		AddStuffToPlayer(aiplayer,1,muhClasses.Animal,leader, 12,2,100,12,100,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
 	
 		players.Add(aiplayer);
 
@@ -366,7 +366,7 @@ public	int PlayerTurnIndex = 0;
 		leader = new Chief();
 		AddStuffToChief(leader,"yet another nigga","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),8,8,8,8);
 
-		AddStuffToPlayer(aiplayer,muhClasses.Animal,leader, 22,1,100,13,100,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(aiplayer,1,muhClasses.Animal,leader, 22,1,100,13,100,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		
 		players.Add(aiplayer);
@@ -376,7 +376,7 @@ public	int PlayerTurnIndex = 0;
 		leader = new Chief();
 		AddStuffToChief(leader,"zzz","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,3,1);
 
-		AddStuffToPlayer(aiplayer, muhClasses.Animal,leader, 22,3,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
+		AddStuffToPlayer(aiplayer,1, muhClasses.Animal,leader, 22,3,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		
 		players.Add(aiplayer);
@@ -386,7 +386,7 @@ public	int PlayerTurnIndex = 0;
 		leader = new Chief();
 		AddStuffToChief(leader,"glorious leader","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,2,3,1);
 
-		AddStuffToPlayer(aiplayer,muhClasses.Animal, leader, 12,4,100,22,100,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
+		AddStuffToPlayer(aiplayer,1,muhClasses.Animal, leader, 12,4,100,22,100,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
 
 		aiplayer.SetBaseTurnSpeed(3);
 		players.Add(aiplayer);
