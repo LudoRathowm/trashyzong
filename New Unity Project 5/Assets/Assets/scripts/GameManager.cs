@@ -5,6 +5,9 @@ using System.Linq;
 
 
 public class GameManager : MonoBehaviour {
+	public int TotalTime = 30;
+	public int CurrentTime = 0;
+
 	public bool calc;
 	public Tile TileUnderMouse;
 	public Vector2 MousePosition;
@@ -65,6 +68,7 @@ public	int PlayerTurnIndex = 0;
 //	}
 	
 	public void nextTurn() {	
+		CurrentTime++;
 		DecideNextTurn();
 		PlayerTurnIndex++;
 	}

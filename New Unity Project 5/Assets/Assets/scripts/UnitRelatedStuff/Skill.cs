@@ -152,6 +152,7 @@ public class Skill {
 	public int BattleGaugeEffect = 0;
 	public float BattleEffect = 0;
 	public int BattleTurns = 0;
+	public int GuardScaling = 0;
 	public muhSkills PrerequisiteSkill = muhSkills.NoSkill;
 	public float TroopSizeBuffMultiplier = 0;
 
@@ -159,7 +160,7 @@ public class Skill {
 			Skill _skill = new Skill();
 	switch (skilleados)
 		{
-		case muhSkills.AccurateShots:
+		case muhSkills.AccurateShots: //skill that deals damage in an area, you can select the width of the area. also reduces enemy energy and cancels preparation.
 		_skill = new Skill() {
 				EnergyCost = 1,
 				DepleteEnergy = true,
@@ -173,7 +174,7 @@ public class Skill {
 		
 			};
 			break;
-		case muhSkills.AdvanceTime:
+		case muhSkills.AdvanceTime: //advance time on the clock
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30
@@ -192,31 +193,36 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.AimAndShoot:
+		case muhSkills.AimAndShoot: //take an extra turn to charge, then deal 1.5f damage penetrating with huge range time to sniperados
 			_skill = new Skill() {
 				EnergyCost = 2,
-				SkillRecoveryTime = 25,
+				SkillRecoveryTime = 36,
 				DamageScaling = 1.5f,
 				Penetrating = true,
-				SkillMaxRange = 4
+				SkillMaxRange = 12,
+				RequiresPreparation = true
+
 				
 			};
 			break;
-		case muhSkills.AllGuard:
+		case muhSkills.AllGuard: //guard-devotion around the caster. receives damage based on %. es. 80% guard means you take 80% of targets received dmg. 
 			_skill = new Skill() {
-				EnergyCost = 2,
+				EnergyCost = 1,
 				SkillRecoveryTime = 20,
 				SkillMaxRange = 2,
-				PrerequisiteSkill = muhSkills.AllGuard
+				PrerequisiteSkill = muhSkills.AllyGuard,
+				GuardScaling = 10
+
 
 				
 				
 			};
 			break;
-		case muhSkills.AllyGuard:
+		case muhSkills.AllyGuard: //single target guard
 			_skill = new Skill() {
 				EnergyCost = 1,
-				SkillRecoveryTime = 15
+				SkillRecoveryTime = 15,
+				GuardScaling = 20
 
 				
 				
@@ -226,12 +232,13 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
-				PrerequisiteSkill = muhSkills.AllyGuard
+				PrerequisiteSkill = muhSkills.AllyGuard,
+				GuardScaling = 30
 				
 				
 			};
 			break;
-		case muhSkills.AnkleSnare:
+		case muhSkills.AnkleSnare: //if an unit stops in the position, stop it from moving. forever.
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20
@@ -240,7 +247,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Assassinate:
+		case muhSkills.Assassinate: //1hko the enemy if your energy % is higher than his hp % and some other little modifications
 			_skill = new Skill() {
 				EnergyCost = 1,
 				DepleteEnergy = true,
@@ -250,16 +257,16 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Bait:
+		case muhSkills.Bait: //why did they call bait an atk buff fucking chinks
 			_skill = new Skill() {
-				EnergyCost = 0, //that's right. FOR FREE
+				EnergyCost = 0,
 				SkillRecoveryTime = 10
 				
 				
 				
 			};
 			break;
-		case muhSkills.BattlegroundPreparation:
+		case muhSkills.BattlegroundPreparation: //increases the strenght of your attacks by 4% global if its too broken ill put it as aura
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 5,
@@ -269,7 +276,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.BattleRatingDown:
+		case muhSkills.BattleRatingDown: //makes the enemy look bad and lowers battle gauge
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
@@ -287,7 +294,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.BattleStrategy:
+		case muhSkills.BattleStrategy: //buffs people. number of buffs based on people in the unit, buff strenght based on int.
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
@@ -371,16 +378,16 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.CarefulAttack:
+		case muhSkills.CarefulAttack: //normal attack but you cant counter attack
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 10,
-				DamageScaling = .8f,
+				DamageScaling = 1,
 				CanCounter = false
 				
 			};
 			break;
-		case muhSkills.Carry:
+		case muhSkills.Carry: //maybe change to passive? can carry other people around
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10
@@ -389,7 +396,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.CavalryCharge:
+		case muhSkills.CavalryCharge: //normal cavalry atk
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
@@ -398,7 +405,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Charge:
+		case muhSkills.Charge:   //increase attack idk if i want to keep this
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 5
@@ -417,7 +424,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.ChinkChinkShuriken:
+		case muhSkills.ChinkChinkShuriken: //a shuriken with penetration
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 10,
@@ -429,7 +436,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.CleanUp:
+		case muhSkills.CleanUp: //finisher
 			_skill = new Skill() {
 				EnergyCost = 1,
 				DepleteEnergy = true,
@@ -440,7 +447,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.ConvertAction: //1 energy
+		case muhSkills.ConvertAction: //gives 1 energy to someone else
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15
@@ -458,7 +465,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.CounterRange:
+		case muhSkills.CounterRange: //you can activate it when atked, cavalry can counter attack rangeds by rushing to them
 			_skill = new Skill() {
 
 				
@@ -476,7 +483,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.CrossbowAttackPlus: //why did i even add this
+		case muhSkills.CrossbowAttackPlus: //why did i even add this you aint gonna attack with tacticians
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 40,
@@ -497,7 +504,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.EnchantWeapon:
+		case muhSkills.EnchantWeapon: // deals bonus magic damage based on casters int
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20
@@ -506,7 +513,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.FellowTroopsRevenge:
+		case muhSkills.FellowTroopsRevenge: //deal physical damage based on people ded in your unit
 			_skill = new Skill() {
 				EnergyCost = 1,
 				DepleteEnergy = true,
@@ -526,7 +533,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.FollowThrough:
+		case muhSkills.FollowThrough: //if you are winning in the battle gauge deal x3 as much damage
 			_skill = new Skill() {
 				EnergyCost = 1,
 				DepleteEnergy = true,
@@ -554,7 +561,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.FrostDiver:
+		case muhSkills.FrostDiver: //skill the freezes the target. frozen targets are basically out of the game 
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 25,
@@ -564,7 +571,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.FullPowerCharge:
+		case muhSkills.FullPowerCharge: //meh
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 15,
@@ -582,7 +589,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.GambleCharge:
+		case muhSkills.GambleCharge: //probably not gonna add this garbage
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
@@ -601,7 +608,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.GuardBreak:
+		case muhSkills.GuardBreak: //an attack that ignores part of targets defence
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
@@ -612,7 +619,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.GuardCancel:
+		case muhSkills.GuardCancel: //an spell that removes devotion
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
@@ -621,7 +628,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.HalveEnergy:
+		case muhSkills.HalveEnergy: //anti fun burden of knowledge
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
@@ -630,7 +637,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.HealingMist:
+		case muhSkills.HealingMist: //global shitty healing
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
@@ -639,7 +646,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Icewall:
+		case muhSkills.Icewall: //prevents people from passing and maybe prevent projectiles to hit 1 cell after it?
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
@@ -676,7 +683,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.LightAttack:
+		case muhSkills.LightAttack: //keep if i want to add capturing mechanics
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 20,
@@ -685,7 +692,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Lightning:
+		case muhSkills.Lightning: //aoe damage all around caster dealing tons of damage probably only for 1 char
 			_skill = new Skill() {
 				EnergyCost = 2,
 				DepleteEnergy = true,
@@ -697,7 +704,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Loot:
+		case muhSkills.Loot: //deals damage and gives you money after the end of the battle if you win
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
@@ -707,7 +714,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.MagicGuard:
+		case muhSkills.MagicGuard: //le ague de le gens banshee veil pretty much
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
@@ -726,17 +733,17 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Maim:
-			_skill = new Skill() {
+		case muhSkills.Maim: //gooble gobble 
+			_skill = new Skill() { 
 				EnergyCost = 2,
 				SkillRecoveryTime = 15,
 				DamageScaling = 1.1f,
-				//add less movement to opponent
+				//reduce movement to target
 				
 				
 			};
 			break;
-		case muhSkills.Meditate:
+		case muhSkills.Meditate: //heal 1 energy to self
 			_skill = new Skill() {
 				EnergyCost = -1,
 				SkillRecoveryTime = 20,
@@ -754,7 +761,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.MikoDance:
+		case muhSkills.MikoDance: //heal target but its kinda shit
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
@@ -782,7 +789,7 @@ public class Skill {
 				PrerequisiteSkill = muhSkills.MikoDancePlus
 			};
 			break;
-		case muhSkills.MikoStorm:
+		case muhSkills.MikoStorm: //global % true damage
 			_skill = new Skill() {
 				EnergyCost = 1,
 				DepleteEnergy = true,
@@ -804,7 +811,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.MonkCharge:
+		case muhSkills.MonkCharge: //attacks and removes buffs to target.
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
@@ -824,7 +831,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.MuhFlags:
+		case muhSkills.MuhFlags: //increases battle rating 
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 15,
@@ -842,7 +849,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.OnRush:
+		case muhSkills.OnRush:  //reduces energy and deals dmg
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 20,
@@ -852,7 +859,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Overtime:
+		case muhSkills.Overtime: //increases turns left b4 battle ends
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
@@ -870,7 +877,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.PenetrationShoot:
+		case muhSkills.PenetrationShoot: //ignores guard
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
@@ -894,7 +901,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Phalanx:
+		case muhSkills.Phalanx: //increase defence by 50%? reduced movement and cant enter tiles like forests, deserts, etc..
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
@@ -903,7 +910,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Poison:
+		case muhSkills.Poison: //after X turns 1hko target. if target moves, attacks,  counter attacks, etc. reduces amount of turns. maybe scale with int but idk
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
@@ -912,7 +919,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.QuickAttack:
+		case muhSkills.QuickAttack: //low reco time
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 5,
@@ -921,7 +928,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.RearGuardCharge:
+		case muhSkills.RearGuardCharge: //bonus dmg to ranged units
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 20,
@@ -959,7 +966,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Sharpshoot:
+		case muhSkills.Sharpshoot: //checks if the tile behind the target is occupied by an enemy. if it attack that too
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 25,
@@ -970,7 +977,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Shikigami:
+		case muhSkills.Shikigami: //magic spell area idk what the puk is a shikigami google returns weebshit
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 25,
@@ -1004,17 +1011,17 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.ShoutingCharge:
+		case muhSkills.ShoutingCharge: //add battle rating based on damage
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 23,
 				DamageScaling = 1.2f,
-				//add battle rating based on damage
+
 				
 				
 			};
 			break;
-		case muhSkills.Shuriken:
+		case muhSkills.Shuriken: //normal ninja skill, cancels preparation
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
@@ -1035,7 +1042,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.SideAttack:
+		case muhSkills.SideAttack: //prevents counter attack?
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 20,
@@ -1056,7 +1063,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.StormGust:
+		case muhSkills.StormGust: //frost diver aoe
 			_skill = new Skill() {
 				EnergyCost = 3,
 				SkillRecoveryTime = 30,
@@ -1100,17 +1107,17 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.SummonTrash:
+		case muhSkills.SummonTrash: //spawn a monster that attacks anyone, based on summoner int
 			_skill = new Skill() {
 				EnergyCost = 1,
 				DepleteEnergy = true,
 				SkillRecoveryTime = 10,
-				//spawn a monster that attacks anyone, based on summoner stats
+
 				SkillMaxRange = 2
 				
 			};
 			break;
-		case muhSkills.SweepingFire:
+		case muhSkills.SweepingFire: //damage in a line of 3 cells
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
@@ -1121,7 +1128,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.TenshiDivineTrash:
+		case muhSkills.TenshiDivineTrash: //self heal
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
@@ -1141,7 +1148,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Volley:
+		case muhSkills.Volley: //meh dmg huge area
 			_skill = new Skill() {
 				EnergyCost = 1,
 				DepleteEnergy = true,
@@ -1172,14 +1179,13 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.WhiteDestructionBeam:
+		case muhSkills.WhiteDestructionBeam: //damage in a line till the end of the map
 			_skill = new Skill() {
 				EnergyCost = 3,
 				DepleteEnergy = true,
 				SkillRecoveryTime = 30,
 				DamageScaling = 2,
-				Penetrating = true //damage in a line till the end of the map
-
+				Penetrating = true 
 				
 				
 			};

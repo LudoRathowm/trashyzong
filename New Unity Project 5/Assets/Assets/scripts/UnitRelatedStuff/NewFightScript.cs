@@ -10,22 +10,40 @@ public class NewFightScript {
 	public static void MeleeFightingScript (TroopScript Attacker, TroopScript Defender, Skill SkillUsed){
 		int AttackerBattlefieldEffect = 1; //still to impement
 		int DefenderBattlefieldEffect = 1; //still to impement
-
 		int DamageOnAtk = 0;
-		int DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
+		int DamageOnDef = 0;
+		TroopScript DefenderGuarder = Defender.GuardedBy;
+		float 	DefenderGuardPercent = (float)Defender.GuardedByPercent/100;
+
+		if (SkillUsed.Penetrating == true || DefenderGuarder == null){
+		DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
+			Defender.SetNumber(Defender.GetNumber()-DamageOnDef);
+			if (Defender.GetNumber()<0) Defender.SetNumber(0);
 		if (CanCounter(Attacker,Defender,SkillUsed)){
 
 		float CounterScaling = CounterAttackDamage(Defender.GetChief().GetCounterAttack(),Defender.GetArmor().CounterAttackValue+Defender.GetWeapon().CounterAttackValue);
-			DamageOnAtk = CalculateCounterDamage(Defender,Attacker,CounterScaling,DefenderBattlefieldEffect);
-         
-		}
-	
-		//deal with this
-		Defender.SetNumber(Defender.GetNumber()-DamageOnDef);
-		Attacker.SetNumber(Attacker.GetNumber()-DamageOnAtk);
-		Debug.Log("dmg:" +DamageOnDef);
-		Debug.Log("counter:" +DamageOnAtk);
+			DamageOnAtk = CalculateCounterDamage(Defender,Attacker,CounterScaling,DefenderBattlefieldEffect);     
+			Attacker.SetNumber(Attacker.GetNumber()-DamageOnAtk);
+				if (Attacker.GetNumber()<0) Attacker.SetNumber(0);}}
 
+
+		else if (SkillUsed.Penetrating == false && DefenderGuarder != null){			
+
+		
+			DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
+			if (DefenderGuarder){
+				DefenderGuarder.SetNumber(DefenderGuarder.GetNumber()-Mathf.RoundToInt(DamageOnDef*DefenderGuardPercent));
+				if (DefenderGuarder.GetNumber()<0) DefenderGuarder.SetNumber(0);
+				Defender.SetNumber(Defender.GetNumber()-Mathf.RoundToInt(DamageOnDef*(1-DefenderGuardPercent)));
+				if (Defender.GetNumber()<0) Defender.SetNumber(0);
+				if (CanCounter(Attacker,DefenderGuarder,SkillUsed)){
+					float CounterScaling = CounterAttackDamage(DefenderGuarder.GetChief().GetCounterAttack(),DefenderGuarder.GetArmor().CounterAttackValue+DefenderGuarder.GetWeapon().CounterAttackValue);
+					DamageOnAtk = CalculateCounterDamage(DefenderGuarder,Attacker,CounterScaling,DefenderBattlefieldEffect);
+					Attacker.SetNumber(Attacker.GetNumber()-DamageOnAtk);
+					if (Attacker.GetNumber()<0) Attacker.SetNumber(0);
+			}
+				}
+		}
 	}
 
 	public static void HealingTarget (TroopScript Healer, TroopScript Healed, float SkillModifier){
@@ -312,7 +330,7 @@ public class NewFightScript {
 			Buffed.SetSpeedBuff(strenght);
 	}
 
-	public static void AccurateShots (TroopScript Caster, int range){
+	public static void AccurateShotsTargeting (TroopScript Caster, int range){
 //		Color highlightColor = new Color(GameManager.ColorAdapter(0),GameManager.ColorAdapter(255),GameManager.ColorAdapter(0),1);
 //		Color SHIThighlightColor  = new Color(GameManager.ColorAdapter(153),GameManager.ColorAdapter(153),GameManager.ColorAdapter(0),1);
 		List<TroopScript> PeopleToAttack = new List<TroopScript>();
@@ -332,9 +350,52 @@ public class NewFightScript {
 			}
 		}
 
-
 		Debug.Log(PeopleToAttack.Count);
+		//only if some shit happens and it stops being triggered per frame idk ill see what i can do
+		AccurateShotAction(Caster,PeopleToAttack,TotalDamage);
+
+
 	}
 
+	public static void AccurateShotAction (TroopScript Caster, List<TroopScript> Targets, float _skillDamage){
+		int AttackerBattlefieldEffect = 1; //still to impement
+
+		
+		for (int i = 0;i<Targets.Count;i++){
+			int kills = CalculateAccurateShotDamage(Caster,Targets[i],_skillDamage,AttackerBattlefieldEffect);
+			Targets[i].SetNumber(Targets[i].GetNumber()-kills);
+			if (Targets[i].GetNumber()<0) Targets[i].SetNumber(0);
+			if (Targets[i].GetPreparation()) Targets[i].SetPreparation(false);
+			if (Targets[i].GetEnergy()>0)Targets[i].SetEnergy(Targets[i].GetEnergy()-1);
+		}
+
+	
+	}
+	static int CalculateAccurateShotDamage (TroopScript Attacker, TroopScript Defender, float _skillDamage, int BattlefieldEffect){
+		int AdjustedTroopSize = CalculateAdjustedTroopSize (Attacker.GetNumber(),ReturnPeoplePerLine(Attacker), Attacker.GetChief().GetMuhReturns());
+		int TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff()))/15));
+		int flatWeaponValue = Attacker.GetWeapon().Attack;
+		int Final = Mathf.RoundToInt(((TroopDamage*Attacker.GetWeapon().AttackModifier+flatWeaponValue)*_skillDamage)*BattlefieldEffect);
+		return Final;
+	}
+
+
+	public static void AdvanceTime (){
+		GameManager.instance.CurrentTime +=2;
+	}
+	public static void AdvanceTime2(){
+		GameManager.instance.CurrentTime +=4;
+	}
+
+	static int CalculateGuardPercent (TroopScript Caster, TroopScript Target, Skill SkillUsedToGuard){
+		int intelligence = Mathf.RoundToInt(((float)Caster.GetChief().GetIntelligence()+(float)Target.GetChief().GetIntelligence())/2); //if the one you have to guard is a retard guarding is harder
+		int GuardScaling = SkillUsedToGuard.GuardScaling;
+		return Mathf.RoundToInt(intelligence*GuardScaling);
+	}
+
+	public static void AllyGuard (TroopScript Caster, TroopScript Target, Skill SkillUsedToGuard) {
+		Target.GuardedBy = Caster;
+		Target.GuardedByPercent = CalculateGuardPercent(Caster,Target,SkillUsedToGuard); 
+	}
 
 }

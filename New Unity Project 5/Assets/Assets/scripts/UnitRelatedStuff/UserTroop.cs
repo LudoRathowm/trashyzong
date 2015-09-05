@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class UserTroop : TroopScript {
@@ -12,13 +12,12 @@ public class UserTroop : TroopScript {
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
-			if (GameManager.instance.calc){
-			//	GameManager.instance.calc = false;
-				NewFightScript.AccurateShots(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex],1);}
+
+
 			transform.GetChild(1).gameObject.SetActive(true);
 			if (Input.GetButtonDown("MoveKey")){
-
-				if (!moving) {
+//				NewFightScript.AccurateShots(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex],1);
+			if (!moving) {
 					GameManager.instance.removeTileHighlights();
 					moving = true;
 					attacking = false;

@@ -55,6 +55,7 @@ public class TroopScript : MonoBehaviour {
 	
 	//stuff to make it work, not related to rpg parts
 	public int TurnRecoveryTime = 0;
+	bool isPreparating = false;
 	bool chargedWeapon = false; //for crossbows
 	bool isPhalanxing = false; //for AI and pathfinding
 	public int actionPoints = 2;
@@ -70,7 +71,8 @@ public class TroopScript : MonoBehaviour {
 
    
 
-
+	public TroopScript GuardedBy;
+	public int GuardedByPercent;
 
 
 
@@ -174,6 +176,9 @@ public class TroopScript : MonoBehaviour {
 
 	public bool GetCharge(){
 		return chargedWeapon;
+	}
+	public bool GetPreparation(){
+		return isPreparating;
 	}
 
 	public bool GetPhalanx(){
@@ -286,6 +291,11 @@ public class TroopScript : MonoBehaviour {
 	public void SetCharge (bool charge){
 		chargedWeapon = charge;
 	}
+
+	public void SetPreparation (bool prep){
+		isPreparating = prep;
+	}
+
 
 	public void SetPhalanx (bool phalanx){
 		isPhalanxing = phalanx;
