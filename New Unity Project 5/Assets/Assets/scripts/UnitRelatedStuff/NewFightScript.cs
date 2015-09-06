@@ -335,7 +335,7 @@ public class NewFightScript {
 //		Color SHIThighlightColor  = new Color(GameManager.ColorAdapter(153),GameManager.ColorAdapter(153),GameManager.ColorAdapter(0),1);
 		List<TroopScript> PeopleToAttack = new List<TroopScript>();
 
-	Vector2 casterPosition = Caster.gridPosition;
+
 
 	Vector2 mousePosition = GameManager.instance.MousePosition;
 	List<Tile> Targetcells = GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,mousePosition,10,2);
@@ -397,5 +397,56 @@ public class NewFightScript {
 		Target.GuardedBy = Caster;
 		Target.GuardedByPercent = CalculateGuardPercent(Caster,Target,SkillUsedToGuard); 
 	}
+
+
+	public static void AnkleSnare (TroopScript Caster){
+		GameManager.instance.highlightTilesAt(Caster.gridPosition,Color.cyan,1,false);
+	//this shit is all in the game manager script
+}
+
+	public static void BattleRating (TroopScript Caster, Skill SkillUsed){
+		float BattleRatingChange = SkillUsed.BattleEffect;
+		//need to change battle rating but there is none for now oop
+	}
+
+	public static void CarryPickUp (TroopScript Caster){
+		GameManager.instance.highlightTilesAt(Caster.gridPosition,Color.cyan,1,false);
+	   //this goes into the game manager thing i think zz
+	//	TroopScript Target; need an actual troopscript to prevent errors
+	//	Caster.CarryingThisNigga = Target;
+		//stuff to remove target from lists, disable acting from Caster.
+		}
+	public static void CarryDropDown (TroopScript Caster){
+		//game manager stuff to decide position
+		//instantiate blabla with CarryingThisNigga value
+		Caster.CarryingThisNigga = null;
+	}
+
+	public static void FinisherDamageScaling (TroopScript Caster, TroopScript Target){
+		float CasterHpPercent = (float)Caster.GetNumber()/Caster.GetmaxNumber();
+		float TargetHpPercent = (float)Target.GetNumber()/Target.GetmaxNumber();
+		float SkillScaling = .5f*(CasterHpPercent/TargetHpPercent);
+	}
+
+	public static void ConvertAction (TroopScript Caster,TroopScript Target, Skill SkillUsed){
+		int Value = SkillUsed.EnergyCost;
+		if (Caster.GetEnergy()>=Value){
+			Caster.SetEnergy(Caster.GetEnergy()-Value);
+			Target.SetEnergy(Target.GetEnergy()+Value);
+		if (Target.GetEnergy() > Target.GetMaxEnergy())
+				Target.SetEnergy(Target.GetMaxEnergy());}
+	}
+	public static void PoisonStuff (TroopScript Caster, TroopScript Target, Skill SkillUsed){
+		if (SkillUsed.RemovesPoison)
+			Target.Poisoned = 0;
+		else if (SkillUsed.AppliesPoison)
+			Target.Poisoned = Caster.GetChief().GetIntelligence();
+	}
+
+	public static void FellowTroopRevenge (TroopScript Caster, TroopScript Target){
+		int Losses = Caster.GetmaxNumber()-Caster.GetNumber();
+
+	}
+
 
 }

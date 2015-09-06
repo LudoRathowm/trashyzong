@@ -118,7 +118,7 @@ public enum muhSkills{
 	FireBlast,
 	Icewall,
 	StormGust,
-	EnchantWeapon,
+
 	WhiteDestructionBeam,
     //SYSTEM 
 	NoSkill //to check if there's a skill pre-requisite
@@ -251,7 +251,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				DepleteEnergy = true,
-				SkillRecoveryTime = 20
+				SkillRecoveryTime = 20,
+				SkillMaxRange=1
 				
 				
 				
@@ -459,7 +460,7 @@ public class Skill {
 		case muhSkills.ConvertAction2: //2 energy
 			_skill = new Skill() {
 				EnergyCost = 2,
-				SkillRecoveryTime = 2,
+				SkillRecoveryTime = 15,
 				PrerequisiteSkill = muhSkills.ConvertAction
 				
 				
@@ -504,15 +505,15 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.EnchantWeapon: // deals bonus magic damage based on casters int
-			_skill = new Skill() {
-				EnergyCost = 1,
-				SkillRecoveryTime = 20
-				
-				
-				
-			};
-			break;
+//		case muhSkills.EnchantWeapon: // deals bonus magic damage based on casters int
+//			_skill = new Skill() {
+//				EnergyCost = 1,
+//				SkillRecoveryTime = 20
+//				
+//				
+//				
+//			};
+//			break;
 		case muhSkills.FellowTroopsRevenge: //deal physical damage based on people ded in your unit
 			_skill = new Skill() {
 				EnergyCost = 1,

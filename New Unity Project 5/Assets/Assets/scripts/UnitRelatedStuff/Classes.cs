@@ -194,7 +194,7 @@ static	List<Skill> ClassAdvancedSkills = new List<Skill>();
 			ClassSkills.Add(Skill.FromListOfSkills(muhSkills.FrostDiver));
 			ClassSkills.Add(Skill.FromListOfSkills(muhSkills.FireBlast));
 			ClassAdvancedSkills.Add(Skill.FromListOfSkills(muhSkills.Icewall));
-			ClassAdvancedSkills.Add(Skill.FromListOfSkills(muhSkills.EnchantWeapon));
+	//		ClassAdvancedSkills.Add(Skill.FromListOfSkills(muhSkills.EnchantWeapon));
 			ClassAdvancedSkills.Add(Skill.FromListOfSkills(muhSkills.WhiteDestructionBeam));
 			ClassAdvancedSkills.Add(Skill.FromListOfSkills(muhSkills.StormGust));
 				break;

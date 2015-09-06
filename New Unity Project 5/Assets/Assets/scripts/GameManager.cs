@@ -122,10 +122,10 @@ public	int PlayerTurnIndex = 0;
 
 		
 		foreach (Tile t in AreaHighlighted) {
-			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.blue;
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = AreaColor;
 		}
 		foreach (Tile t in IntesectionArea) {
-			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = targetColor;
 		}
 		return IntesectionArea;
 	}
@@ -145,7 +145,10 @@ public	int PlayerTurnIndex = 0;
  	
 	public void moveCurrentPlayer(Tile destTile) {
 		playerTurns[PlayerTurnIndex].previousWorldPosition = playerTurns[PlayerTurnIndex].transform.position;
-		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && playerTurns[PlayerTurnIndex].positionQueue.Count == 0) {
+		int xPos = Mathf.RoundToInt(playerTurns[PlayerTurnIndex].gridPosition.x);
+		int yPos = Mathf.RoundToInt(playerTurns[PlayerTurnIndex].gridPosition.y);
+		Tile _terrain = GameManager.instance.map[xPos][yPos];
+		if (!_terrain.Trapped && destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && playerTurns[PlayerTurnIndex].positionQueue.Count == 0) {
 			removeTileHighlights();
 			playerTurns[PlayerTurnIndex].moving = false;
 			foreach(Tile t in TilePathFinder.FindPath(map[(int)playerTurns[PlayerTurnIndex].gridPosition.x][(int)playerTurns[PlayerTurnIndex].gridPosition.y],destTile, playerTurns.Where(x => x.gridPosition != destTile.gridPosition && x.gridPosition != playerTurns[PlayerTurnIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
@@ -161,7 +164,14 @@ public	int PlayerTurnIndex = 0;
 			//if you dont comment this out you can move onto the cell oop
 		}
 	}
-	
+
+	public void AnkleSnare (Tile chosenTile){
+		if (chosenTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && playerTurns[PlayerTurnIndex].positionQueue.Count == 0)
+			removeTileHighlights();
+		//add remove acting or w/e
+		chosenTile.Trapped = true;
+	}
+
 	public void attackWithCurrentPlayer(Tile destTile) {
 		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible) {
 			

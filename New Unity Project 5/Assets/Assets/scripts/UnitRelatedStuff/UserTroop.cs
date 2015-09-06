@@ -12,11 +12,15 @@ public class UserTroop : TroopScript {
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
-
+			NewFightScript.AnkleSnare(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
 
 			transform.GetChild(1).gameObject.SetActive(true);
 			if (Input.GetButtonDown("MoveKey")){
+				int xPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.x);
+				int yPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.y);
+				Tile _terrain = GameManager.instance.map[xPos][yPos];
 //				NewFightScript.AccurateShots(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex],1);
+				if (!_terrain.Trapped){
 			if (!moving) {
 					GameManager.instance.removeTileHighlights();
 					moving = true;
@@ -27,7 +31,7 @@ public class UserTroop : TroopScript {
 					attacking = false;
 					GameManager.instance.removeTileHighlights();
 				}
-			}
+				} else Debug.Log ("You got trapped nigga");}
 			if (Input.GetButtonDown("AttackKey")){
 
 					if (!attacking && GetWeapon().weapType == WeaponType.Crossbow && GetCharge() == false){
