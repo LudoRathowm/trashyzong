@@ -69,11 +69,11 @@ public class TroopScript : MonoBehaviour {
 	public bool moving = false;
 	public bool attacking = false;
 	public bool Trapped = false; //ankle snare
-	public TroopScript CarryingThisNigga;
+	public TroopScript CarryingThisNigga = null;
 	public int Poisoned = 0;
-	public TroopScript GuardedBy;
-	public int GuardedByPercent;
-
+	public TroopScript GuardedBy = null;
+	public int GuardedByPercent =0;
+	public bool Frozen = false;
 
 
 

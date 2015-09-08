@@ -445,8 +445,21 @@ public class NewFightScript {
 
 	public static void FellowTroopRevenge (TroopScript Caster, TroopScript Target){
 		int Losses = Caster.GetmaxNumber()-Caster.GetNumber();
+		float Scaling = .25f*(float)Losses/((float)Caster.GetmaxNumber()/10);
+		Skill FellowTroopRevenge = Skill.FromListOfSkills(muhSkills.FellowTroopsRevenge);
+		FellowTroopRevenge.DamageScaling = Scaling;
+
+		MeleeFightingScript(Caster,Target,FellowTroopRevenge);
+	}
+	public static void FrostDiver (TroopScript Caster, TroopScript Target){
+		if (Target.GetChief().GetIntelligence()<Caster.GetChief().GetIntelligence())
+			Target.Frozen = true;
+		MeleeFightingScript(Caster,Target,Skill.FromListOfSkills(muhSkills.FrostDiver));
 
 	}
-
+	public static void IceWall (){
+		//the targeting script is in game manager
+		//instantiate 3 cells like the ogre thingy
+	}
 
 }

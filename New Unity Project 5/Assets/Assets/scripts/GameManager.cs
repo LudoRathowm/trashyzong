@@ -82,7 +82,7 @@ public	int PlayerTurnIndex = 0;
 		List <Tile> highlightedTiles = new List<Tile>();
 
 		if (ignorePlayers) highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance, highlightColor == Color.red,false);
-		else highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance,  playerTurns.Where(x => x.gridPosition != originLocation).Select(x => x.gridPosition).ToArray(), highlightColor == Color.red,false);
+		else highlightedTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], distance,  players.Where(x => x.gridPosition != originLocation).Select(x => x.gridPosition).ToArray(), highlightColor == Color.red,false);
 
 		foreach (Tile t in highlightedTiles) {
 			t.visual.transform.GetComponent<Renderer>().materials[0].color = highlightColor;
@@ -100,6 +100,88 @@ public	int PlayerTurnIndex = 0;
 			t.visual.transform.GetComponent<Renderer>().materials[0].color = highLightColor;
 		}
 
+	}
+
+	public List <Tile> highLightIceWall (Vector2 originLocation, Vector2 mousePosition, bool HorizontalWall){
+		List <Tile> Intern = new List<Tile>();
+		List <Tile> _extern = new List<Tile>();
+		List <Tile> _intern = new List<Tile>();
+		List <Tile> Extern = new List<Tile>();
+		List <Tile> Wall = new List<Tile>();
+
+		Intern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],2,true,false);
+		Extern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],6,true,false);
+		var _ring = Extern.Except(Intern);
+		List <Tile> FinalRing = _ring.ToList();
+	
+
+		if (HorizontalWall){
+			Tile pos = map[(int)mousePosition.x][(int)mousePosition.y];
+			Tile posplus; //= map[(int)mousePosition.x][(int)mousePosition.y];
+			Tile posminus;//= map[(int)mousePosition.x][(int)mousePosition.y];
+
+			if (mousePosition.x<mapSize-1){
+				posplus = map[(int)mousePosition.x+1][(int)mousePosition.y];
+				Wall.Add(posplus);}
+			if (MousePosition.x>0){
+				posminus = map[(int)mousePosition.x-1][(int)mousePosition.y];
+				Wall.Add(posminus);}
+			Wall.Add(pos);  }
+		else if (!HorizontalWall){
+			Tile pos = map[(int)mousePosition.x][(int)mousePosition.y];
+			Tile posplus; //= map[(int)mousePosition.x][(int)mousePosition.y];
+			Tile posminus;//= map[(int)mousePosition.x][(int)mousePosition.y];
+			
+			if (mousePosition.y<mapSize-1){
+				posplus = map[(int)mousePosition.x][(int)mousePosition.y+1];
+				Wall.Add(posplus);}
+			if (MousePosition.y>0){
+				posminus = map[(int)mousePosition.x][(int)mousePosition.y-1];
+				Wall.Add(posminus);}
+
+			Wall.Add(pos); 
+//			for (int j = 0; j<Wall.Count;j++)
+//			for (int i=0;i<players.Count;i++){
+//				if (players[i].gridPosition == Wall[j].gridPosition)
+//					Wall.Remove(Wall[j]);	}	
+			}
+		var Intersect = FinalRing.Intersect(Wall);
+		List<Tile> IntersectWall = Intersect.ToList();
+		List<Tile> Redtiles = new List<Tile>();
+					for (int j = 0; j<IntersectWall.Count;j++)
+					for (int i=0;i<players.Count;i++){
+			if (players[i].gridPosition != originLocation && players[i].gridPosition  == Wall[j].gridPosition){
+				Debug.Log(IntersectWall.Count);
+				Debug.Log(players[i].GetName());
+				if (IntersectWall[j]){IntersectWall.Remove(Wall[j]);
+					Redtiles.Add (Wall[j]);}}	}		
+
+		foreach (Tile t in Wall)
+			if (!FinalRing.Contains(t))
+				Redtiles.Add(t);
+		
+		List<Tile> Everything = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],999,true,false);
+		var Whitey = Everything.Except(FinalRing);
+		List<Tile> _whiteys = Whitey.ToList();
+		foreach (Tile t in Whitey)
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.white;
+
+		foreach (Tile t in FinalRing) {
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.cyan;
+		}
+		//if (IntersectWall.Count<3)			
+			foreach (Tile t in Redtiles)
+				t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
+
+		//else if (IntersectWall.Count==3)
+			foreach (Tile t in IntersectWall)
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.blue;
+
+	
+		return IntersectWall;
+
+	
+		
 	}
 
 	public List<Tile> AccurateShotsHighlights (Vector2 originLocation, Vector2 mousePosition, int distance, int mouseArea){

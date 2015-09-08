@@ -30,7 +30,7 @@ public class TileHighlight {
 	}
 
 	public static List<Tile> FindHighlight (Tile originTile, int movementPoints, Vector2[] occupied, bool dontremoveorigin){
-		Debug.Log("highlight"+FindHighlight(originTile, movementPoints, occupied, true,true).Count);
+
 		return FindHighlight(originTile,movementPoints,occupied,true,dontremoveorigin);
 	}
 
