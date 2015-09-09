@@ -258,7 +258,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Bait: //why did they call bait an atk buff fucking chinks
+		case muhSkills.Bait: //basically provoke increase atk drop def to the enemy
 			_skill = new Skill() {
 				EnergyCost = 0,
 				SkillRecoveryTime = 10
@@ -609,7 +609,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.GuardBreak: //an attack that ignores part of targets defence
+		case muhSkills.GuardBreak: //an attack that ignores part of targets defence, added to the calculate damage
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
@@ -698,9 +698,11 @@ public class Skill {
 				EnergyCost = 2,
 				DepleteEnergy = true,
 				SkillRecoveryTime = 10,
+				RequiresPreparation = true,
 				isPhysical = false,
-				DamageScaling = 3,
-				SkillMaxRange = 3
+				DamageScaling = 5,
+				SkillMaxRange = 3,
+				CanCounter = false
 				
 				
 			};
@@ -715,7 +717,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.MagicGuard: //le ague de le gens banshee veil pretty much
+		case muhSkills.MagicGuard: //le ague de le gens banshee veil pretty much added in the hp setters for troopscripteados
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
@@ -832,7 +834,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.MuhFlags: //increases battle rating 
+		case muhSkills.MuhFlags: //increases battle rating added to battle rating in newfightscript
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 15,
@@ -902,6 +904,7 @@ public class Skill {
 				
 			};
 			break;
+			v ADD AS BUFF
 		case muhSkills.Phalanx: //increase defence by 50%? reduced movement and cant enter tiles like forests, deserts, etc..
 			_skill = new Skill() {
 				EnergyCost = 1,

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,9 +86,11 @@ public class NewFightScript {
 		else thisGuysTerrain = Defender;
 		int	AdjustedTroopSize= CalculateAdjustedTroopSize ( Attacker.GetNumber(),ReturnPeoplePerLine(thisGuysTerrain),Attacker.GetChief().GetMuhReturns());
 		bool isPhysical = Skillused.isPhysical;
-		if (isPhysical)
+		if (isPhysical && Skillused.PiercesDefence == false)
 		TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff()))/15));
-		else 
+		else if (isPhysical && Skillused.PiercesDefence == true)
+			TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense()/2,Defender.GetDefenseBuff()))/15));
+		else if (!isPhysical)
 		TroopDamage = Mathf.RoundToInt((AdjustedTroopSize*(((float)CalculateMagicAttack(Attacker.GetClass().GetIntelligence(),Attacker.GetChief().GetIntelligence(),Attacker.GetDirectMatkBuff())-(float)CalculateMagicDefense(Defender.GetChief().GetIntelligence(),Defender.GetMdefBuff()))/15)));
 		if (TroopDamage>Attacker.GetNumber())
 			TroopDamage = Attacker.GetNumber();
@@ -461,5 +463,41 @@ public class NewFightScript {
 		//the targeting script is in game manager
 		//instantiate 3 cells like the ogre thingy
 	}
+
+	public static void KnightCharge(TroopScript Caster,TroopScript Target){
+		float DamageScaling = 1.5f;
+		if (Caster.GetNumber()<Target.GetNumber())
+			DamageScaling = 3;
+		Skill KnightCharge = Skill.FromListOfSkills(muhSkills.KnightCharge);
+		KnightCharge.DamageScaling = DamageScaling;
+		MeleeFightingScript(Caster,Target,KnightCharge);
+	}
+
+	public static void Lightning (TroopScript Caster){
+		Vector2 originPosition = Caster.gridPosition;
+		List <TroopScript> Targets = GameManager.instance.Lightning(originPosition);
+		for (int i=0;i<Targets.Count;i++)
+			MeleeFightingScript(Caster,Targets[i],Skill.FromListOfSkills(muhSkills.Lightning));
+
+	}
+
+	public static void GuardCancel (TroopScript Caster, TroopScript Target){
+		Target.GuardedBy = null;
+		Target.GuardedByPercent = 0;
+	}
+
+	public static void MagicGuard (TroopScript Caster,TroopScript Target){
+		Target.isMagicGuarded = true;
+	}
+
+//	public static void Maim (TroopScript Target){        convert into a status?
+//		Target.SetBaseMovement(Target.SetBaseMovement-2);
+//	}
+	public static void MonkCharge (TroopScript Caster, TroopScript Target, Skill SkillUsed){
+		Target.RemoveAllbuffs();
+		MeleeFightingScript(Caster,Target,SkillUsed);
+	}
+
+
 
 }

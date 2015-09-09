@@ -89,6 +89,21 @@ public	int PlayerTurnIndex = 0;
 		}
 	}
 
+	public List<TroopScript> Lightning (Vector2 originLocation){
+		List<Tile> AroundTheWorld = new List<Tile>();
+		List<TroopScript> PeopleHit = new List<TroopScript>();
+		AroundTheWorld = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],3,true,false);
+		for (int i =0;i<players.Count;i++)
+			for (int j=0;j<AroundTheWorld.Count;j++)
+				if (AroundTheWorld[j].gridPosition == players[i].gridPosition)
+					PeopleHit.Add(players[i]);
+
+		foreach (Tile t in AroundTheWorld)
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
+		return PeopleHit;
+
+	}
+
 	public void highlightTilesRing (Vector2 originLocation, Color highLightColor, int internDistance, int outerDistance){
 		List <Tile> Intern = new List<Tile>();
 		List <Tile> Extern = new List<Tile>();

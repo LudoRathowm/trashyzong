@@ -74,7 +74,7 @@ public class TroopScript : MonoBehaviour {
 	public TroopScript GuardedBy = null;
 	public int GuardedByPercent =0;
 	public bool Frozen = false;
-
+	public bool isMagicGuarded = false;
 
 
 
@@ -261,7 +261,10 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public void SetNumber (int people){
+		if (people<People)
+			if (!isMagicGuarded)
 		People = people;
+		else isMagicGuarded = false;
 	}
 
 	public void SetmaxNumber (int wounded){
@@ -347,7 +350,17 @@ public class TroopScript : MonoBehaviour {
 	public void SetSpeedBuff (float value){
 		myBuffs.Speed = value;
 	}
-
+	public void RemoveAllbuffs (){
+		myBuffs.AttackCounter =0;
+		myBuffs.AttackDirect =0;
+		myBuffs.AttackTotal = 0;
+		myBuffs.Defense=0;
+		myBuffs.Mdef =0;
+		myBuffs.MatkCounter=0;
+		myBuffs.MatkDirect = 0;
+		myBuffs.MatkTotal = 0;
+		myBuffs.Speed = 0;
+	}
 
 
 	public void AddSkillToList (Skill _skill){
