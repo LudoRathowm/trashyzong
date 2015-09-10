@@ -37,8 +37,8 @@ public class TroopScript : MonoBehaviour {
 	int baseDefence;
 	int baseHitPoints;
 	int baseSpeed;
-	int People;
-	int maxPeople;
+	int People = 1;
+	int maxPeople = 999;
 	int baseMovement = 10;
 	int baseCounterAttackRange = 0;
 	int baseTurnSpeed = 1;
@@ -162,7 +162,10 @@ public class TroopScript : MonoBehaviour {
 		return Leader.GetSurname();
 	}
 	public int GetBaseMovement (){
-		return baseMovement;
+		bool phalanx = isPhalanxing;
+		int value = 0;
+		if (phalanx) value = -1;
+		return baseMovement + value;
 	}
 	public int GetMovement(){
 		return Mathf.RoundToInt(baseMovement*WeaponAdopted.movModifier*ArmorAdopted.movModifier);
@@ -202,32 +205,51 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public float GetDirectAttackBuff (){
-
+		if (myBuffs != null)
 			return myBuffs.AttackDirect+myBuffs.AttackTotal;
+		else return 0;
 	}
 
 	public float GetCounterAttackBuff (){
+		if (myBuffs != null)
 		return myBuffs.AttackCounter + myBuffs.AttackTotal;
+		else return 0;
+
 	}
 
 	public float GetDirectMatkBuff(){
+		if (myBuffs != null)
 		return myBuffs.MatkTotal + myBuffs.MatkDirect;
+		else return 0;
+
 	}
 
 	public float GetCounterMatkBuff(){
+		if (myBuffs != null)
 		return myBuffs.MatkTotal + myBuffs.MatkCounter;
+		else return 0;
+
 	}
 
 	public float GetDefenseBuff (){
+		if (myBuffs != null)
 		return myBuffs.Defense;
+		else return 0;
+
 	}
 
 	public float GetMdefBuff (){
+		if (myBuffs != null)
 		return myBuffs.Mdef;
+		else return 0;
+
 	}
 
 	public float GetSpeedBuff(){
+		if (myBuffs != null)
 		return myBuffs.Speed;
+		else return 0;
+
 	}
 
 

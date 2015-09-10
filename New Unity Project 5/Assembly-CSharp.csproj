@@ -75,6 +75,7 @@
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\AITroop.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Abilities.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Armory.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\BresenhamThingy.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Buffs.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Chief.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Classes.cs" />

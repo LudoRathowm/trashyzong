@@ -87,9 +87,9 @@ public class NewFightScript {
 		int	AdjustedTroopSize= CalculateAdjustedTroopSize ( Attacker.GetNumber(),ReturnPeoplePerLine(thisGuysTerrain),Attacker.GetChief().GetMuhReturns());
 		bool isPhysical = Skillused.isPhysical;
 		if (isPhysical && Skillused.PiercesDefence == false)
-		TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff()))/15));
+		TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff(),Defender.GetPhalanx()))/15));
 		else if (isPhysical && Skillused.PiercesDefence == true)
-			TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense()/2,Defender.GetDefenseBuff()))/15));
+			TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense()/2,Defender.GetDefenseBuff(),Defender.GetPhalanx()))/15));
 		else if (!isPhysical)
 		TroopDamage = Mathf.RoundToInt((AdjustedTroopSize*(((float)CalculateMagicAttack(Attacker.GetClass().GetIntelligence(),Attacker.GetChief().GetIntelligence(),Attacker.GetDirectMatkBuff())-(float)CalculateMagicDefense(Defender.GetChief().GetIntelligence(),Defender.GetMdefBuff()))/15)));
 		if (TroopDamage>Attacker.GetNumber())
@@ -104,7 +104,7 @@ public class NewFightScript {
 		int	AdjustedTroopSize= CalculateAdjustedTroopSize ( Attacker.GetNumber(),ReturnPeoplePerLine(Attacker),Attacker.GetChief().GetMuhReturns());
 		int TroopDamage = 0;
 		if (Attacker.GetClass().GetIfItsPhysical())
-			TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetCounterAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff()))/15));
+			TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetCounterAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff(),Defender.GetPhalanx()))/15));
 		else 
 			TroopDamage = Mathf.RoundToInt((AdjustedTroopSize*(((float)CalculateMagicAttack(Attacker.GetClass().GetIntelligence(),Attacker.GetChief().GetIntelligence(),Attacker.GetCounterMatkBuff())-(float)CalculateMagicDefense(Defender.GetChief().GetIntelligence(),Defender.GetMdefBuff()))/15)));
 		if (TroopDamage>Attacker.GetNumber())
@@ -158,6 +158,16 @@ public class NewFightScript {
 		Debug.Log("def"+value);
 		return value;
 	}
+	static int CalculateDefense (int BaseDefense, int CptDefense, float BuffModifier, bool Phalanxing){
+		int multiply = 1;
+		if (Phalanxing)
+			multiply = 3;
+		int value = Mathf.RoundToInt(multiply*BaseDefense+CptDefense*(1+BuffModifier)*08f);
+		Debug.Log("def"+value);
+		return value;
+	}
+
+	
 	static int CalculateMagicAttack (int BaseIntelligence, int CptIntelligence, float BuffModifier){
 		return Mathf.RoundToInt(BaseIntelligence+CptIntelligence*(1+BuffModifier)*10);
 	}
@@ -498,6 +508,23 @@ public class NewFightScript {
 		MeleeFightingScript(Caster,Target,SkillUsed);
 	}
 
+	public static void Phalanx (TroopScript Caster){
+		bool phal = Caster.GetPhalanx();
+		if (phal) Caster.SetPhalanx(false);
+		else if (!phal) Caster.SetPhalanx(true);
+	}
 
+	public static void RearGuardCharge (TroopScript Caster, TroopScript Target){
+		float DamageScaling = 1.5f;
+		if (Target.GetCounterMaxRange()>Caster.GetCounterMinRange())
+			DamageScaling = 3;
+		Skill RearGuard = Skill.FromListOfSkills(muhSkills.RearGuardCharge);
+		RearGuard.DamageScaling = DamageScaling;
+		MeleeFightingScript(Caster,Target,RearGuard);
+	}
+
+	public static void SharpShoot (TroopScript Caster){
+		List<Tile> myList = new List<Tile>();
+	}
 
 }

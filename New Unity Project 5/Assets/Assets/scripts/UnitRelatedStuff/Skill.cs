@@ -904,7 +904,7 @@ public class Skill {
 				
 			};
 			break;
-			v ADD AS BUFF
+
 		case muhSkills.Phalanx: //increase defence by 50%? reduced movement and cant enter tiles like forests, deserts, etc..
 			_skill = new Skill() {
 				EnergyCost = 1,

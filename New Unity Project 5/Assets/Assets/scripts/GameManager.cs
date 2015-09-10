@@ -97,7 +97,7 @@ public	int PlayerTurnIndex = 0;
 			for (int j=0;j<AroundTheWorld.Count;j++)
 				if (AroundTheWorld[j].gridPosition == players[i].gridPosition)
 					PeopleHit.Add(players[i]);
-
+        
 		foreach (Tile t in AroundTheWorld)
 			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
 		return PeopleHit;
@@ -117,10 +117,59 @@ public	int PlayerTurnIndex = 0;
 
 	}
 
+	public List<TroopScript> SharpShoot 	(TroopScript Caster){
+	//(TroopScript Caster, TroopScript Target){
+		List<TroopScript> targets= new List<TroopScript>();
+	Vector2 myPos = Caster.gridPosition;
+//		Vector2 tarPos = Target.gridPosition;
+//		Vector2 myPos = new Vector2 (11,11);
+		//Vector2 tarPos = new Vector2 (6,10);
+		Vector2 tarPos = MousePosition;
+		Vector2 vector = (tarPos - myPos).normalized;
+		float angle = Mathf.Atan2(vector.y, vector.x)*Mathf.Rad2Deg; //if i need to debug and i want degrees
+
+		float AngleRad = angle*Mathf.Deg2Rad;
+		Vector2 lelPos = new Vector2 (Mathf.RoundToInt(myPos.x+40*Mathf.Cos(AngleRad)),Mathf.RoundToInt(myPos.y+40*Mathf.Sin (AngleRad)));
+		Debug.Log (lelPos);
+		BresenhamThingy line = new BresenhamThingy( new Vector3( myPos.x, myPos.y, 0 ), new Vector3( lelPos.x, lelPos.y, 0 ) );
+
+		List<Vector2> myLine = new List<Vector2>();
+		List<Tile> HitTiles = new List<Tile> ();
+
+
+        foreach( Vector2 point in line )
+		{
+
+			myLine.Add(point);
+		}
+		int xPos = Mathf.RoundToInt(Caster.gridPosition.x);
+		int yPos = Mathf.RoundToInt(Caster.gridPosition.y);
+		Tile _positionOfPlayer = map[xPos][yPos];
+		List <Tile> MapAsAList = TileHighlight.FindHighlight(_positionOfPlayer,999);
+		Debug.Log(myLine.Count+" "+(int)Vector2.Distance(myPos,tarPos));
+	//	if ((int)Vector2.Distance(myPos,tarPos)>myLine.Count)
+		for (int i = 0;i<(int)Vector2.Distance(myPos,tarPos)+5;i++)
+		//for (int i = 0;i<23;i++)
+			if (myLine[i]!=myPos && myLine[i].x>-1 && myLine[i].y>-1 && myLine[i].x<mapSize && myLine[i].y<mapSize)
+			HitTiles.Add(map[(int)myLine[i].x][(int)myLine[i].y]);
+		highlightTilesAt(myPos,Color.white,999);
+		foreach (Tile t in HitTiles)
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
+
+
+
+//		BresenhamThingy Line =	BresenhamThingy(myPos,lelPos);
+//		foreach( Vector2 point in Line )
+//		{
+//			Debug.Log( "Point on line at 1f intervals: " + point );
+//		}
+		return targets;
+	}
+
 	public List <Tile> highLightIceWall (Vector2 originLocation, Vector2 mousePosition, bool HorizontalWall){
 		List <Tile> Intern = new List<Tile>();
-		List <Tile> _extern = new List<Tile>();
-		List <Tile> _intern = new List<Tile>();
+	//	List <Tile> _extern = new List<Tile>();
+	//	List <Tile> _intern = new List<Tile>();
 		List <Tile> Extern = new List<Tile>();
 		List <Tile> Wall = new List<Tile>();
 
@@ -177,7 +226,7 @@ public	int PlayerTurnIndex = 0;
 		
 		List<Tile> Everything = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],999,true,false);
 		var Whitey = Everything.Except(FinalRing);
-		List<Tile> _whiteys = Whitey.ToList();
+	//	List<Tile> _whiteys = Whitey.ToList();
 		foreach (Tile t in Whitey)
 			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.white;
 
