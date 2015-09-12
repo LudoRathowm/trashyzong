@@ -970,7 +970,7 @@ public class Skill {
 				
 			};
 			break;
-		case muhSkills.Sharpshoot: //checks if the tile behind the target is occupied by an enemy. if it attack that too
+		case muhSkills.Sharpshoot: //added in the game manager class
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 25,

@@ -117,19 +117,19 @@ public	int PlayerTurnIndex = 0;
 
 	}
 
-	public List<TroopScript> SharpShoot 	(TroopScript Caster){
+	public List<TroopScript> SharpShoot (TroopScript Caster,TroopScript TargetBridge){
 	//(TroopScript Caster, TroopScript Target){
 		List<TroopScript> targets= new List<TroopScript>();
 	Vector2 myPos = Caster.gridPosition;
 //		Vector2 tarPos = Target.gridPosition;
 //		Vector2 myPos = new Vector2 (11,11);
 		//Vector2 tarPos = new Vector2 (6,10);
-		Vector2 tarPos = MousePosition;
+	Vector2 tarPos = TargetBridge.gridPosition;
 		Vector2 vector = (tarPos - myPos).normalized;
 		float angle = Mathf.Atan2(vector.y, vector.x)*Mathf.Rad2Deg; //if i need to debug and i want degrees
 
 		float AngleRad = angle*Mathf.Deg2Rad;
-		Vector2 lelPos = new Vector2 (Mathf.RoundToInt(myPos.x+40*Mathf.Cos(AngleRad)),Mathf.RoundToInt(myPos.y+40*Mathf.Sin (AngleRad)));
+		Vector2 lelPos = new Vector2 (Mathf.RoundToInt(myPos.x+mapSize*2*Mathf.Cos(AngleRad)),Mathf.RoundToInt(myPos.y+mapSize*2*Mathf.Sin (AngleRad)));
 		Debug.Log (lelPos);
 		BresenhamThingy line = new BresenhamThingy( new Vector3( myPos.x, myPos.y, 0 ), new Vector3( lelPos.x, lelPos.y, 0 ) );
 
@@ -152,11 +152,14 @@ public	int PlayerTurnIndex = 0;
 		//for (int i = 0;i<23;i++)
 			if (myLine[i]!=myPos && myLine[i].x>-1 && myLine[i].y>-1 && myLine[i].x<mapSize && myLine[i].y<mapSize)
 			HitTiles.Add(map[(int)myLine[i].x][(int)myLine[i].y]);
-		highlightTilesAt(myPos,Color.white,999);
-		foreach (Tile t in HitTiles)
-			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
+	//	highlightTilesAt(myPos,Color.white,999);
+	//	foreach (Tile t in HitTiles)
+	//		t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
 
-
+		for (int i=0;i<HitTiles.Count;i++)
+			for (int j=0;j<players.Count;j++)
+				if (players[j].gridPosition == HitTiles[i].gridPosition && players[j].Faction != Caster.Faction)
+					targets.Add(players[j]);
 
 //		BresenhamThingy Line =	BresenhamThingy(myPos,lelPos);
 //		foreach( Vector2 point in Line )
@@ -164,6 +167,41 @@ public	int PlayerTurnIndex = 0;
 //			Debug.Log( "Point on line at 1f intervals: " + point );
 //		}
 		return targets;
+	}
+
+	public List <Tile> SweepingFire (Vector2 originLocation){
+	
+		List <Tile> Intern = new List<Tile>();
+		List <Tile> Extern = new List<Tile>();
+		Intern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],2,true,false);
+		Extern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],8,true,false);
+		var _ring = Extern.Except(Intern);
+		List <Tile> FinalRing = _ring.ToList();
+
+		Vector2 vector = (MousePosition - originLocation).normalized;
+		float angle = Mathf.Atan2(vector.y, vector.x)*Mathf.Rad2Deg; //if i need to debug and i want degrees
+		float AngleRad = angle*Mathf.Deg2Rad;
+		Vector2 lelPos = new Vector2 (Mathf.RoundToInt(originLocation.x+mapSize*2*Mathf.Cos(AngleRad)),Mathf.RoundToInt(originLocation.y+mapSize*2*Mathf.Sin (AngleRad)));
+		
+		BresenhamThingy line = new BresenhamThingy( new Vector3( originLocation.x, originLocation.y, 0 ), new Vector3( lelPos.x, lelPos.y, 0 ) );
+		List<Vector2> myLine = new List<Vector2>();
+		List<Tile> HitTiles = new List<Tile> ();
+		int MouseDistance = (int)Vector2.Distance(MousePosition,originLocation);
+
+		foreach( Vector2 point in line ) myLine.Add(point);
+		for (int i = MouseDistance-1;i<MouseDistance+2;i++)
+		if (MouseDistance != 0 && myLine[i]!=originLocation && myLine[i].x>-1 && myLine[i].y>-1 && myLine[i].x<mapSize && myLine[i].y<mapSize)				
+		HitTiles.Add(map[(int)myLine[i].x][(int)myLine[i].y]);
+		var IntersectTiles = FinalRing.Intersect(HitTiles);
+		List<Tile> Final = IntersectTiles.ToList();
+
+			highlightTilesAt(originLocation,Color.white,999);
+		foreach (Tile t in FinalRing)
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.gray;
+			foreach (Tile t in Final)
+				t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
+		return Final;
+		
 	}
 
 	public List <Tile> highLightIceWall (Vector2 originLocation, Vector2 mousePosition, bool HorizontalWall){
@@ -276,7 +314,29 @@ public	int PlayerTurnIndex = 0;
 		return IntesectionArea;
 	}
 
+	public  List<Tile> WhiteDestructionBeam (TroopScript Caster){
+		Vector2 originLocation = Caster.gridPosition;
+		List <TroopScript> Targets;
+		Vector2 vector = (MousePosition - originLocation).normalized;
+		float angle = Mathf.Atan2(vector.y, vector.x)*Mathf.Rad2Deg; //if i need to debug and i want degrees
+		float AngleRad = angle*Mathf.Deg2Rad;
+		Vector2 lelPos = new Vector2 (Mathf.RoundToInt(originLocation.x+mapSize*Mathf.Cos(AngleRad)),Mathf.RoundToInt(originLocation.y+mapSize*Mathf.Sin (AngleRad)));
+		BresenhamThingy line = new BresenhamThingy( new Vector3( originLocation.x, originLocation.y, 0 ), new Vector3( lelPos.x, lelPos.y, 0 ) );
+		List<Vector2> myLine = new List<Vector2>();
+		List<Tile> HitTiles = new List<Tile> ();
+		highlightTilesAt(originLocation,Color.white,999);
+		if (lelPos.x ==originLocation.x || lelPos.y == originLocation.y){
+			foreach( Vector2 point in line ) myLine.Add(point);
+		
 
+
+			for (int i = 0;i<mapSize;i++)
+			if (myLine[i]!=originLocation && myLine[i].x>-1 && myLine[i].y>-1 && myLine[i].x<mapSize && myLine[i].y<mapSize)				
+					HitTiles.Add(map[(int)myLine[i].x][(int)myLine[i].y]);}
+		foreach (Tile t in HitTiles) t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.magenta;
+
+					return HitTiles;
+	}
 
 	public static float ColorAdapter(float color){
 		return color/255;

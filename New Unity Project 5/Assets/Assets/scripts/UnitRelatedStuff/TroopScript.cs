@@ -55,7 +55,7 @@ public class TroopScript : MonoBehaviour {
 	
 	//stuff to make it work, not related to rpg parts
 	public int TurnRecoveryTime = 0;
-	bool isPreparating = false;
+	Skill isPreparing;
 	bool chargedWeapon = false; //for crossbows
 	bool isPhalanxing = false; //for AI and pathfinding
 	public int actionPoints = 2;
@@ -180,8 +180,8 @@ public class TroopScript : MonoBehaviour {
 	public bool GetCharge(){
 		return chargedWeapon;
 	}
-	public bool GetPreparation(){
-		return isPreparating;
+	public Skill GetPreparation(){
+		return isPreparing;
 	}
 
 	public bool GetPhalanx(){
@@ -317,8 +317,8 @@ public class TroopScript : MonoBehaviour {
 		chargedWeapon = charge;
 	}
 
-	public void SetPreparation (bool prep){
-		isPreparating = prep;
+	public void SetPreparation (Skill prep){
+		isPreparing = prep;
 	}
 
 
@@ -389,6 +389,9 @@ public class TroopScript : MonoBehaviour {
 		SkillsPossessed.Add(_skill);
 	}
 
+	public void CancelPreparation (){
+		isPreparing = null;
+	}
 
 	//movement animation
 	public List<Vector3> positionQueue = new List<Vector3>();	

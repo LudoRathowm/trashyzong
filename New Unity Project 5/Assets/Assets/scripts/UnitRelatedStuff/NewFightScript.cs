@@ -377,7 +377,7 @@ public class NewFightScript {
 			int kills = CalculateAccurateShotDamage(Caster,Targets[i],_skillDamage,AttackerBattlefieldEffect);
 			Targets[i].SetNumber(Targets[i].GetNumber()-kills);
 			if (Targets[i].GetNumber()<0) Targets[i].SetNumber(0);
-			if (Targets[i].GetPreparation()) Targets[i].SetPreparation(false);
+			if (Targets[i].GetPreparation()!=null) Targets[i].CancelPreparation();
 			if (Targets[i].GetEnergy()>0)Targets[i].SetEnergy(Targets[i].GetEnergy()-1);
 		}
 
@@ -526,5 +526,19 @@ public class NewFightScript {
 	public static void SharpShoot (TroopScript Caster){
 		List<Tile> myList = new List<Tile>();
 	}
+
+	public static void ShoutingCharge (TroopScript Caster, TroopScript Target){
+		int Damage = CalculateDamage(Caster,Target, Skill.FromListOfSkills(muhSkills.ShoutingCharge),1);
+		int BattleRating = Mathf.RoundToInt((float)Damage/100);
+		//add battle rating zz
+		MeleeFightingScript(Caster,Target,Skill.FromListOfSkills(muhSkills.ShoutingCharge));
+	}
+
+    public static void Shuriken (TroopScript Caster, TroopScript Target, Skill SkillUsed){
+		if (Target.GetPreparation()!=null)
+			Target.CancelPreparation();
+
+
+		}
 
 }
