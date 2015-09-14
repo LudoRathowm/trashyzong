@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject TilePrefab;
 	public GameObject UserTroopPrefab;
 	public GameObject AITroopPrefab;
-	
+	public GameObject IcePrefab;
+
 	public int mapSize = 2233;
 	Transform mapTransform;
 	
@@ -89,6 +90,7 @@ public	int PlayerTurnIndex = 0;
 		}
 	}
 
+
 	public List<TroopScript> Lightning (Vector2 originLocation){
 		List<Tile> AroundTheWorld = new List<Tile>();
 		List<TroopScript> PeopleHit = new List<TroopScript>();
@@ -123,14 +125,15 @@ public	int PlayerTurnIndex = 0;
 	Vector2 myPos = Caster.gridPosition;
 //		Vector2 tarPos = Target.gridPosition;
 //		Vector2 myPos = new Vector2 (11,11);
-		//Vector2 tarPos = new Vector2 (6,10);
-	Vector2 tarPos = TargetBridge.gridPosition;
+//		Vector2 tarPos = MousePosition;
+
+Vector2 tarPos = TargetBridge.gridPosition;
 		Vector2 vector = (tarPos - myPos).normalized;
 		float angle = Mathf.Atan2(vector.y, vector.x)*Mathf.Rad2Deg; //if i need to debug and i want degrees
 
 		float AngleRad = angle*Mathf.Deg2Rad;
 		Vector2 lelPos = new Vector2 (Mathf.RoundToInt(myPos.x+mapSize*2*Mathf.Cos(AngleRad)),Mathf.RoundToInt(myPos.y+mapSize*2*Mathf.Sin (AngleRad)));
-		Debug.Log (lelPos);
+
 		BresenhamThingy line = new BresenhamThingy( new Vector3( myPos.x, myPos.y, 0 ), new Vector3( lelPos.x, lelPos.y, 0 ) );
 
 		List<Vector2> myLine = new List<Vector2>();
@@ -152,9 +155,9 @@ public	int PlayerTurnIndex = 0;
 		//for (int i = 0;i<23;i++)
 			if (myLine[i]!=myPos && myLine[i].x>-1 && myLine[i].y>-1 && myLine[i].x<mapSize && myLine[i].y<mapSize)
 			HitTiles.Add(map[(int)myLine[i].x][(int)myLine[i].y]);
-	//	highlightTilesAt(myPos,Color.white,999);
-	//	foreach (Tile t in HitTiles)
-	//		t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
+		highlightTilesAt(myPos,Color.white,999);
+		foreach (Tile t in HitTiles)
+			t.visual.transform.GetComponent<Renderer>().materials[0].color = Color.red;
 
 		for (int i=0;i<HitTiles.Count;i++)
 			for (int j=0;j<players.Count;j++)
@@ -167,6 +170,49 @@ public	int PlayerTurnIndex = 0;
 //			Debug.Log( "Point on line at 1f intervals: " + point );
 //		}
 		return targets;
+	}
+	public void CreateIcewall (Vector2 Position, TroopScript MageThatCreatedIt){
+		
+		ThirdParty iceicebaby = ((GameObject)Instantiate(IcePrefab, new Vector3(Position.x - Mathf.Floor((float)mapSize/2),1.5f, -Position.y + Mathf.Floor((float)mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<ThirdParty>();
+		iceicebaby.gridPosition = Position;
+		Chief Proprietary = new Chief();
+		
+		AddStuffToChief(Proprietary, "Ice", "Wall", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),0,0,0,0);
+		
+		int IceHP = MageThatCreatedIt.GetChief().GetIntelligence()*MageThatCreatedIt.GetNumber()/2; //can be changed in the future
+		AddStuffToPlayer(iceicebaby,2,muhClasses.Ice,Proprietary, 0, 10,100,12,IceHP,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
+		
+		//		AITroop aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
+		//		aiplayer.gridPosition = new Vector2(6,4);
+		//		leader = new Chief();
+		//		AddStuffToChief(leader,"another asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,1,3);
+		//		
+		//		AddStuffToPlayer(aiplayer,1,muhClasses.Animal,leader, 12,2,100,12,100,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
+		//		
+		//		players.Add(aiplayer);
+		
+	}
+
+	public void SummonYogurt (Vector2 Position, TroopScript MageThatCreatedIt){
+		
+		ThirdParty Ogre = ((GameObject)Instantiate(IcePrefab, new Vector3(Position.x - Mathf.Floor((float)mapSize/2),1.5f, -Position.y + Mathf.Floor((float)mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<ThirdParty>();
+		Ogre.gridPosition = Position;
+		Chief myLeader = new Chief();
+		Chief summoner = MageThatCreatedIt.GetChief();
+		AddStuffToChief(myLeader, "Ogre", "McPrettyFace", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),summoner.GetIntelligence(),summoner.GetIntelligence(),0,summoner.GetSpeed());
+		
+		int OgreHP = MageThatCreatedIt.GetChief().GetIntelligence()*MageThatCreatedIt.GetNumber()/2; //can be changed in the future
+		AddStuffToPlayer(Ogre,2,muhClasses.Yogurt,myLeader, 0, 10,100,12,OgreHP,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
+		
+		//		AITroop aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
+		//		aiplayer.gridPosition = new Vector2(6,4);
+		//		leader = new Chief();
+		//		AddStuffToChief(leader,"another asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,1,3);
+		//		
+		//		AddStuffToPlayer(aiplayer,1,muhClasses.Animal,leader, 12,2,100,12,100,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
+		//		
+		//		players.Add(aiplayer);
+		
 	}
 
 	public List <Tile> SweepingFire (Vector2 originLocation){
@@ -634,9 +680,9 @@ public	int PlayerTurnIndex = 0;
 		CalculatedNextPlayerTurn = false;
 		while (!CalculatedNextPlayerTurn)
 			for (int i = 0; i<players.Count;i++)
-				if (players[i].TurnRecoveryTime < 100)
+				if (players[i].TurnRecoveryTime < players[i].SkillRecoveryTime) //REMEMBER TO SET SKILL RECOVERY TIME ONCE YOU ADD THE PROPER SKILL SYSTEM
 					players[i].TurnRecoveryTime+=players[i].GetTurnSpeed();
-		else if (players[i].TurnRecoveryTime>=100)
+		else if (players[i].TurnRecoveryTime>=players[i].SkillRecoveryTime)
 		{   players[i].TurnRecoveryTime= 0;
 			playerTurns.Add(players[i]);
 			playerTurnNamesForShow.Add(players[i].GetName());

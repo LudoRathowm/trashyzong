@@ -55,6 +55,7 @@ public class TroopScript : MonoBehaviour {
 	
 	//stuff to make it work, not related to rpg parts
 	public int TurnRecoveryTime = 0;
+	public int SkillRecoveryTime = 50; //set to 50 for the start of the match, then changes according to
 	Skill isPreparing;
 	bool chargedWeapon = false; //for crossbows
 	bool isPhalanxing = false; //for AI and pathfinding
@@ -283,10 +284,13 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public void SetNumber (int people){
-		if (people<People)
+		if (people<People){
 			if (!isMagicGuarded)
 		People = people;
-		else isMagicGuarded = false;
+			else isMagicGuarded = false;}
+		else if (people>People)
+			People = people;
+		if (People>maxPeople) People = maxPeople;
 	}
 
 	public void SetmaxNumber (int wounded){

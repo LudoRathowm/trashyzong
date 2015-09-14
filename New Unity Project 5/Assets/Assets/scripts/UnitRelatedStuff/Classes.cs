@@ -16,7 +16,9 @@ public enum muhClasses{
 	Knight,
 	Mage,
 	Cavalry,
-	Animal
+	Animal,
+	Ice,
+	Yogurt
 
 }
 
@@ -158,6 +160,19 @@ static	List<Skill> ClassAdvancedSkills = new List<Skill>();
 			ClassAdvancedSkills.Add(Skill.FromListOfSkills(muhSkills.FellowTroopsRevenge));
 
 				break;
+		case muhClasses.Ice:
+			meinClass = new Classes(){
+				Attack = 0,
+				Defense = 40,
+				Intelligence = 20,
+				Speed = 0,
+				HealCost = 0,
+				MaxTroopRatio = 999,
+				RecruitCost = 0,
+				LayoffSaving = 0,
+				isPhysical = true,
+			};			
+			break;
 		case muhClasses.Knight:
 			meinClass = new Classes(){
 				Attack = 60,
@@ -348,6 +363,25 @@ static	List<Skill> ClassAdvancedSkills = new List<Skill>();
 			ClassAdvancedSkills.Add(Skill.FromListOfSkills(muhSkills.GambleChargeLove));
 
 				break;
+		case muhClasses.Yogurt:
+			meinClass = new Classes(){
+				Attack = 60,
+				Defense = 30,
+				Intelligence = 20,
+				Speed = 20,
+				HealCost = 4,
+				MaxTroopRatio = 1,
+				RecruitCost = 48,
+				LayoffSaving = 4,
+				isPhysical = true,
+				
+				
+				//add a method to upgrade skills, add a list of skills they can learn, add the loop in troop to add the class skills
+				
+			};
+
+			
+			break;
 		}
 		return meinClass;
 	}

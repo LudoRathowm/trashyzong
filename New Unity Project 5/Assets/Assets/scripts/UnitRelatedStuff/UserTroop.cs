@@ -12,8 +12,8 @@ public class UserTroop : TroopScript {
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
-			GameManager.instance.WhiteDestructionBeam(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
-			//GameManager.instance.SharpShoot(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
+			//GameManager.instance.WhiteDestructionBeam(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
+		//	GameManager.instance.SharpShoot(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
 		//	NewFightScript.AnkleSnare(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
 //			GameManager.instance.highLightIceWall(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition,GameManager.instance.MousePosition,icewall);
 //			if (Input.GetMouseButtonUp(0) && icewall == true)

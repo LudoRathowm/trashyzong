@@ -537,8 +537,8 @@ public class NewFightScript {
     public static void Shuriken (TroopScript Caster, TroopScript Target, Skill SkillUsed){
 		if (Target.GetPreparation()!=null)
 			Target.CancelPreparation();
-
-
 		}
+
+
 
 }
