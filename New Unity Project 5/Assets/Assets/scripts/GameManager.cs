@@ -7,7 +7,7 @@ using System.Linq;
 public class GameManager : MonoBehaviour {
 	public int TotalTime = 30;
 	public int CurrentTime = 0;
-
+	GameObject _Canvas;
 	public bool calc;
 	public Tile TileUnderMouse;
 	public Vector2 MousePosition;
@@ -32,7 +32,7 @@ public	int PlayerTurnIndex = 0;
 
 
 	void Awake() {
-
+		_Canvas = GameObject.Find("Canvas");
 		AdjustCamera();
 
 		instance = this;
@@ -53,7 +53,9 @@ public	int PlayerTurnIndex = 0;
 	// Update is called once per frame
 	void Update () {
 
-
+		if (playerTurns[PlayerTurnIndex].GetType()!=typeof(AITroop))			
+		    _Canvas.GetComponent<Canvas>().enabled = true; 
+		else _Canvas.GetComponent<Canvas>().enabled = false; 
 		//	GiveInformationOnPlayer();
 //		float value = Mathf.Abs(players[0].gridPosition.x-players[1].gridPosition.x)+Mathf.Abs(players[0].gridPosition.y-players[1].gridPosition.y);
 //		if (value > 1 && value < 5)

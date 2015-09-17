@@ -2,16 +2,19 @@ using UnityEngine;
 using System.Collections;
 
 public class UserTroop : TroopScript {
-	bool icewall = true;
+
 	
 	// Use this for initialization
 	void Start () {
-		
+
 	}
 	
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
+
+			//_Canvas.gameObject.SetActive(true);
+			
 			//GameManager.instance.WhiteDestructionBeam(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
 		//	GameManager.instance.SharpShoot(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
 		//	NewFightScript.AnkleSnare(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
@@ -98,7 +101,7 @@ public class UserTroop : TroopScript {
 			//transform.GetComponent<Renderer>().material.color = Color.green;
 		} else {
 			transform.GetChild(1).gameObject.SetActive(false);
-			
+		
 			//transform.GetComponent<Renderer>().material.color = Color.white;
 		}
 		base.Update();
