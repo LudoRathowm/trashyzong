@@ -56,7 +56,6 @@
      <Compile Include="Assets\Assets\scripts\MapStuff\MapSaveLoad.cs" />
      <Compile Include="Assets\Assets\scripts\MapStuff\TileType.cs" />
      <Compile Include="Assets\Assets\scripts\Player.cs" />
-     <Compile Include="Assets\Assets\scripts\PrefabHolder.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\Captain.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\EquipmentClass.cs" />
      <Compile Include="Assets\Assets\scripts\RPGStuffSoonTrash\Individual.cs" />
@@ -68,6 +67,8 @@
      <Compile Include="Assets\Assets\scripts\Satan.cs" />
      <Compile Include="Assets\Assets\scripts\TestTurnSpeed.cs" />
      <Compile Include="Assets\Assets\scripts\TestingSatan.cs" />
+     <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\PrefabHolder.cs" />
+     <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\SpriteHolder.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\Tile.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TileHighlight.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TilePath.cs" />
@@ -81,6 +82,7 @@
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Classes.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Equipment.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\NewFightScript.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\PortraitHolder.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Skill.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\ThirdParty.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Trait.cs" />

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Chief {
-
+	public Sprite mySprite;
 	 string Name;
 	 string Surname;
 	 Trait muhTrait;

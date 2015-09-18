@@ -2,12 +2,14 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 
 public class GameManager : MonoBehaviour {
 	public int TotalTime = 30;
 	public int CurrentTime = 0;
 	GameObject _Canvas;
+	GameObject _InfoCanvas;
 	public bool calc;
 	public Tile TileUnderMouse;
 	public Vector2 MousePosition;
@@ -32,7 +34,8 @@ public	int PlayerTurnIndex = 0;
 
 
 	void Awake() {
-		_Canvas = GameObject.Find("Canvas");
+		_Canvas = GameObject.Find("MenuCanvas");
+		_InfoCanvas = GameObject.Find("InfoCanvas");
 		AdjustCamera();
 
 		instance = this;
@@ -56,7 +59,7 @@ public	int PlayerTurnIndex = 0;
 		if (playerTurns[PlayerTurnIndex].GetType()!=typeof(AITroop))			
 		    _Canvas.GetComponent<Canvas>().enabled = true; 
 		else _Canvas.GetComponent<Canvas>().enabled = false; 
-		//	GiveInformationOnPlayer();
+			GiveInformationOnPlayer();
 //		float value = Mathf.Abs(players[0].gridPosition.x-players[1].gridPosition.x)+Mathf.Abs(players[0].gridPosition.y-players[1].gridPosition.y);
 //		if (value > 1 && value < 5)
 //
@@ -597,7 +600,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		leader = new Chief();
 		AddStuffToChief(leader,"nigga","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,4,2,5);
 
-
+		leader.mySprite = PortraitHolder.instance.PlayerTwo;
 		AddStuffToPlayer(player,0,muhClasses.Animal,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
 
@@ -608,6 +611,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		leader = new Chief();
 		AddStuffToChief(leader,"man","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),6,6,2,1);
 		player.SetBaseTurnSpeed (2);
+		leader.mySprite = PortraitHolder.instance.PlayerOne;
 		AddStuffToPlayer(player,0,muhClasses.Warrior,leader, 14,7,70,12,100,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
 		players.Add(player);
 
@@ -615,7 +619,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		player.gridPosition = new Vector2(2,20);
 		leader = new Chief();
 		AddStuffToChief(leader,"asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,0,2,1);
-
+		leader.mySprite = PortraitHolder.instance.PlayerThree;
 		AddStuffToPlayer(player,0,muhClasses.Animal, leader, 12,10,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 		
 		players.Add(player);
@@ -633,7 +637,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		aiplayer.gridPosition = new Vector2(8,4);
 		leader = new Chief();
 		AddStuffToChief(leader,"yet another nigga","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),8,8,8,8);
-
+		leader.mySprite = PortraitHolder.instance.EnemyThree;
 		AddStuffToPlayer(aiplayer,1,muhClasses.Animal,leader, 22,1,100,13,100,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		
@@ -643,7 +647,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		aiplayer.gridPosition = new Vector2(12,1);
 		leader = new Chief();
 		AddStuffToChief(leader,"zzz","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,3,1);
-
+		leader.mySprite = PortraitHolder.instance.EnemyTwo;
 		AddStuffToPlayer(aiplayer,1, muhClasses.Animal,leader, 22,3,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		
@@ -653,7 +657,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		aiplayer.gridPosition = new Vector2(18,8);
 		leader = new Chief();
 		AddStuffToChief(leader,"glorious leader","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,2,3,1);
-
+		leader.mySprite = PortraitHolder.instance.EnemyOne;
 		AddStuffToPlayer(aiplayer,1,muhClasses.Animal, leader, 12,4,100,22,100,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
 
 		aiplayer.SetBaseTurnSpeed(3);
@@ -670,13 +674,25 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	}
 
 	void GiveInformationOnPlayer(){
-		if (TileUnderMouse)
-		Debug.Log(TileUnderMouse.TileName);
-		for (int i = 0; i<players.Count;i++)
-		if (players[i].gridPosition == MousePosition){
-			Debug.Log(players[i].GetName()+" has "+players[i].GetNumber()+" healthy soldiers. Those soldiers are using " + players[i].GetWeapon().NameOfTheEquip+"s as weapon and "+players[i].GetArmor().NameOfTheEquip+"s as armor.");
-		}				
-	}
+		TroopScript Indagated = null;
+		if (TileUnderMouse){
+			Sprite sprite = TileUnderMouse.TileSprite;
+			_InfoCanvas.GetComponent<Canvas>().transform.FindChild("TileInfo").gameObject.GetComponent<Image>().sprite = sprite;
+			}
+		else {Sprite sprite = SpriteHolder.instance.Jesus;
+			_InfoCanvas.GetComponent<Canvas>().transform.FindChild("TileInfo").gameObject.GetComponent<Image>().sprite = sprite;}
+		for (int i = 0; i<players.Count;i++){
+			//_InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerInfo").gameObject.GetComponent<Image>().sprite = PortraitHolder.instance.None;
+			if (players[i].gridPosition == MousePosition)
+				Indagated = players[i];
+				//else Indagated = null;
+			if (Indagated != null)
+			_InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerInfo").gameObject.GetComponent<Image>().sprite = Indagated.GetChief().mySprite;
+			else _InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerInfo").gameObject.GetComponent<Image>().sprite = PortraitHolder.instance.None;
+			//Debug.Log(players[i].GetName()+" has "+players[i].GetNumber()+" healthy soldiers. Those soldiers are using " + players[i].GetWeapon().NameOfTheEquip+"s as weapon and "+players[i].GetArmor().NameOfTheEquip+"s as armor.");
+		
+			}
+		}
 
 	void DecideNextTurn(){
 		CalculatedNextPlayerTurn = false;

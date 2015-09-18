@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Tile : MonoBehaviour {
+	public Sprite TileSprite;
 	public string TileName;
 	public float rangedDefence;
 	public int frontLiners;
@@ -80,7 +81,8 @@ public class Tile : MonoBehaviour {
 	}
 	
 	void OnMouseExit() {
-		
+		GameManager.instance.TileUnderMouse = null;
+
 	}
 	
 	
@@ -194,6 +196,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.Grass:
+			TileSprite = SpriteHolder.instance.TILE_GRASS;
 			TileName = "Grassland";
 			movementCost = 1.5f;
 			impassible = false;
@@ -347,6 +350,7 @@ public class Tile : MonoBehaviour {
 			break;
 
 		case TileType.TallGrass:
+			TileSprite = SpriteHolder.instance.TILE_TALLGRASS;
 			TileName = "Tall Grass";
 			movementCost = 2;
 			impassible = false;
