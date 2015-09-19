@@ -32,7 +32,7 @@ public class TroopScript : MonoBehaviour {
 
 	Chief Leader;
 	Buffs myBuffs;
-	List<Skill> SkillsPossessed = new List<Skill>();
+	List<muhSkills> SkillsPossessed = new List<muhSkills>();
 	int baseAttack;
 	int baseDefence;
 	int baseHitPoints;
@@ -47,7 +47,7 @@ public class TroopScript : MonoBehaviour {
 
 	Weaponry WeaponAdopted;
 	Armory ArmorAdopted;
-	Classes myClass;
+	muhClasses myClass;
 	//just for the debug
 	string WeaponName;
 	string ArmorName;
@@ -194,8 +194,14 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public Classes GetClass(){
+		Classes Classe =Classes.fromList(myClass);
+		return Classe;
+	}
+	public muhClasses GetMuhClass(){
+
 		return myClass;
 	}
+
 
 	public int GetEnergy(){
 		return Energy;
@@ -253,6 +259,9 @@ public class TroopScript : MonoBehaviour {
 
 	}
 
+	public List<muhSkills> GetSkillsPossessed(){
+		return SkillsPossessed;
+	}
 
 
 		    //======================================
@@ -334,7 +343,7 @@ public class TroopScript : MonoBehaviour {
 		baseTurnSpeed = turnspeed;
 	}
 
-	public void SetClassDONTUSETHISAREYOUSUREYOUWANTTOUSETHISYOUREALLYSHOULDNT (Classes classy){
+	public void SetClassDONTUSETHISAREYOUSUREYOUWANTTOUSETHISYOUREALLYSHOULDNT (muhClasses classy){
 		myClass = classy;
 	}
 
@@ -389,7 +398,7 @@ public class TroopScript : MonoBehaviour {
 	}
 
 
-	public void AddSkillToList (Skill _skill){
+	public void AddSkillToList (muhSkills _skill){
 		SkillsPossessed.Add(_skill);
 	}
 
@@ -409,8 +418,8 @@ public class TroopScript : MonoBehaviour {
 
 	void Start (){
 		Debug.Log(myClass);
-		for (int i=0;i<myClass.GetCountBaseClassSkills();i++)
-			SkillsPossessed.Add(myClass.GetBaseClassSkills(i));
+	
+			SkillsPossessed.AddRange(Classes.fromList(myClass).GetBaseClassSkills());
 	}
 	
 	
@@ -438,10 +447,10 @@ public class TroopScript : MonoBehaviour {
 		}
 	}
 
-	void UpgradeSkill (Skill SkillYouWant){
+	void UpgradeSkill (muhSkills SkillYouWant){
 		bool FoundIt = false;
-		if (SkillYouWant.PrerequisiteSkill != muhSkills.NoSkill){
-		Skill Prerequisite = Skill.FromListOfSkills(SkillYouWant.PrerequisiteSkill);
+		if (Skill.FromListOfSkills(SkillYouWant).PrerequisiteSkill != muhSkills.NoSkill){
+		muhSkills Prerequisite = (Skill.FromListOfSkills(SkillYouWant).PrerequisiteSkill);
 
 		for (int i = 0;i<SkillsPossessed.Count;i++){
 			if (SkillsPossessed[i]==Prerequisite){
@@ -455,7 +464,7 @@ public class TroopScript : MonoBehaviour {
 		Debug.Log("YOU ARE MISSING THE PRE-REQUISITE SKILL: "+Prerequisite);
 			
 		}
-	else if (SkillYouWant.PrerequisiteSkill == muhSkills.NoSkill)
+	else if (Skill.FromListOfSkills(SkillYouWant).PrerequisiteSkill == muhSkills.NoSkill)
 			SkillsPossessed.Add(SkillYouWant);
 	}
 

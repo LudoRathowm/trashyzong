@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 	public int CurrentTime = 0;
 	GameObject _Canvas;
 	GameObject _InfoCanvas;
+	GameObject _TurnCanvas;
 	public bool calc;
 	public Tile TileUnderMouse;
 	public Vector2 MousePosition;
@@ -34,8 +35,10 @@ public	int PlayerTurnIndex = 0;
 
 
 	void Awake() {
+		Debug.Log("PLEASE");
 		_Canvas = GameObject.Find("MenuCanvas");
 		_InfoCanvas = GameObject.Find("InfoCanvas");
+		_TurnCanvas = GameObject.Find("TurnListCanvas");
 		AdjustCamera();
 
 		instance = this;
@@ -48,9 +51,10 @@ public	int PlayerTurnIndex = 0;
 
 		generateMap();
 		generatePlayers();
-	
+		AssignClassSkills();
 		while (playerTurns.Count<10)
 		DecideNextTurn();
+		DisplayTurns();
 	}
 	
 	// Update is called once per frame
@@ -77,6 +81,9 @@ public	int PlayerTurnIndex = 0;
 		CurrentTime++;
 		DecideNextTurn();
 		PlayerTurnIndex++;
+		DisplayTurns();
+
+
 	}
 
 	public void highlightTilesAt(Vector2 originLocation, Color highlightColor, int distance) {
@@ -503,9 +510,9 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	//CHECK THE PATHFINDER
 
 	void AddStuffToPlayer (TroopScript player,int faction,muhClasses muhclass,Chief leader, int Attack,int Defence,int HitPoints,int Speed,int NumberOfSoldiers,  Weaponry _weapon, Armory _armor){
-		Classes ClassToSet = Classes.fromList(muhclass);
+	//	Classes ClassToSet = Classes.fromList(muhclass);
 		player.Faction = faction;
-		player.SetClassDONTUSETHISAREYOUSUREYOUWANTTOUSETHISYOUREALLYSHOULDNT(ClassToSet);
+		player.SetClassDONTUSETHISAREYOUSUREYOUWANTTOUSETHISYOUREALLYSHOULDNT(muhclass);
 		player.SetChief(leader);
 		player.SetBaseAttack(Attack);
 		player.SetBaseDefence(Defence);
@@ -565,9 +572,9 @@ Vector2 tarPos = TargetBridge.gridPosition;
 
 		Chief leader = new Chief();
 		AddStuffToChief(leader,"Barack","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,3,2,4);
+		leader.mySprite = PortraitHolder.instance.PlayerFour;
 
-
-        AddStuffToPlayer(player, 0,muhClasses.Animal, leader, 10,10,100,10,100, Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
+        AddStuffToPlayer(player, 0,muhClasses.Archer, leader, 10,10,100,10,100, Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		player.gridPosition = new Vector2(3,20);
 
@@ -601,7 +608,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		AddStuffToChief(leader,"nigga","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,4,2,5);
 
 		leader.mySprite = PortraitHolder.instance.PlayerTwo;
-		AddStuffToPlayer(player,0,muhClasses.Animal,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
+		AddStuffToPlayer(player,0,muhClasses.Mage,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
 
 
@@ -628,7 +635,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		aiplayer.gridPosition = new Vector2(6,4);
 		leader = new Chief();
 		AddStuffToChief(leader,"another asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,1,3);
-
+		leader.mySprite = PortraitHolder.instance.EnemyFour;
 		AddStuffToPlayer(aiplayer,1,muhClasses.Animal,leader, 12,2,100,12,100,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
 	
 		players.Add(aiplayer);
@@ -667,7 +674,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	void AdjustCamera(){
 		GameObject muhCamera = GameObject.Find("Main Camera");
 		muhCamera.transform.position = new Vector3(0,12	, 0.5f);
-		int size = mapSize/2;
+		int size = mapSize/2+5;
 		GetComponentInChildren<Camera>().orthographicSize= size;
 //		Debug.Log("The Screen Resolution is: "+Screen.currentResolution.width+ "x"+Screen.currentResolution.height+ " and refresh: "+Screen.currentResolution.refreshRate);
 
@@ -711,7 +718,35 @@ Vector2 tarPos = TargetBridge.gridPosition;
 
 
 	}
+	void DisplayTurns(){
+		Sprite[] Sprites = new Sprite[10];
+		for (int i = 0;i<Sprites.Length;i++)
+			Sprites[i] = playerTurns[PlayerTurnIndex+i].GetChief().mySprite; 
+		List<Sprite> myList = new List<Sprite>();
+		int value = 0;
+		foreach (Transform child in _TurnCanvas.transform)
+		{child.gameObject.GetComponent<Image>().color = new Color (1,1,1,1);
+			child.gameObject.GetComponent<Image>().sprite = Sprites[value];
+			value++;
+			myList.Add(child.gameObject.GetComponent<Sprite>());
+		}
+		for (int i = 0;i<myList.Count;i++)
+			myList[i]=Sprites[i];
+	}
 
+	void AssignClassSkills(){ //i need to change this for something better
+		for (int i = 0;i<players.Count;i++){
+		//	Debug.Log(players[i].GetChief().GetName()+" has "+players[i].GetClass().GetCountBaseClassSkills());
+			//for (int j= 0;j<players[i].GetClass().GetCountBaseClassSkills();j++)
+				Debug.Log("Player Number"+i+" has "+players[i].GetMuhClass().ToString()+" s" +players[i].GetClass().GetBaseClassSkills().Count);
+	//		for (int w = 0;w<2;w++)
+				Debug.Log(players[i].GetClass().GetBaseClassSkills()[2].ToString());
+			Debug.Log(players[i].GetClass().GetBaseClassSkills()[1].ToString());
+			Debug.Log(players[i].GetClass().GetBaseClassSkills()[0].ToString());
+			Debug.Log(players[i].GetClass().GetBaseClassSkills()[3].ToString());
+
+		}
+	}
 
 
 }

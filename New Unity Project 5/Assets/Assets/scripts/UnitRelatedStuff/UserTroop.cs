@@ -12,7 +12,12 @@ public class UserTroop : TroopScript {
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
+	//		Debug.Log(GetSkillsPossessed().Count);
+			for (int i = 1;i<GetSkillsPossessed().Count;i++)
+				Debug.Log(GetSkillsPossessed()[2]);
 
+			
+			//for (int i = 0;i<GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetSkillsPossessed().Count;i++)
 			//_Canvas.gameObject.SetActive(true);
 			
 			//GameManager.instance.WhiteDestructionBeam(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
