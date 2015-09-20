@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -32,8 +32,8 @@ public class Classes  {
 	int RecruitCost;
 	int LayoffSaving;
 	bool isPhysical;
-static	List<muhSkills> ClassSkills = new List<muhSkills>();
-static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
+//	List<muhSkills> ClassSkills = new List<muhSkills>();
+//	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 
 	public static Classes fromList (muhClasses _class){
 
@@ -54,6 +54,7 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 			//no skills, they can't attack, they can only be slaughtered. Animals have no god.
 			break;
 		case muhClasses.Archer:
+		
 			meinClass = new Classes(){
 				Attack = 40,
 				Defense = 15,
@@ -63,17 +64,18 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				MaxTroopRatio = 1.5f,
 				RecruitCost = 36,
 				LayoffSaving = 3,
-				isPhysical = true,
+				isPhysical = true
+
 
 			};
 			//ClassSkills.Add(muhSkills.AccurateShots);
-			ClassSkills.Add(muhSkills.AccurateShots);
-			ClassSkills.Add(muhSkills.BowAttack);
-			ClassSkills.Add(muhSkills.StrongBowAttack);
-			ClassAdvancedSkills.Add(muhSkills.SweepingFire);
-			ClassAdvancedSkills.Add(muhSkills.Volley);
-			ClassAdvancedSkills.Add(muhSkills.Sharpshoot);
-			ClassAdvancedSkills.Add(muhSkills.BowAttackPlus);
+//			ClassSkills.Add(muhSkills.AccurateShots);
+//			ClassSkills.Add(muhSkills.BowAttack);
+//			ClassSkills.Add(muhSkills.StrongBowAttack);
+//			ClassAdvancedSkills.Add(muhSkills.SweepingFire);
+//			ClassAdvancedSkills.Add(muhSkills.Volley);
+//			ClassAdvancedSkills.Add(muhSkills.Sharpshoot);
+//			ClassAdvancedSkills.Add(muhSkills.BowAttackPlus);
 
 				break;
 		case muhClasses.Cannon:
@@ -89,8 +91,8 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				isPhysical = true,
 			
 			};
-			ClassSkills.Add(muhSkills.CannonNormalAttack);
-			ClassSkills.Add(muhSkills.CannonStrongAttack);
+//			ClassSkills.Add(muhSkills.CannonNormalAttack);
+//			ClassSkills.Add(muhSkills.CannonStrongAttack);
 				break;
 		case muhClasses.Cavalry:
 			meinClass = new Classes(){
@@ -107,14 +109,14 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 
 				
 			};
-			ClassSkills.Add(muhSkills.MuhFlags);
-			ClassSkills.Add(muhSkills.CounterRange);
-			ClassSkills.Add(muhSkills.Carry);
-			ClassSkills.Add(muhSkills.CavalryCharge);
-			ClassAdvancedSkills.Add(muhSkills.MuhFlags2);
-			ClassAdvancedSkills.Add(muhSkills.CavalryCharge2);
-			ClassAdvancedSkills.Add(muhSkills.OnRush);
-			ClassAdvancedSkills.Add(muhSkills.FollowThrough);
+//			ClassSkills.Add(muhSkills.MuhFlags);
+//			ClassSkills.Add(muhSkills.CounterRange);
+//			ClassSkills.Add(muhSkills.Carry);
+//			ClassSkills.Add(muhSkills.CavalryCharge);
+//			ClassAdvancedSkills.Add(muhSkills.MuhFlags2);
+//			ClassAdvancedSkills.Add(muhSkills.CavalryCharge2);
+//			ClassAdvancedSkills.Add(muhSkills.OnRush);
+//			ClassAdvancedSkills.Add(muhSkills.FollowThrough);
 				break;
 		case muhClasses.Diviner:
 			meinClass = new Classes(){
@@ -129,12 +131,12 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				isPhysical = false,
 
 			};
-			ClassSkills.Add(muhSkills.MagicGuard);
-			ClassSkills.Add(muhSkills.Shikigami);
-			ClassAdvancedSkills.Add(muhSkills.Shikigami2);
-			ClassAdvancedSkills.Add(muhSkills.MagicGuardAround);
-			ClassAdvancedSkills.Add(muhSkills.SummonTrash);
-			ClassAdvancedSkills.Add(muhSkills.Lightning);
+//			ClassSkills.Add(muhSkills.MagicGuard);
+//			ClassSkills.Add(muhSkills.Shikigami);
+//			ClassAdvancedSkills.Add(muhSkills.Shikigami2);
+//			ClassAdvancedSkills.Add(muhSkills.MagicGuardAround);
+//			ClassAdvancedSkills.Add(muhSkills.SummonTrash);
+//			ClassAdvancedSkills.Add(muhSkills.Lightning);
 			break;
 		case muhClasses.FootSoldier:
 			meinClass = new Classes(){
@@ -148,16 +150,16 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				LayoffSaving = 2,
 				isPhysical = true,
 					};
-			ClassSkills.Add(muhSkills.AllyGuard);
-			ClassSkills.Add(muhSkills.FootSoldierAttack);
-			ClassSkills.Add(muhSkills.StrongFootAttack);
-			ClassAdvancedSkills.Add(muhSkills.AllyGuardPlus);
-			ClassAdvancedSkills.Add(muhSkills.AllGuard);
-			ClassAdvancedSkills.Add(muhSkills.Phalanx);
-			ClassAdvancedSkills.Add(muhSkills.FootSoldierAttack2);
-			ClassAdvancedSkills.Add(muhSkills.Loot);
-			ClassAdvancedSkills.Add(muhSkills.StrongFootAttack2);
-			ClassAdvancedSkills.Add(muhSkills.FellowTroopsRevenge);
+//			ClassSkills.Add(muhSkills.AllyGuard);
+//			ClassSkills.Add(muhSkills.FootSoldierAttack);
+//			ClassSkills.Add(muhSkills.StrongFootAttack);
+//			ClassAdvancedSkills.Add(muhSkills.AllyGuardPlus);
+//			ClassAdvancedSkills.Add(muhSkills.AllGuard);
+//			ClassAdvancedSkills.Add(muhSkills.Phalanx);
+//			ClassAdvancedSkills.Add(muhSkills.FootSoldierAttack2);
+//			ClassAdvancedSkills.Add(muhSkills.Loot);
+//			ClassAdvancedSkills.Add(muhSkills.StrongFootAttack2);
+//			ClassAdvancedSkills.Add(muhSkills.FellowTroopsRevenge);
 
 				break;
 		case muhClasses.Ice:
@@ -186,11 +188,11 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				isPhysical = true,
 
 			};
-			ClassSkills.Add(muhSkills.KnightAttack);
-			ClassSkills.Add(muhSkills.KnightCharge);
-			ClassAdvancedSkills.Add(muhSkills.KnightAttack2);
-			ClassAdvancedSkills.Add(muhSkills.CleanUp);
-			ClassAdvancedSkills.Add(muhSkills.Maim);
+//			ClassSkills.Add(muhSkills.KnightAttack);
+//			ClassSkills.Add(muhSkills.KnightCharge);
+//			ClassAdvancedSkills.Add(muhSkills.KnightAttack2);
+//			ClassAdvancedSkills.Add(muhSkills.CleanUp);
+//			ClassAdvancedSkills.Add(muhSkills.Maim);
 				break;
 		case muhClasses.Mage:
 			meinClass = new Classes(){
@@ -206,12 +208,12 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 		
 
 			};
-			ClassSkills.Add(muhSkills.FrostDiver);
-			ClassSkills.Add(muhSkills.FireBlast);
-			ClassAdvancedSkills.Add(muhSkills.Icewall);
-	//		ClassAdvancedSkills.Add(muhSkills.EnchantWeapon);
-			ClassAdvancedSkills.Add(muhSkills.WhiteDestructionBeam);
-			ClassAdvancedSkills.Add(muhSkills.StormGust);
+//			ClassSkills.Add(muhSkills.FrostDiver);
+//			ClassSkills.Add(muhSkills.FireBlast);
+//			ClassAdvancedSkills.Add(muhSkills.Icewall);
+//	//		ClassAdvancedSkills.Add(muhSkills.EnchantWeapon);
+//			ClassAdvancedSkills.Add(muhSkills.WhiteDestructionBeam);
+//			ClassAdvancedSkills.Add(muhSkills.StormGust);
 				break;
 		case muhClasses.Miko:
 			meinClass = new Classes(){
@@ -226,13 +228,13 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				isPhysical = true,
 		
 			};
-			ClassSkills.Add(muhSkills.BowAttackMiko);
-			ClassSkills.Add(muhSkills.MikoDance);
-			ClassAdvancedSkills.Add(muhSkills.HealingMist);
-			ClassAdvancedSkills.Add(muhSkills.MikoDancePlus);
-			ClassAdvancedSkills.Add(muhSkills.MikoDanceQuick);
-			ClassAdvancedSkills.Add(muhSkills.MikoStorm2);
-			ClassAdvancedSkills.Add(muhSkills.MikoStorm);
+//			ClassSkills.Add(muhSkills.BowAttackMiko);
+//			ClassSkills.Add(muhSkills.MikoDance);
+//			ClassAdvancedSkills.Add(muhSkills.HealingMist);
+//			ClassAdvancedSkills.Add(muhSkills.MikoDancePlus);
+//			ClassAdvancedSkills.Add(muhSkills.MikoDanceQuick);
+//			ClassAdvancedSkills.Add(muhSkills.MikoStorm2);
+//			ClassAdvancedSkills.Add(muhSkills.MikoStorm);
 
 				break;
 		case muhClasses.Monk:
@@ -248,18 +250,18 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				isPhysical = true,
 			
 			};
-			ClassSkills.Add(muhSkills.GuardCancel);
-			ClassSkills.Add(muhSkills.MonkCharge);
-			ClassSkills.Add(muhSkills.TenshiDivineTrash);
-			ClassSkills.Add(muhSkills.Meditate);
-			ClassSkills.Add(muhSkills.Depoison);
-			ClassAdvancedSkills.Add(muhSkills.TenshiDivineTrash2);
-			ClassAdvancedSkills.Add(muhSkills.Meditate2);
-			ClassAdvancedSkills.Add(muhSkills.ConvertAction);
-			ClassAdvancedSkills.Add(muhSkills.ConvertAction2);
-			ClassAdvancedSkills.Add(muhSkills.MonkChargePlus);
-			ClassAdvancedSkills.Add(muhSkills.Overtime);
-			ClassAdvancedSkills.Add(muhSkills.Overtime2);
+//			ClassSkills.Add(muhSkills.GuardCancel);
+//			ClassSkills.Add(muhSkills.MonkCharge);
+//			ClassSkills.Add(muhSkills.TenshiDivineTrash);
+//			ClassSkills.Add(muhSkills.Meditate);
+//			ClassSkills.Add(muhSkills.Depoison);
+//			ClassAdvancedSkills.Add(muhSkills.TenshiDivineTrash2);
+//			ClassAdvancedSkills.Add(muhSkills.Meditate2);
+//			ClassAdvancedSkills.Add(muhSkills.ConvertAction);
+//			ClassAdvancedSkills.Add(muhSkills.ConvertAction2);
+//			ClassAdvancedSkills.Add(muhSkills.MonkChargePlus);
+//			ClassAdvancedSkills.Add(muhSkills.Overtime);
+//			ClassAdvancedSkills.Add(muhSkills.Overtime2);
 				break;
 		case muhClasses.Musketeer:
 			meinClass = new Classes(){
@@ -274,12 +276,12 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				isPhysical = true,
 		
 			};
-			ClassSkills.Add(muhSkills.Bait);
-			ClassSkills.Add(muhSkills.Shoot);
-			ClassSkills.Add(muhSkills.PenetrationShoot);
-			ClassAdvancedSkills.Add(muhSkills.AimAndShoot);
-			ClassAdvancedSkills.Add(muhSkills.PenetrationShoot2);
-
+//			ClassSkills.Add(muhSkills.Bait);
+//			ClassSkills.Add(muhSkills.Shoot);
+//			ClassSkills.Add(muhSkills.PenetrationShoot);
+//			ClassAdvancedSkills.Add(muhSkills.AimAndShoot);
+//			ClassAdvancedSkills.Add(muhSkills.PenetrationShoot2);
+//
 				break;
 		case muhClasses.Ninja:
 			meinClass = new Classes(){
@@ -295,15 +297,15 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 			
 
 			};
-			ClassSkills.Add(muhSkills.Shuriken);
-			ClassSkills.Add(muhSkills.Poison);
-			ClassSkills.Add(muhSkills.AnkleSnare);
-			ClassAdvancedSkills.Add(muhSkills.BattlegroundPreparation);
-			ClassAdvancedSkills.Add(muhSkills.HalveEnergy);
-			ClassAdvancedSkills.Add(muhSkills.Shuriken2);
-			ClassAdvancedSkills.Add(muhSkills.ChinkChinkShuriken);
-			ClassAdvancedSkills.Add(muhSkills.SonicShuriken);
-			ClassAdvancedSkills.Add(muhSkills.Assassinate);
+//			ClassSkills.Add(muhSkills.Shuriken);
+//			ClassSkills.Add(muhSkills.Poison);
+//			ClassSkills.Add(muhSkills.AnkleSnare);
+//			ClassAdvancedSkills.Add(muhSkills.BattlegroundPreparation);
+//			ClassAdvancedSkills.Add(muhSkills.HalveEnergy);
+//			ClassAdvancedSkills.Add(muhSkills.Shuriken2);
+//			ClassAdvancedSkills.Add(muhSkills.ChinkChinkShuriken);
+//			ClassAdvancedSkills.Add(muhSkills.SonicShuriken);
+//			ClassAdvancedSkills.Add(muhSkills.Assassinate);
 				break;
 		case muhClasses.Tactician:
 			meinClass = new Classes(){
@@ -318,19 +320,19 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				isPhysical = true,
 
 							};
-			ClassSkills.Add(muhSkills.BattleStrategy);
-			ClassSkills.Add(muhSkills.CrossbowAttack);
-			ClassSkills.Add(muhSkills.RemoveBuffs);
-			ClassAdvancedSkills.Add(muhSkills.BattleStrategy2)		;
-			ClassAdvancedSkills.Add(muhSkills.BattleStrategy3)	;
-			ClassAdvancedSkills.Add(muhSkills.CrossbowAttackPlus)	;
-			ClassAdvancedSkills.Add(muhSkills.RemoveBuffsAround)	;
-			ClassAdvancedSkills.Add(muhSkills.RemoveBuffsRanged)	;
-			ClassAdvancedSkills.Add(muhSkills.AdvanceTime)			;
-			ClassAdvancedSkills.Add(muhSkills.AdvanceTime2)			;
-			ClassAdvancedSkills.Add(muhSkills.BattleRatingDown)			;
-			ClassAdvancedSkills.Add(muhSkills.BattleRatingDown2)	;
-			ClassAdvancedSkills.Add(muhSkills.AccurateShots)	;
+//			ClassSkills.Add(muhSkills.BattleStrategy);
+//			ClassSkills.Add(muhSkills.CrossbowAttack);
+//			ClassSkills.Add(muhSkills.RemoveBuffs);
+//			ClassAdvancedSkills.Add(muhSkills.BattleStrategy2)		;
+//			ClassAdvancedSkills.Add(muhSkills.BattleStrategy3)	;
+//			ClassAdvancedSkills.Add(muhSkills.CrossbowAttackPlus)	;
+//			ClassAdvancedSkills.Add(muhSkills.RemoveBuffsAround)	;
+//			ClassAdvancedSkills.Add(muhSkills.RemoveBuffsRanged)	;
+//			ClassAdvancedSkills.Add(muhSkills.AdvanceTime)			;
+//			ClassAdvancedSkills.Add(muhSkills.AdvanceTime2)			;
+//			ClassAdvancedSkills.Add(muhSkills.BattleRatingDown)			;
+//			ClassAdvancedSkills.Add(muhSkills.BattleRatingDown2)	;
+//			ClassAdvancedSkills.Add(muhSkills.AccurateShots)	;
 				break;
 		case muhClasses.Warrior:
 			meinClass = new Classes(){
@@ -348,19 +350,19 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 				//add a method to upgrade skills, add a list of skills they can learn, add the loop in troop to add the class skills
 				
 			};
-			ClassSkills.Add(muhSkills.Charge);
-			ClassSkills.Add(muhSkills.WarriorAttack);
-			ClassSkills.Add(muhSkills.FullPowerCharge);
-			ClassAdvancedSkills.Add(muhSkills.WarriorAttack2);
-			ClassAdvancedSkills.Add(muhSkills.GuardBreak);
-			ClassAdvancedSkills.Add(muhSkills.ShoutingCharge);
-			ClassAdvancedSkills.Add(muhSkills.SideAttack);
-			ClassAdvancedSkills.Add(muhSkills.CarefulAttack);
-			ClassAdvancedSkills.Add(muhSkills.QuickAttack);
-			ClassAdvancedSkills.Add(muhSkills.LightAttack);
-			ClassAdvancedSkills.Add(muhSkills.FullPowerCharge2);
-			ClassAdvancedSkills.Add(muhSkills.GambleCharge);
-			ClassAdvancedSkills.Add(muhSkills.GambleChargeLove);
+//			ClassSkills.Add(muhSkills.Charge);
+//			ClassSkills.Add(muhSkills.WarriorAttack);
+//			ClassSkills.Add(muhSkills.FullPowerCharge);
+//			ClassAdvancedSkills.Add(muhSkills.WarriorAttack2);
+//			ClassAdvancedSkills.Add(muhSkills.GuardBreak);
+//			ClassAdvancedSkills.Add(muhSkills.ShoutingCharge);
+//			ClassAdvancedSkills.Add(muhSkills.SideAttack);
+//			ClassAdvancedSkills.Add(muhSkills.CarefulAttack);
+//			ClassAdvancedSkills.Add(muhSkills.QuickAttack);
+//			ClassAdvancedSkills.Add(muhSkills.LightAttack);
+//			ClassAdvancedSkills.Add(muhSkills.FullPowerCharge2);
+//			ClassAdvancedSkills.Add(muhSkills.GambleCharge);
+//			ClassAdvancedSkills.Add(muhSkills.GambleChargeLove);
 
 				break;
 		case muhClasses.Yogurt:
@@ -418,13 +420,89 @@ static	List<muhSkills> ClassAdvancedSkills = new List<muhSkills>();
 		return isPhysical;
 	}
 
-	public List<muhSkills> GetBaseClassSkills(){
+	public static List<muhSkills> GetBaseClassSkills(muhClasses _class){
+		List<muhSkills> ClassSkills = new List<muhSkills>();
+		switch (_class)
+		{
+		case muhClasses.Animal:
+			ClassSkills.Add(muhSkills.AnimalBite);
+			break;
+		case muhClasses.Archer:
+			ClassSkills.Add(muhSkills.AccurateShots);
+			ClassSkills.Add(muhSkills.BowAttack);
+			ClassSkills.Add(muhSkills.StrongBowAttack);
+			break;
+		case muhClasses.Cannon:
+			ClassSkills.Add(muhSkills.CannonNormalAttack);
+			ClassSkills.Add(muhSkills.CannonStrongAttack);
+			break;
+		case muhClasses.Cavalry:
+			ClassSkills.Add(muhSkills.MuhFlags);
+			ClassSkills.Add(muhSkills.CounterRange);
+			ClassSkills.Add(muhSkills.Carry);
+			ClassSkills.Add(muhSkills.CavalryCharge);
+			break;
+		case muhClasses.Diviner:
+			ClassSkills.Add(muhSkills.MagicGuard);
+			ClassSkills.Add(muhSkills.Shikigami);
+			break;
+		case muhClasses.FootSoldier:
+			ClassSkills.Add(muhSkills.AllyGuard);
+			ClassSkills.Add(muhSkills.FootSoldierAttack);
+			ClassSkills.Add(muhSkills.StrongFootAttack);
+			break;
+		case muhClasses.Knight:
+			ClassSkills.Add(muhSkills.KnightAttack);
+			ClassSkills.Add(muhSkills.KnightCharge);
+			break;
+		case muhClasses.Mage:
+			ClassSkills.Add(muhSkills.FrostDiver);
+			ClassSkills.Add(muhSkills.FireBlast);
+			break;
+		case muhClasses.Miko:
+			ClassSkills.Add(muhSkills.BowAttackMiko);
+			ClassSkills.Add(muhSkills.MikoDance);
+			break;
+		case muhClasses.Monk:
+			ClassSkills.Add(muhSkills.GuardCancel);
+			ClassSkills.Add(muhSkills.MonkCharge);
+			ClassSkills.Add(muhSkills.TenshiDivineTrash);
+			ClassSkills.Add(muhSkills.Meditate);
+			ClassSkills.Add(muhSkills.Depoison);
+			break;
+		case muhClasses.Musketeer:
+			ClassSkills.Add(muhSkills.Bait);
+			ClassSkills.Add(muhSkills.Shoot);
+			ClassSkills.Add(muhSkills.PenetrationShoot);
+			break;
+		case muhClasses.Ninja:
+			ClassSkills.Add(muhSkills.Shuriken);
+			ClassSkills.Add(muhSkills.Poison);
+			ClassSkills.Add(muhSkills.AnkleSnare);
+			break;
+		case muhClasses.Tactician:
+			ClassSkills.Add(muhSkills.BattleStrategy);
+			ClassSkills.Add(muhSkills.CrossbowAttack);
+			ClassSkills.Add(muhSkills.RemoveBuffs);
+			break;
+		case muhClasses.Warrior:
+			ClassSkills.Add(muhSkills.Charge);
+			ClassSkills.Add(muhSkills.WarriorAttack);
+			ClassSkills.Add(muhSkills.FullPowerCharge);
+			break;
+		default:
+
+			break;
+		}
+
+	
+
 		return ClassSkills;
 	}
 
-	public int GetCountBaseClassSkills(){
-		return ClassSkills.Count;
-	}
+//	public int GetCountBaseClassSkills(){
+//		return ClassSkills.Count;
+//	}
 
 	//#######################
 	//      SETTERS

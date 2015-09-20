@@ -118,10 +118,11 @@ public enum muhSkills{
 	FireBlast,
 	Icewall,
 	StormGust,
-
 	WhiteDestructionBeam,
     //SYSTEM 
-	NoSkill //to check if there's a skill pre-requisite
+	NoSkill, //to check if there's a skill pre-requisite
+	//ANIMAL
+	AnimalBite
 
 }
 

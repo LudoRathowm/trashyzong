@@ -82,6 +82,7 @@
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Classes.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Equipment.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\NewFightScript.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\PlayerController.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\PortraitHolder.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Skill.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\ThirdParty.cs" />

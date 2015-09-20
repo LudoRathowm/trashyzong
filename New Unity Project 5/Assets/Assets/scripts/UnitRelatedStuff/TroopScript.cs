@@ -419,7 +419,7 @@ public class TroopScript : MonoBehaviour {
 	void Start (){
 		Debug.Log(myClass);
 	
-			SkillsPossessed.AddRange(Classes.fromList(myClass).GetBaseClassSkills());
+//			SkillsPossessed.AddRange(Classes.fromList(myClass).GetBaseClassSkills());
 	}
 	
 	

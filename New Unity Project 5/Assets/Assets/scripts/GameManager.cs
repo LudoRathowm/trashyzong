@@ -35,7 +35,7 @@ public	int PlayerTurnIndex = 0;
 
 
 	void Awake() {
-		Debug.Log("PLEASE");
+
 		_Canvas = GameObject.Find("MenuCanvas");
 		_InfoCanvas = GameObject.Find("InfoCanvas");
 		_TurnCanvas = GameObject.Find("TurnListCanvas");
@@ -60,8 +60,11 @@ public	int PlayerTurnIndex = 0;
 	// Update is called once per frame
 	void Update () {
 
-		if (playerTurns[PlayerTurnIndex].GetType()!=typeof(AITroop))			
-		    _Canvas.GetComponent<Canvas>().enabled = true; 
+		if (playerTurns[PlayerTurnIndex].GetType()!=typeof(AITroop))			{
+			_Canvas.GetComponent<Canvas>().enabled = true; 
+			List<muhSkills> displaySkills = Classes.GetBaseClassSkills(playerTurns[PlayerTurnIndex].GetMuhClass());
+
+		}
 		else _Canvas.GetComponent<Canvas>().enabled = false; 
 			GiveInformationOnPlayer();
 //		float value = Mathf.Abs(players[0].gridPosition.x-players[1].gridPosition.x)+Mathf.Abs(players[0].gridPosition.y-players[1].gridPosition.y);
@@ -738,15 +741,24 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		for (int i = 0;i<players.Count;i++){
 		//	Debug.Log(players[i].GetChief().GetName()+" has "+players[i].GetClass().GetCountBaseClassSkills());
 			//for (int j= 0;j<players[i].GetClass().GetCountBaseClassSkills();j++)
-				Debug.Log("Player Number"+i+" has "+players[i].GetMuhClass().ToString()+" s" +players[i].GetClass().GetBaseClassSkills().Count);
-	//		for (int w = 0;w<2;w++)
-				Debug.Log(players[i].GetClass().GetBaseClassSkills()[2].ToString());
-			Debug.Log(players[i].GetClass().GetBaseClassSkills()[1].ToString());
-			Debug.Log(players[i].GetClass().GetBaseClassSkills()[0].ToString());
-			Debug.Log(players[i].GetClass().GetBaseClassSkills()[3].ToString());
+			Debug.Log("Player Number "+i+", "+players[i].GetChief().GetName()+" is "+players[i].GetMuhClass().ToString()+" and has " +Classes.GetBaseClassSkills(players[i].GetMuhClass()).Count+ " Skills");
+			for (int w = 0;w<Classes.GetBaseClassSkills(players[i].GetMuhClass()).Count;w++)
+				Debug.Log(Classes.GetBaseClassSkills(players[i].GetMuhClass())[w]);
+				//Debug.Log(players[i].GetClass().GetBaseClassSkills()[2].ToString());
+//			Debug.Log(players[i].GetClass().GetBaseClassSkills()[1].ToString());
+//			Debug.Log(players[i].GetClass().GetBaseClassSkills()[0].ToString());
+//			Debug.Log(players[i].GetClass().GetBaseClassSkills()[3].ToString());
 
 		}
 	}
 
-
+	public void PassTurn (){
+	removeTileHighlights();
+		playerTurns[PlayerTurnIndex].actionPoints = 2;
+		playerTurns[PlayerTurnIndex].moving = false;
+		playerTurns[PlayerTurnIndex].attacking = false;			
+		nextTurn();
+	}
+	
+	
 }
