@@ -67,12 +67,14 @@
      <Compile Include="Assets\Assets\scripts\TestTurnSpeed.cs" />
      <Compile Include="Assets\Assets\scripts\TestingSatan.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\PrefabHolder.cs" />
+     <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\SkillHolder.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\SpriteHolder.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\Tile.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TileHighlight.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TilePath.cs" />
      <Compile Include="Assets\Assets\scripts\Tiles,Pathfind,Highlight\TilePathFinder.cs" />
      <Compile Include="Assets\Assets\scripts\UIStuff\PlayerController.cs" />
+     <Compile Include="Assets\Assets\scripts\UIStuff\SampleButton.cs" />
      <Compile Include="Assets\Assets\scripts\UIStuff\ScrollList.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\AITroop.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Abilities.cs" />
@@ -85,6 +87,7 @@
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\NewFightScript.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\PortraitHolder.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Skill.cs" />
+     <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\SkillMethods.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\ThirdParty.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\Trait.cs" />
      <Compile Include="Assets\Assets\scripts\UnitRelatedStuff\TroopBuildingStuff.cs" />

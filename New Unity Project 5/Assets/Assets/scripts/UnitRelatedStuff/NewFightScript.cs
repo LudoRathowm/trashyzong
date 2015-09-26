@@ -350,7 +350,7 @@ public class NewFightScript {
 
 
 	Vector2 mousePosition = GameManager.instance.MousePosition;
-	List<Tile> Targetcells = GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,mousePosition,10,2);
+	List<Tile> Targetcells = GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,mousePosition,2);
 	int cells = Targetcells.Count;
 	float TotalDamage = (float)5/cells;
 

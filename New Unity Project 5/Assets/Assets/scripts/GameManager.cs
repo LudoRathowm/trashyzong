@@ -85,7 +85,9 @@ public	int PlayerTurnIndex = 0;
 		DecideNextTurn();
 		PlayerTurnIndex++;
 		DisplayTurns();
-
+		GameObject lel =GameObject.Find("Scroll Skill List");
+//		Debug.Log(lel);
+		lel.GetComponent<ScrollList>().FlushOldButtons();
 
 	}
 
@@ -347,10 +349,10 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		
 	}
 
-	public List<Tile> AccurateShotsHighlights (Vector2 originLocation, Vector2 mousePosition, int distance, int mouseArea){
+	public List<Tile> AccurateShotsHighlights (Vector2 originLocation, Vector2 mousePosition,int mouseArea){
 		Color targetColor = new Color(ColorAdapter(0),ColorAdapter(255),ColorAdapter(0),1);
 		Color AreaColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
-
+		int distance = Skill.FromListOfSkills(muhSkills.AccurateShots).SkillMaxRange;
 		List<Tile> MouseHighlightedTiles = new List<Tile>();
 		List<Tile> TotalArea = new List<Tile>();
 		List<Tile> IgnoreCloserTiles = new List<Tile>();
@@ -611,7 +613,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		AddStuffToChief(leader,"nigga","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,4,2,5);
 
 		leader.mySprite = PortraitHolder.instance.PlayerTwo;
-		AddStuffToPlayer(player,0,muhClasses.Mage,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
+		AddStuffToPlayer(player,0,muhClasses.Archer,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
 
 
@@ -622,7 +624,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		AddStuffToChief(leader,"man","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),6,6,2,1);
 		player.SetBaseTurnSpeed (2);
 		leader.mySprite = PortraitHolder.instance.PlayerOne;
-		AddStuffToPlayer(player,0,muhClasses.Warrior,leader, 14,7,70,12,100,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
+		AddStuffToPlayer(player,0,muhClasses.Archer,leader, 14,7,70,12,100,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
 		players.Add(player);
 
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
@@ -630,7 +632,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		leader = new Chief();
 		AddStuffToChief(leader,"asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,0,2,1);
 		leader.mySprite = PortraitHolder.instance.PlayerThree;
-		AddStuffToPlayer(player,0,muhClasses.Animal, leader, 12,10,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(player,0,muhClasses.Archer, leader, 12,10,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 		
 		players.Add(player);
 		
@@ -639,7 +641,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		leader = new Chief();
 		AddStuffToChief(leader,"another asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,1,3);
 		leader.mySprite = PortraitHolder.instance.EnemyFour;
-		AddStuffToPlayer(aiplayer,1,muhClasses.Animal,leader, 12,2,100,12,100,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
+		AddStuffToPlayer(aiplayer,1,muhClasses.Miko,leader, 12,2,100,12,100,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
 	
 		players.Add(aiplayer);
 
@@ -648,7 +650,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		leader = new Chief();
 		AddStuffToChief(leader,"yet another nigga","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),8,8,8,8);
 		leader.mySprite = PortraitHolder.instance.EnemyThree;
-		AddStuffToPlayer(aiplayer,1,muhClasses.Animal,leader, 22,1,100,13,100,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(aiplayer,1,muhClasses.Monk,leader, 22,1,100,13,100,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		
 		players.Add(aiplayer);
@@ -658,7 +660,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		leader = new Chief();
 		AddStuffToChief(leader,"zzz","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,3,1);
 		leader.mySprite = PortraitHolder.instance.EnemyTwo;
-		AddStuffToPlayer(aiplayer,1, muhClasses.Animal,leader, 22,3,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
+		AddStuffToPlayer(aiplayer,1, muhClasses.Diviner,leader, 22,3,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		
 		players.Add(aiplayer);
@@ -668,7 +670,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		leader = new Chief();
 		AddStuffToChief(leader,"glorious leader","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,2,3,1);
 		leader.mySprite = PortraitHolder.instance.EnemyOne;
-		AddStuffToPlayer(aiplayer,1,muhClasses.Animal, leader, 12,4,100,22,100,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
+		AddStuffToPlayer(aiplayer,1,muhClasses.FootSoldier, leader, 12,4,100,22,100,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
 
 		aiplayer.SetBaseTurnSpeed(3);
 		players.Add(aiplayer);
@@ -738,18 +740,28 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	}
 
 	void AssignClassSkills(){ //i need to change this for something better
-		for (int i = 0;i<players.Count;i++){
+	//	for (int i = 0;i<players.Count;i++){
 		//	Debug.Log(players[i].GetChief().GetName()+" has "+players[i].GetClass().GetCountBaseClassSkills());
 			//for (int j= 0;j<players[i].GetClass().GetCountBaseClassSkills();j++)
-			Debug.Log("Player Number "+i+", "+players[i].GetChief().GetName()+" is "+players[i].GetMuhClass().ToString()+" and has " +Classes.GetBaseClassSkills(players[i].GetMuhClass()).Count+ " Skills");
-			for (int w = 0;w<Classes.GetBaseClassSkills(players[i].GetMuhClass()).Count;w++)
-				Debug.Log(Classes.GetBaseClassSkills(players[i].GetMuhClass())[w]);
+	//		Debug.Log("Player Number "+i+", "+players[i].GetChief().GetName()+" is "+players[i].GetMuhClass().ToString()+" and has " +Classes.GetBaseClassSkills(players[i].GetMuhClass()).Count+ " Skills");
+	//		for (int w = 0;w<Classes.GetBaseClassSkills(players[i].GetMuhClass()).Count;w++)
+	//			Debug.Log(Classes.GetBaseClassSkills(players[i].GetMuhClass())[w]);
 				//Debug.Log(players[i].GetClass().GetBaseClassSkills()[2].ToString());
 //			Debug.Log(players[i].GetClass().GetBaseClassSkills()[1].ToString());
 //			Debug.Log(players[i].GetClass().GetBaseClassSkills()[0].ToString());
 //			Debug.Log(players[i].GetClass().GetBaseClassSkills()[3].ToString());
 
-		}
+	//	}
+	}
+
+	public List<muhSkills> GetSkills (){
+		List <muhSkills> ReturnThis = new List<muhSkills> ();
+//		Debug.Log (playerTurns[PlayerTurnIndex]);
+//		Debug.Log(playerTurns[PlayerTurnIndex].GetMuhClass());
+//		Debug.Log(Classes.GetBaseClassSkills(playerTurns[PlayerTurnIndex].GetMuhClass()).Count);
+
+		ReturnThis =Classes.GetBaseClassSkills(playerTurns[PlayerTurnIndex].GetMuhClass());
+		return ReturnThis;
 	}
 
 	public void PassTurn (){

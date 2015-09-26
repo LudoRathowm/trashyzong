@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 
-
+[System.Serializable]
 public enum muhSkills{
 	//WARRIOR
 	Charge,
@@ -128,6 +129,7 @@ public enum muhSkills{
 
 
 public class Skill {
+	public Button.ButtonClickedEvent SkillEvent;
 	public int EnergyCost;
 	public bool DepleteEnergy = false;
 	public int SkillRecoveryTime;
@@ -141,7 +143,7 @@ public class Skill {
 	public bool RequiresPreparation = false;
 	public bool CancelsPreparation = false;
 	public bool ReducesEnergy = false;
-	public 	bool CanCounter = true;
+	public bool CanCounter = true;
 	public bool Freezes = false;
 	public bool CancelsGuard = false;
 	public bool HalvesEnergy = false;
@@ -170,16 +172,16 @@ public class Skill {
 				CancelsPreparation = true,
 				ReducesEnergy = true,
 				SkillMinRange = 2,
-				SkillMaxRange = 7
-
+				SkillMaxRange = 7,
+				SkillEvent = SkillHolder.instance.AccurateShots
 		
 			};
 			break;
 		case muhSkills.AdvanceTime: //advance time on the clock
 			_skill = new Skill() {
 				EnergyCost = 2,
-				SkillRecoveryTime = 30
-
+				SkillRecoveryTime = 30,
+				SkillEvent = SkillHolder.instance.AdvanceTime
 				
 				
 			};
@@ -188,7 +190,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
-				PrerequisiteSkill = muhSkills.AdvanceTime
+				PrerequisiteSkill = muhSkills.AdvanceTime,
+				SkillEvent = SkillHolder.instance.AccurateShots
 
 				
 				
@@ -201,7 +204,8 @@ public class Skill {
 				DamageScaling = 1.5f,
 				Penetrating = true,
 				SkillMaxRange = 12,
-				RequiresPreparation = true
+				RequiresPreparation = true,
+				SkillEvent = SkillHolder.instance.AccurateShots
 
 				
 			};
@@ -212,7 +216,8 @@ public class Skill {
 				SkillRecoveryTime = 20,
 				SkillMaxRange = 2,
 				PrerequisiteSkill = muhSkills.AllyGuard,
-				GuardScaling = 10
+				GuardScaling = 10,
+				SkillEvent = SkillHolder.instance.AccurateShots
 
 
 				
@@ -223,7 +228,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
-				GuardScaling = 20
+				GuardScaling = 20,
+				SkillEvent = SkillHolder.instance.AccurateShots
 
 				
 				
@@ -234,7 +240,20 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				PrerequisiteSkill = muhSkills.AllyGuard,
-				GuardScaling = 30
+				GuardScaling = 30,
+				SkillEvent = SkillHolder.instance.AccurateShots
+				
+				
+			};
+			break;
+		case muhSkills.AnimalBite:
+			_skill = new Skill() {
+				EnergyCost = 1,
+				DepleteEnergy = false,
+				SkillRecoveryTime = 10,
+				DamageScaling = 1.1f,
+				SkillEvent = SkillHolder.instance.AccurateShots
+
 				
 				
 			};
@@ -242,7 +261,8 @@ public class Skill {
 		case muhSkills.AnkleSnare: //if an unit stops in the position, stop it from moving. forever.
 			_skill = new Skill() {
 				EnergyCost = 1,
-				SkillRecoveryTime = 20
+				SkillRecoveryTime = 20,
+				SkillEvent = SkillHolder.instance.AccurateShots
 				
 				
 				
@@ -253,7 +273,8 @@ public class Skill {
 				EnergyCost = 1,
 				DepleteEnergy = true,
 				SkillRecoveryTime = 20,
-				SkillMaxRange=1
+				SkillMaxRange=1,
+				SkillEvent = SkillHolder.instance.AccurateShots
 				
 				
 				
@@ -262,7 +283,8 @@ public class Skill {
 		case muhSkills.Bait: //basically provoke increase atk drop def to the enemy
 			_skill = new Skill() {
 				EnergyCost = 0,
-				SkillRecoveryTime = 10
+				SkillRecoveryTime = 10,
+				SkillEvent = SkillHolder.instance.AccurateShots
 				
 				
 				
@@ -272,7 +294,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 5,
-				BattleEffect = 4
+				BattleEffect = 4,
+				SkillEvent = SkillHolder.instance.AccurateShots
 				
 				
 				
@@ -282,7 +305,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
-				BattleGaugeEffect = -5
+				BattleGaugeEffect = -5,
+				SkillEvent = SkillHolder.instance.AccurateShots
 				
 				
 			};
@@ -292,7 +316,8 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				BattleGaugeEffect = -10,
-				PrerequisiteSkill = muhSkills.BattleRatingDown
+				PrerequisiteSkill = muhSkills.BattleRatingDown,
+				SkillEvent = SkillHolder.instance.AccurateShots
 				
 			};
 			break;
@@ -300,7 +325,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
-				TroopSizeBuffMultiplier = 1.5f
+				TroopSizeBuffMultiplier = 1.5f,
+				SkillEvent = SkillHolder.instance.AccurateShots
 				
 				
 				
@@ -311,7 +337,10 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				PrerequisiteSkill = muhSkills.BattleStrategy,
-				TroopSizeBuffMultiplier = 2
+				TroopSizeBuffMultiplier = 2,
+				SkillEvent = SkillHolder.instance.AccurateShots
+
+				
 				
 				
 				
@@ -322,7 +351,9 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				PrerequisiteSkill = muhSkills.BattleStrategy2,
-				TroopSizeBuffMultiplier = 2.5f
+				TroopSizeBuffMultiplier = 2.5f,
+				SkillEvent = SkillHolder.instance.AccurateShots
+
 				
 				
 			};
@@ -333,7 +364,9 @@ public class Skill {
 				SkillRecoveryTime = 20,
 				DamageScaling = 1,
 				SkillMaxRange = 6,
-				SkillMinRange = 2
+				SkillMinRange = 2,
+				SkillEvent = SkillHolder.instance.AccurateShots
+
 				
 				
 			};
@@ -344,7 +377,9 @@ public class Skill {
 				SkillRecoveryTime = 20,
 				DamageScaling = 0.8f,
 				SkillMaxRange = 5,
-				SkillMinRange = 2
+				SkillMinRange = 2,
+				SkillEvent = SkillHolder.instance.AccurateShots
+
 				
 				
 			};
@@ -356,7 +391,9 @@ public class Skill {
 				DamageScaling = 1.1f,
 				SkillMaxRange = 6,
 				SkillMinRange = 2,
-				PrerequisiteSkill = muhSkills.BowAttack
+				PrerequisiteSkill = muhSkills.BowAttack,
+				SkillEvent = SkillHolder.instance.AccurateShots
+
 				
 			};
 			break;
@@ -365,7 +402,9 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 30,
 				DamageScaling = 1,
-				SkillMaxRange = 3
+				SkillMaxRange = 3,
+				SkillEvent = SkillHolder.instance.AccurateShots
+
 
 				
 			};
@@ -375,7 +414,9 @@ public class Skill {
 				EnergyCost = 1,
 				DepleteEnergy = true,
 				SkillRecoveryTime = 30,
-				DamageScaling = 2
+				DamageScaling = 2,
+				SkillEvent = SkillHolder.instance.AccurateShots
+
 				
 				
 			};
@@ -1086,7 +1127,9 @@ public class Skill {
 				SkillRecoveryTime = 25,
 				DamageScaling = 2.5f,
 				SkillMaxRange = 6,
-				SkillMinRange = 2
+				SkillMinRange = 2,
+				SkillEvent = SkillHolder.instance.AccurateShots
+
 				
 			};
 			break;
