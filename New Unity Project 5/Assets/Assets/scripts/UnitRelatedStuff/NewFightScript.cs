@@ -17,6 +17,7 @@ public class NewFightScript {
 
 		if (SkillUsed.Penetrating == true || DefenderGuarder == null){
 		DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
+			Debug.LogError("Damage on defender: "+DamageOnDef);
 			Defender.SetNumber(Defender.GetNumber()-DamageOnDef);
 			if (Defender.GetNumber()<0) Defender.SetNumber(0);
 		if (CanCounter(Attacker,Defender,SkillUsed)){
@@ -150,12 +151,12 @@ public class NewFightScript {
 
 	static int CalculateAttack (int BaseAttack, int CptAttack, float BuffModifier){
 		int value = Mathf.RoundToInt(BaseAttack+CptAttack*(1+BuffModifier)*10);
-		Debug.Log("atk"+value);
+		// Debug.Log("atk"+value);
 		return value;
 	}
 	static int CalculateDefense (int BaseDefense, int CptDefense, float BuffModifier){
 		int value = Mathf.RoundToInt(BaseDefense+CptDefense*(1+BuffModifier)*08f);
-		Debug.Log("def"+value);
+//		Debug.Log("def"+value);
 		return value;
 	}
 	static int CalculateDefense (int BaseDefense, int CptDefense, float BuffModifier, bool Phalanxing){
@@ -163,7 +164,7 @@ public class NewFightScript {
 		if (Phalanxing)
 			multiply = 3;
 		int value = Mathf.RoundToInt(multiply*BaseDefense+CptDefense*(1+BuffModifier)*08f);
-		Debug.Log("def"+value);
+//		Debug.Log("def"+value);
 		return value;
 	}
 
@@ -181,7 +182,7 @@ public class NewFightScript {
 		float muhPower = 0.80f + CptAbility + terrainPower;
 
 		int Total = Mathf.RoundToInt(Mathf.Pow(TroopSize,muhPower));
-		Debug.Log("cpt pwr: "+CptAbility+" trnpwr: "+ terrainPower+ " total: "+Total);
+	//	Debug.Log("cpt pwr: "+CptAbility+" trnpwr: "+ terrainPower+ " total: "+Total);
 		return Total;
 	}
 

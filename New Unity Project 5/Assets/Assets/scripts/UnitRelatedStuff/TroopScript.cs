@@ -56,7 +56,7 @@ public class TroopScript : MonoBehaviour {
 	//stuff to make it work, not related to rpg parts
 	public int TurnRecoveryTime = 0;
 	public int SkillRecoveryTime = 50; //set to 50 for the start of the match, then changes according to
-	Skill isPreparing;
+	muhSkills isPreparing = muhSkills.NoSkill;
 	bool chargedWeapon = false; //for crossbows
 	bool isPhalanxing = false; //for AI and pathfinding
 	public int actionPoints = 2;
@@ -181,7 +181,7 @@ public class TroopScript : MonoBehaviour {
 	public bool GetCharge(){
 		return chargedWeapon;
 	}
-	public Skill GetPreparation(){
+	public muhSkills GetPreparation(){
 		return isPreparing;
 	}
 
@@ -330,7 +330,7 @@ public class TroopScript : MonoBehaviour {
 		chargedWeapon = charge;
 	}
 
-	public void SetPreparation (Skill prep){
+	public void SetPreparation (muhSkills prep){
 		isPreparing = prep;
 	}
 
@@ -403,7 +403,7 @@ public class TroopScript : MonoBehaviour {
 	}
 
 	public void CancelPreparation (){
-		isPreparing = null;
+		isPreparing = muhSkills.NoSkill;
 	}
 
 	//movement animation

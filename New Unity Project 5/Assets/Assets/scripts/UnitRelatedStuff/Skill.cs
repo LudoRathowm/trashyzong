@@ -173,7 +173,8 @@ public class Skill {
 				ReducesEnergy = true,
 				SkillMinRange = 2,
 				SkillMaxRange = 7,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.AccurateShots,
+				CanCounter = false
 		
 			};
 			break;
