@@ -450,12 +450,12 @@ Vector2 tarPos = TargetBridge.gridPosition;
 					target = p;
 				}
 			}
-
-			if (target != null) {
-				if (playerTurns[PlayerTurnIndex].GetWeapon().weapType == WeaponType.Crossbow){
-					playerTurns[PlayerTurnIndex].SetCharge(false);
-					Debug.Log( playerTurns[PlayerTurnIndex].GetName()+" has shot his crossbow.");
-				}
+//
+//			if (target != null) {
+//				if (playerTurns[PlayerTurnIndex].GetWeapon().weapType == WeaponType.Crossbow){
+//					playerTurns[PlayerTurnIndex].SetCharge(false);
+//					Debug.Log( playerTurns[PlayerTurnIndex].GetName()+" has shot his crossbow.");
+			//				}
 				//Debug.Log ("p.x: " + players[currentPlayerIndex].gridPosition.x + ", p.y: " + players[currentPlayerIndex].gridPosition.y + " t.x: " + target.gridPosition.x + ", t.y: " + target.gridPosition.y);
 //				if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
 //					players[currentPlayerIndex].gridPosition.y >= target.gridPosition.y - 1 && players[currentPlayerIndex].gridPosition.y <= target.gridPosition.y + 1) {
@@ -490,7 +490,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 					Debug.Log(players[currentPlayerIndex].playerName + " missed " + target.playerName + "!");
 				}*/
 			//  }
-			}
+
 		} else {
 			Debug.Log ("you cant go there man");
 		}
@@ -576,8 +576,8 @@ Vector2 tarPos = TargetBridge.gridPosition;
 
 
 		Chief leader = new Chief();
-		AddStuffToChief(leader,"Barack","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,3,2,4);
-		leader.mySprite = PortraitHolder.instance.PlayerFour;
+		AddStuffToChief(leader,"Number 6","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,3,2,4);
+		leader.mySprite = PortraitHolder.instance.Prisoner;
 
         AddStuffToPlayer(player, 0,muhClasses.Archer, leader, 10,10,100,10,100, Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
@@ -610,9 +610,9 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(5- Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(5,20);
 		leader = new Chief();
-		AddStuffToChief(leader,"nigga","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,4,2,5);
+		AddStuffToChief(leader,"Bill Wilson","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,4,2,5);
 
-		leader.mySprite = PortraitHolder.instance.PlayerTwo;
+		leader.mySprite = PortraitHolder.instance.Cia;
 		AddStuffToPlayer(player,0,muhClasses.Archer,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
 
@@ -621,17 +621,17 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(4 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(4,20);
 		leader = new Chief();
-		AddStuffToChief(leader,"man","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),6,6,2,1);
+		AddStuffToChief(leader,"Arino","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),6,6,2,1);
 		player.SetBaseTurnSpeed (2);
-		leader.mySprite = PortraitHolder.instance.PlayerOne;
+		leader.mySprite = PortraitHolder.instance.Arino;
 		AddStuffToPlayer(player,0,muhClasses.Archer,leader, 14,7,70,12,100,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
 		players.Add(player);
 
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
 		player.gridPosition = new Vector2(2,20);
 		leader = new Chief();
-		AddStuffToChief(leader,"asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,0,2,1);
-		leader.mySprite = PortraitHolder.instance.PlayerThree;
+		AddStuffToChief(leader,"Bernn","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,0,2,1);
+		leader.mySprite = PortraitHolder.instance.Bernn;
 		AddStuffToPlayer(player,0,muhClasses.Archer, leader, 12,10,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 		
 		players.Add(player);
@@ -639,8 +639,8 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		AITroop aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(6,4);
 		leader = new Chief();
-		AddStuffToChief(leader,"another asshole","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,1,3);
-		leader.mySprite = PortraitHolder.instance.EnemyFour;
+		AddStuffToChief(leader,"Creep","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,1,3);
+		leader.mySprite = PortraitHolder.instance.Creep;
 		AddStuffToPlayer(aiplayer,1,muhClasses.Miko,leader, 12,2,100,12,100,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
 	
 		players.Add(aiplayer);
@@ -648,8 +648,8 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(8 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(8,4);
 		leader = new Chief();
-		AddStuffToChief(leader,"yet another nigga","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),8,8,8,8);
-		leader.mySprite = PortraitHolder.instance.EnemyThree;
+		AddStuffToChief(leader,"Riccitiello","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),8,8,8,8);
+		leader.mySprite = PortraitHolder.instance.Riccitiello;
 		AddStuffToPlayer(aiplayer,1,muhClasses.Monk,leader, 22,1,100,13,100,Weaponry.FromName(WeaponryName.TestCrossbow),Armory.FromName(ArmoryName.TestGambeson));
 
 		
@@ -658,8 +658,8 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(12 - Mathf.Floor(mapSize/2),1.5f, -1 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(12,1);
 		leader = new Chief();
-		AddStuffToChief(leader,"zzz","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,3,1);
-		leader.mySprite = PortraitHolder.instance.EnemyTwo;
+		AddStuffToChief(leader,"Villain","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),2,3,3,1);
+		leader.mySprite = PortraitHolder.instance.Villain;
 		AddStuffToPlayer(aiplayer,1, muhClasses.Diviner,leader, 22,3,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestConfortableClothes));
 
 		
@@ -668,8 +668,8 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(18 - Mathf.Floor(mapSize/2),1.5f, -8 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		aiplayer.gridPosition = new Vector2(18,8);
 		leader = new Chief();
-		AddStuffToChief(leader,"glorious leader","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,2,3,1);
-		leader.mySprite = PortraitHolder.instance.EnemyOne;
+		AddStuffToChief(leader,"Mystery Man in shades","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,2,3,1);
+		leader.mySprite = PortraitHolder.instance.Fuhrer;
 		AddStuffToPlayer(aiplayer,1,muhClasses.FootSoldier, leader, 12,4,100,22,100,Weaponry.FromName(WeaponryName.TestSword),Armory.FromName(ArmoryName.TestPlateArmor));
 
 		aiplayer.SetBaseTurnSpeed(3);
@@ -690,17 +690,23 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		if (TileUnderMouse){
 			Sprite sprite = TileUnderMouse.TileSprite;
 			_InfoCanvas.GetComponent<Canvas>().transform.FindChild("TileInfo").gameObject.GetComponent<Image>().sprite = sprite;
+			_InfoCanvas.GetComponent<Canvas>().transform.FindChild("TileName").gameObject.GetComponent<Text>().text = TileUnderMouse.TileName;
 			}
 		else {Sprite sprite = SpriteHolder.instance.Jesus;
-			_InfoCanvas.GetComponent<Canvas>().transform.FindChild("TileInfo").gameObject.GetComponent<Image>().sprite = sprite;}
+			_InfoCanvas.GetComponent<Canvas>().transform.FindChild("TileInfo").gameObject.GetComponent<Image>().sprite = sprite;
+			_InfoCanvas.GetComponent<Canvas>().transform.FindChild("TileName").gameObject.GetComponent<Text>().text = "not on the map";
+		}
 		for (int i = 0; i<players.Count;i++){
 			//_InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerInfo").gameObject.GetComponent<Image>().sprite = PortraitHolder.instance.None;
 			if (players[i].gridPosition == MousePosition)
 				Indagated = players[i];
 				//else Indagated = null;
-			if (Indagated != null)
-			_InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerInfo").gameObject.GetComponent<Image>().sprite = Indagated.GetChief().mySprite;
-			else _InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerInfo").gameObject.GetComponent<Image>().sprite = PortraitHolder.instance.None;
+			if (Indagated != null){
+				_InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerInfo").gameObject.GetComponent<Image>().sprite = Indagated.GetChief().mySprite;
+				_InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerName").gameObject.GetComponent<Text>().text = Indagated.GetChief().GetName();
+			}
+			else {_InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerInfo").gameObject.GetComponent<Image>().sprite = PortraitHolder.instance.None;
+				_InfoCanvas.GetComponent<Canvas>().transform.FindChild("PlayerName").gameObject.GetComponent<Text>().text = "no player";}
 			//Debug.Log(players[i].GetName()+" has "+players[i].GetNumber()+" healthy soldiers. Those soldiers are using " + players[i].GetWeapon().NameOfTheEquip+"s as weapon and "+players[i].GetArmor().NameOfTheEquip+"s as armor.");
 		
 			}
@@ -725,20 +731,31 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	}
 	void DisplayTurns(){
 		Sprite[] Sprites = new Sprite[10];
-		for (int i = 0;i<Sprites.Length;i++)
+		for (int i = 0;i<Sprites.Length;i++){
 			Sprites[i] = playerTurns[PlayerTurnIndex+i].GetChief().mySprite; 
+
+		}
 		List<Sprite> myList = new List<Sprite>();
 		int value = 0;
-		foreach (Transform child in _TurnCanvas.transform)
-		{child.gameObject.GetComponent<Image>().color = new Color (1,1,1,1);
-			child.gameObject.GetComponent<Image>().sprite = Sprites[value];
-			value++;
-			myList.Add(child.gameObject.GetComponent<Sprite>());
+		for (int i = 0;i<_TurnCanvas.transform.childCount;i++){
+			_TurnCanvas.transform.GetChild(i).gameObject.GetComponent<Image>().color = new Color(1,1,1,1);
+			_TurnCanvas.transform.GetChild(i).gameObject.GetComponent<Image>().sprite = Sprites[i];
+			if (playerTurns[PlayerTurnIndex+i].Faction !=0)
+				_TurnCanvas.transform.GetChild(i).gameObject.GetComponent<Image>().color = new Color(.6f,.3f,.3f,1);
+			else _TurnCanvas.transform.GetChild(i).gameObject.GetComponent<Image>().color = new Color(.3f,.6f,.3f,1);
 		}
-		for (int i = 0;i<myList.Count;i++)
-			myList[i]=Sprites[i];
+//		foreach (Transform child in _TurnCanvas.transform)
+//		{
+//			child.gameObject.GetComponent<Image>().color = new Color (1,1,1,1);
+//			child.gameObject.GetComponent<Image>().sprite = Sprites[value];
+//
+//			value++;
+//			myList.Add(child.gameObject.GetComponent<Sprite>());
+//		}
+//		//for (int i = 0;i<myList.Count;i++)
+//		//	myList[i]=Sprites[i];
+//	}
 	}
-
 	void AssignClassSkills(){ //i need to change this for something better
 	//	for (int i = 0;i<players.Count;i++){
 		//	Debug.Log(players[i].GetChief().GetName()+" has "+players[i].GetClass().GetCountBaseClassSkills());

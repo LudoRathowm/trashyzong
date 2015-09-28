@@ -5,14 +5,14 @@ public class PortraitHolder : MonoBehaviour {
 
 	public static PortraitHolder instance;
 	
-	public Sprite EnemyOne;
-	public Sprite EnemyTwo;
-	public Sprite EnemyThree;
-	public Sprite EnemyFour;
-	public Sprite PlayerOne;
-	public Sprite PlayerTwo;
-	public Sprite PlayerThree;
-	public Sprite PlayerFour;
+	public Sprite Creep;
+	public Sprite Riccitiello;
+	public Sprite Villain;
+	public Sprite Fuhrer;
+	public Sprite Arino;
+	public Sprite Cia;
+	public Sprite Bernn;
+	public Sprite Prisoner;
 	public Sprite None;
 	void Awake() {
 		instance = this;

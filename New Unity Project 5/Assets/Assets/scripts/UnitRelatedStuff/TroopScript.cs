@@ -57,6 +57,8 @@ public class TroopScript : MonoBehaviour {
 	public int TurnRecoveryTime = 0;
 	public int SkillRecoveryTime = 50; //set to 50 for the start of the match, then changes according to
 	muhSkills isPreparing = muhSkills.NoSkill;
+	Tile preparationTargetGround;
+	TroopScript preparationTargetTroop;
 	bool chargedWeapon = false; //for crossbows
 	bool isPhalanxing = false; //for AI and pathfinding
 	public int actionPoints = 2;
@@ -263,6 +265,12 @@ public class TroopScript : MonoBehaviour {
 		return SkillsPossessed;
 	}
 
+	public Tile GetTargetGround() {
+		return preparationTargetGround;
+	}
+	public TroopScript GetTargetTroop() {
+		return preparationTargetTroop;
+	}
 
 		    //======================================
 		    //             SETTERS
@@ -404,6 +412,18 @@ public class TroopScript : MonoBehaviour {
 
 	public void CancelPreparation (){
 		isPreparing = muhSkills.NoSkill;
+	}
+
+	public void SetPreparationTargetPlayer(TroopScript Target){
+		preparationTargetTroop = Target;
+	}
+	public void SetPreparationTargetTile (Tile target){
+		preparationTargetGround = target;
+	}
+
+	public void FlushPreparationTarget (){
+		preparationTargetTroop = null;
+		preparationTargetGround = null;
 	}
 
 	//movement animation

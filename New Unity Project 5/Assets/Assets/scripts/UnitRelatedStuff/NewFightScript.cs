@@ -17,7 +17,7 @@ public class NewFightScript {
 
 		if (SkillUsed.Penetrating == true || DefenderGuarder == null){
 		DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
-			Debug.LogError("Damage on defender: "+DamageOnDef);
+			Debug.Log("Damage on "+Defender.GetChief().GetName()+":"+DamageOnDef);
 			Defender.SetNumber(Defender.GetNumber()-DamageOnDef);
 			if (Defender.GetNumber()<0) Defender.SetNumber(0);
 		if (CanCounter(Attacker,Defender,SkillUsed)){

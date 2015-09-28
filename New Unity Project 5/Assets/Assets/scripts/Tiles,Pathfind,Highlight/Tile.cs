@@ -92,6 +92,7 @@ public class Tile : MonoBehaviour {
 				GameManager.instance.moveCurrentPlayer(this);
 			} else if (GameManager.instance. playerTurns[GameManager.instance.PlayerTurnIndex].attacking) {
 				GameManager.instance.attackWithCurrentPlayer(this);
+			
 			} /*else {
 				impassible = impassible ? false : true;
 				if (impassible) {

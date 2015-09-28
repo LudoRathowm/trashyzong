@@ -192,7 +192,7 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
 				PrerequisiteSkill = muhSkills.AdvanceTime,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.AdvanceTime2
 
 				
 				
@@ -206,7 +206,7 @@ public class Skill {
 				Penetrating = true,
 				SkillMaxRange = 12,
 				RequiresPreparation = true,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.AimAndShoot
 
 				
 			};
