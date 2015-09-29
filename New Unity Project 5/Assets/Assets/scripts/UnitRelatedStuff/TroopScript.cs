@@ -455,10 +455,7 @@ public class TroopScript : MonoBehaviour {
 	}
 	
 	public virtual void TurnUpdate () {
-		if (Poisoned>0)
-			Poisoned++;
-		if (Poisoned >9) //10 ticks to kill? maybe gonna drop to like 5
-			People = 0;
+	
 		if (actionPoints <= 0) {
 			actionPoints = 2; //cbf doing atk points, move point,etc.. will change l8r
 			moving = false;

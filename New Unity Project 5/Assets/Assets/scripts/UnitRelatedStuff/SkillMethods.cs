@@ -40,10 +40,10 @@ public class SkillMethods : MonoBehaviour {
 
 
 
-	public void ActivateAccurateShots(){ // i didn't add a !busy here because the button will go away if you do something else anyway
+	public void AccurateShotsActivate(){ // i didn't add a !busy here because the button will go away if you do something else anyway
 		SwitchThis = muhSkills.AccurateShots;
 	}
-	 void AccurateShots(){
+	void AccurateShots(){
 	
 		Vector2 Origin = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition;
 		List<TroopScript> Targets = new List<TroopScript>();
@@ -109,7 +109,7 @@ public class SkillMethods : MonoBehaviour {
 	public void AimAndShootActivate(){
 		SwitchThis =muhSkills.AimAndShoot;	
 	}
-	public void AimAndShootSet(){
+	void AimAndShootSet(){
 		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
 		GameManager.instance.removeTileHighlights();
 		Caster.moving = false;
@@ -139,6 +139,11 @@ public class SkillMethods : MonoBehaviour {
 		
 		}
 		}
+	public void AimAndShootEffect (TroopScript Caster, TroopScript Target){
+		NewFightScript.MeleeFightingScript(Caster,Target,Skill.FromListOfSkills(muhSkills.AimAndShoot));
+		//all the animations and shit gas the kikes race war now
+	}
+	public void AllGuard (){}
 
 	public void Move (){
 		

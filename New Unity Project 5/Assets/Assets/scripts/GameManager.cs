@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 
 public class GameManager : MonoBehaviour {
+	muhSkills switcheroo; //start turn spell prepared
+	bool startedTurn;
 	public int TotalTime = 30;
 	public int CurrentTime = 0;
 	GameObject _Canvas;
@@ -59,6 +61,10 @@ public	int PlayerTurnIndex = 0;
 	
 	// Update is called once per frame
 	void Update () {
+		if (!startedTurn){
+			StartTurn();
+		}
+
 
 		if (playerTurns[PlayerTurnIndex].GetType()!=typeof(AITroop))			{
 			_Canvas.GetComponent<Canvas>().enabled = true; 
@@ -79,7 +85,26 @@ public	int PlayerTurnIndex = 0;
 //	void OnGUI () {
 //		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnOnGUI();
 //	}
-	
+	void StartTurn (){
+		Debug.Log ("It's your turn, "+playerTurns[PlayerTurnIndex].GetName()+"!");
+		if (playerTurns[PlayerTurnIndex].Poisoned>0)
+			playerTurns[PlayerTurnIndex].Poisoned++;
+		if (playerTurns[PlayerTurnIndex].Poisoned >9) //10 ticks to kill? maybe gonna drop to like 5
+			playerTurns[PlayerTurnIndex].SetNumber(0);
+		startedTurn = true;
+		if (playerTurns[PlayerTurnIndex].GetPreparation()!=muhSkills.NoSkill){
+
+			switch (switcheroo){
+				case muhSkills.AimAndShoot:
+				SkillMethods.instance.AimAndShootEffect(playerTurns[PlayerTurnIndex],playerTurns[PlayerTurnIndex].GetTargetTroop());
+				break;
+			
+			
+			}
+
+		}
+
+	}
 	public void nextTurn() {	
 		CurrentTime++;
 		DecideNextTurn();
@@ -88,7 +113,7 @@ public	int PlayerTurnIndex = 0;
 		GameObject lel =GameObject.Find("Scroll Skill List");
 //		Debug.Log(lel);
 		lel.GetComponent<ScrollList>().FlushOldButtons();
-
+		startedTurn = false;
 	}
 
 	public void highlightTilesAt(Vector2 originLocation, Color highlightColor, int distance) {

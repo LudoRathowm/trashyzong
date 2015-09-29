@@ -206,6 +206,7 @@ public class Skill {
 				Penetrating = true,
 				SkillMaxRange = 12,
 				RequiresPreparation = true,
+				CanCounter= false,
 				SkillEvent = SkillHolder.instance.AimAndShoot
 
 				
@@ -219,10 +220,7 @@ public class Skill {
 				PrerequisiteSkill = muhSkills.AllyGuard,
 				GuardScaling = 10,
 				SkillEvent = SkillHolder.instance.AccurateShots
-
-
-				
-				
+							
 			};
 			break;
 		case muhSkills.AllyGuard: //single target guard

@@ -12,6 +12,9 @@ public class UserTroop : TroopScript {
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
+
+
+
 	//		Debug.Log(GetSkillsPossessed().Count);
 			for (int i = 1;i<GetSkillsPossessed().Count;i++)
 				Debug.Log(GetSkillsPossessed()[2]);
@@ -117,7 +120,7 @@ public class UserTroop : TroopScript {
 		//highlight
 		//
 		//
-		
+	
 		if (positionQueue.Count > 0) {
 			transform.position += (positionQueue[0] - transform.position).normalized * moveSpeed * Time.deltaTime;
 			
