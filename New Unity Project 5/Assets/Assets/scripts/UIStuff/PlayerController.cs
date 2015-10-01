@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
 		int yPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.y);
 		Tile _terrain = GameManager.instance.map[xPos][yPos];
 		//				NewFightScript.AccurateShots(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex],1);
-		if (!_terrain.Trapped){
+		if (_terrain.Trappedby == null || _terrain.Trappedby.Faction == GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].Faction){
 			if (!GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].moving) {
 				GameManager.instance.removeTileHighlights();
 				GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].moving = true;

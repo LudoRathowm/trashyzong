@@ -37,7 +37,8 @@ public class UserTroop : TroopScript {
 				int yPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.y);
 				Tile _terrain = GameManager.instance.map[xPos][yPos];
 //				NewFightScript.AccurateShots(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex],1);
-				if (!_terrain.Trapped){
+		//		if (!_terrain.Trapped)
+
 			if (!moving) {
 					GameManager.instance.removeTileHighlights();
 					moving = true;
@@ -48,7 +49,7 @@ public class UserTroop : TroopScript {
 					attacking = false;
 					GameManager.instance.removeTileHighlights();
 				}
-				} else Debug.Log ("You got trapped nigga");}
+				 Debug.Log ("You got trapped nigga");}
 			if (Input.GetButtonDown("AttackKey")){
 
 					if (!attacking && GetWeapon().weapType == WeaponType.Crossbow && GetCharge() == false){

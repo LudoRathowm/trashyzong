@@ -442,7 +442,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		int xPos = Mathf.RoundToInt(playerTurns[PlayerTurnIndex].gridPosition.x);
 		int yPos = Mathf.RoundToInt(playerTurns[PlayerTurnIndex].gridPosition.y);
 		Tile _terrain = GameManager.instance.map[xPos][yPos];
-		if (!_terrain.Trapped && destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && playerTurns[PlayerTurnIndex].positionQueue.Count == 0) {
+		if (!_terrain.Trappedby!=null || _terrain.Trappedby.Faction == playerTurns[PlayerTurnIndex] && destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && playerTurns[PlayerTurnIndex].positionQueue.Count == 0) {
 			removeTileHighlights();
 			playerTurns[PlayerTurnIndex].moving = false;
 			foreach(Tile t in TilePathFinder.FindPath(map[(int)playerTurns[PlayerTurnIndex].gridPosition.x][(int)playerTurns[PlayerTurnIndex].gridPosition.y],destTile, playerTurns.Where(x => x.gridPosition != destTile.gridPosition && x.gridPosition != playerTurns[PlayerTurnIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
@@ -459,12 +459,12 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		}
 	}
 
-	public void AnkleSnare (Tile chosenTile){
-		if (chosenTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && playerTurns[PlayerTurnIndex].positionQueue.Count == 0)
-			removeTileHighlights();
-		//add remove acting or w/e
-		chosenTile.Trapped = true;
-	}
+//	public void AnkleSnare (Tile chosenTile){
+//		if (chosenTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && playerTurns[PlayerTurnIndex].positionQueue.Count == 0)
+//			removeTileHighlights();
+//		//add remove acting or w/e
+//		chosenTile.Trappedby = true;
+//	}
 
 	public void attackWithCurrentPlayer(Tile destTile) {
 		if (destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible) {

@@ -219,7 +219,7 @@ public class Skill {
 				SkillMaxRange = 2,
 				PrerequisiteSkill = muhSkills.AllyGuard,
 				GuardScaling = 10,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.AllGuard
 							
 			};
 			break;
@@ -228,7 +228,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				GuardScaling = 20,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.AllyGuard
 
 				
 				
@@ -240,7 +240,7 @@ public class Skill {
 				SkillRecoveryTime = 15,
 				PrerequisiteSkill = muhSkills.AllyGuard,
 				GuardScaling = 30,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.AllyGuardPlus
 				
 				
 			};
@@ -261,7 +261,7 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.AnkleSnare
 				
 				
 				
@@ -273,7 +273,7 @@ public class Skill {
 				DepleteEnergy = true,
 				SkillRecoveryTime = 20,
 				SkillMaxRange=1,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.Assassinate
 				
 				
 				
@@ -294,7 +294,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 5,
 				BattleEffect = 4,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.BattleGroundPreparation
 				
 				
 				
@@ -305,7 +305,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				BattleGaugeEffect = -5,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.BattleRatingDown
 				
 				
 			};
@@ -316,16 +316,16 @@ public class Skill {
 				SkillRecoveryTime = 15,
 				BattleGaugeEffect = -10,
 				PrerequisiteSkill = muhSkills.BattleRatingDown,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.BattleRatingDown2
 				
 			};
 			break;
-		case muhSkills.BattleStrategy: //buffs people. number of buffs based on people in the unit, buff strenght based on int.
+		case muhSkills.BattleStrategy: //buffs people. number of buffs based on people in the unit, buff strenght based on int. I NEED TO THINK HOW I WANT TO HANDLE BUFFS
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				TroopSizeBuffMultiplier = 1.5f,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.BattleStrategy
 				
 				
 				

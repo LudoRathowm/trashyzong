@@ -33,6 +33,20 @@ public class NewFightScript {
 		
 			DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
 			if (DefenderGuarder){
+				if (DefenderGuarder.GetNumber()<= 0){
+					Defender.GuardedBy = null;
+					Defender.GuardedByPercent = 0;
+					DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
+					Debug.Log("Damage on "+Defender.GetChief().GetName()+":"+DamageOnDef);
+					Defender.SetNumber(Defender.GetNumber()-DamageOnDef);
+					if (Defender.GetNumber()<0) Defender.SetNumber(0);
+					if (CanCounter(Attacker,Defender,SkillUsed)){
+						
+						float CounterScaling = CounterAttackDamage(Defender.GetChief().GetCounterAttack(),Defender.GetArmor().CounterAttackValue+Defender.GetWeapon().CounterAttackValue);
+						DamageOnAtk = CalculateCounterDamage(Defender,Attacker,CounterScaling,DefenderBattlefieldEffect);     
+						Attacker.SetNumber(Attacker.GetNumber()-DamageOnAtk);
+						if (Attacker.GetNumber()<0) Attacker.SetNumber(0);}
+				}else{
 				DefenderGuarder.SetNumber(DefenderGuarder.GetNumber()-Mathf.RoundToInt(DamageOnDef*DefenderGuardPercent));
 				if (DefenderGuarder.GetNumber()<0) DefenderGuarder.SetNumber(0);
 				Defender.SetNumber(Defender.GetNumber()-Mathf.RoundToInt(DamageOnDef*(1-DefenderGuardPercent)));
@@ -43,7 +57,7 @@ public class NewFightScript {
 					Attacker.SetNumber(Attacker.GetNumber()-DamageOnAtk);
 					if (Attacker.GetNumber()<0) Attacker.SetNumber(0);
 			}
-				}
+				}}
 		}
 	}
 

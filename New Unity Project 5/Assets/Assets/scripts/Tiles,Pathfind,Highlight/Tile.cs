@@ -15,7 +15,7 @@ public class Tile : MonoBehaviour {
 	public bool unhealthyWeather;
 	public bool harmfulWeather;
 	public bool canBeSeen;
-	public bool Trapped = false;
+	public TroopScript Trappedby = null;
 
 
 
