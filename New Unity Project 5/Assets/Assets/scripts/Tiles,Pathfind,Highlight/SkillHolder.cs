@@ -19,6 +19,14 @@ public class SkillHolder : MonoBehaviour {
 	public Button.ButtonClickedEvent BattleRatingDown;
 	public Button.ButtonClickedEvent BattleRatingDown2;
 	public Button.ButtonClickedEvent BattleStrategy;
+	public Button.ButtonClickedEvent BowAttack;
+	public Button.ButtonClickedEvent BowAttackMiko;
+	public Button.ButtonClickedEvent BowAttackPlus;
+	public Button.ButtonClickedEvent CannonAttack;
+	public Button.ButtonClickedEvent CannonStrongAttack;
+	public Button.ButtonClickedEvent CarefulAttack;
+	public Button.ButtonClickedEvent Carry;
+	public Button.ButtonClickedEvent Drop;
 	
 	void Awake() {
 		instance = this;

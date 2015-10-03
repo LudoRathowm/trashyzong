@@ -405,9 +405,15 @@ public class TroopScript : MonoBehaviour {
 		myBuffs.Speed = 0;
 	}
 
-
+	public void AddClassSkills (List<muhSkills> ClassSkills){
+		for(int i =0;i<ClassSkills.Count;i++)
+			SkillsPossessed.Add (ClassSkills[i]);
+	}
 	public void AddSkillToList (muhSkills _skill){
 		SkillsPossessed.Add(_skill);
+	}
+	public void RemoveSkillToList (muhSkills _skill){
+		SkillsPossessed.Remove(_skill);
 	}
 
 	public void CancelPreparation (){
@@ -431,12 +437,15 @@ public class TroopScript : MonoBehaviour {
 	//
 	
 	void Awake () {
+
+			
 		moveDestination = transform.position;
 		previousWorldPosition = transform.position;
 
 	}
 
 	void Start (){
+
 		Debug.Log(myClass);
 	
 //			SkillsPossessed.AddRange(Classes.fromList(myClass).GetBaseClassSkills());

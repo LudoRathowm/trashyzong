@@ -50,6 +50,21 @@ public class SkillMethods : MonoBehaviour {
 		case muhSkills.BowAttackPlus:
 			BowAttackPlus();
 			break;
+		case muhSkills.CannonNormalAttack:
+			CannonNormalAttack();
+			break;
+		case muhSkills.CannonStrongAttack:
+			CannonStrongAttack();
+			break;
+		case muhSkills.CarefulAttack:
+			CarefulAttack();
+			break;
+		case muhSkills.Carry:
+			Carry();
+			break;
+		case muhSkills.Drop:
+			Drop ();
+			break;
 		case muhSkills.NoSkill:
 			break;
 		default:
@@ -123,7 +138,7 @@ public class SkillMethods : MonoBehaviour {
 
 			//animations and shit go here
 			GameManager.instance.removeTileHighlights();
-			Caster.actionPoints-=Skill.FromListOfSkills(muhSkills.AccurateShots).EnergyCost;;
+			Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(muhSkills.AccurateShots).EnergyCost);
 			if (Skill.FromListOfSkills(muhSkills.AccurateShots).DepleteEnergy == true)
 				Caster.SetEnergy(0);
 		}}
@@ -436,6 +451,167 @@ public class SkillMethods : MonoBehaviour {
 						
 					}}}}
 	}
+	public void CannonNormalAttackActivate(){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.CannonNormalAttack).EnergyCost)
+			SwitchThis = muhSkills.CannonNormalAttack;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}
+	
+	void CannonNormalAttack(){
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(muhSkills.CannonNormalAttack).SkillMinRange,Skill.FromListOfSkills(muhSkills.CannonNormalAttack).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						NewFightScript.MeleeFightingScript(Caster,Target,Skill.FromListOfSkills(muhSkills.CannonNormalAttack));			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.actionPoints-=Skill.FromListOfSkills(muhSkills.CannonNormalAttack).EnergyCost;
+						if (Skill.FromListOfSkills(muhSkills.CannonNormalAttack).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						
+					}}}}
+	}
+	public void CannonStrongAttackActivate(){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.CannonStrongAttack).EnergyCost)
+			SwitchThis = muhSkills.CannonStrongAttack;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}
+	
+	void CannonStrongAttack(){
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(muhSkills.CannonStrongAttack).SkillMinRange,Skill.FromListOfSkills(muhSkills.CannonStrongAttack).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						NewFightScript.MeleeFightingScript(Caster,Target,Skill.FromListOfSkills(muhSkills.CannonStrongAttack));			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.actionPoints-=Skill.FromListOfSkills(muhSkills.CannonStrongAttack).EnergyCost;
+						if (Skill.FromListOfSkills(muhSkills.CannonStrongAttack).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						
+					}}}}
+	}
+	public void CarefulAttackActivate(){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.CarefulAttack).EnergyCost)
+			SwitchThis = muhSkills.CarefulAttack;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}
+	
+	void CarefulAttack(){
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(muhSkills.CarefulAttack).SkillMinRange,Skill.FromListOfSkills(muhSkills.CarefulAttack).SkillMaxRange);
+		TroopScript Target = null;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						NewFightScript.MeleeFightingScript(Caster,Target,Skill.FromListOfSkills(muhSkills.CarefulAttack));			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.actionPoints-=Skill.FromListOfSkills(muhSkills.CarefulAttack).EnergyCost;
+						if (Skill.FromListOfSkills(muhSkills.CarefulAttack).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						
+					}}}}
+	}
+	public void CarryActivate(){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.Carry).EnergyCost)
+			SwitchThis = muhSkills.Carry;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}
+	
+	void Carry(){
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.magenta,Skill.FromListOfSkills(muhSkills.Carry).SkillMinRange,Skill.FromListOfSkills(muhSkills.Carry).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction == Caster.Faction) {
+						Target = p;
+					//	GameManager.instance.players.Remove(Target);
+					//	GameManager.instance.playerTurns.Remove(Target);
+						Target.gameObject.SetActive(false);
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.CarryingThisNigga = Target;
+						Caster.AddSkillToList(muhSkills.Drop);
+						Caster.RemoveSkillToList(muhSkills.Carry);
+						Target.gridPosition = new Vector2 (666,666); //SATAN HOLD MY CARRIED PLAYERS
+						Caster.actionPoints-=Skill.FromListOfSkills(muhSkills.Carry).EnergyCost;
+						if (Skill.FromListOfSkills(muhSkills.Carry).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.actionPoints--;
+					}}}}
+	}
+	public void DropActivate(){
+		SwitchThis = muhSkills.Drop;
+
+	}
+	
+	void Drop(){
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.magenta,Skill.FromListOfSkills(muhSkills.Drop).SkillMinRange,Skill.FromListOfSkills(muhSkills.Drop).SkillMaxRange);
+		TroopScript Target = null;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction == Caster.Faction && p.GetMuhClass()==muhClasses.Cavalry) {
+						Target =p;
+						//	GameManager.instance.players.Remove(Target);
+						//	GameManager.instance.playerTurns.Remove(Target);
+						Target.CarryingThisNigga = Caster.CarryingThisNigga;
+						Caster.CarryingThisNigga = null;
+						Caster.AddSkillToList(muhSkills.Carry);
+						Caster.RemoveSkillToList(muhSkills.Drop);
+						//animations and shit go here
+						Caster.actionPoints--;
+						GameManager.instance.removeTileHighlights();
+						SwitchThis = muhSkills.NoSkill;
+						Debug.Log ("Nig");
+						
+					}
+					else if (p.gridPosition == targetTile.gridPosition && p.Faction == Caster.Faction && p.GetMuhClass()!=muhClasses.Cavalry)
+						Debug.Log("You can't pass the one you are carrying to "+p.GetChief().GetName());
+					else if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction)
+						Debug.Log ("What are you doing?");
+							
+				
+				}
+
+				if (Target==null)
+				{
+				//	Caster.CarryingThisNigga = ((GameObject)Instantiate(GameManager.instance.UserTroopPrefab, new Vector3(GameManager.instance.MousePosition.x - Mathf.Floor(GameManager.instance.mapSize/2),1.5f, -GameManager.instance.MousePosition.y + Mathf.Floor(GameManager.instance.mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
+					Caster.CarryingThisNigga.gridPosition = GameManager.instance.MousePosition;
+					Caster.CarryingThisNigga.transform.position= new Vector3(GameManager.instance.MousePosition.x - Mathf.Floor(GameManager.instance.mapSize/2),1.5f, -GameManager.instance.MousePosition.y + Mathf.Floor(GameManager.instance.mapSize/2));
+					Caster.CarryingThisNigga.gameObject.SetActive(true);
+					Caster.CarryingThisNigga = null;
+					Caster.actionPoints--;
+					GameManager.instance.removeTileHighlights();
+					SwitchThis = muhSkills.NoSkill;
+				}
+			
+			}}
+	}
+
 	public void Move (){
 		
 		int xPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.x);

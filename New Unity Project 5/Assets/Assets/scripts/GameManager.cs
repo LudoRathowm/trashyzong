@@ -53,10 +53,11 @@ public	int PlayerTurnIndex = 0;
 
 		generateMap();
 		generatePlayers();
-		AssignClassSkills();
+
 		while (playerTurns.Count<10)
 		DecideNextTurn();
 		DisplayTurns();
+		AssignClassSkills();
 	}
 	
 	// Update is called once per frame
@@ -86,12 +87,20 @@ public	int PlayerTurnIndex = 0;
 //		if (players[currentPlayerIndex].GetNumber()+players[currentPlayerIndex].GetWounded() > 0) players[currentPlayerIndex].TurnOnGUI();
 //	}
 	void StartTurn (){
+
 		Debug.Log ("It's your turn, "+playerTurns[PlayerTurnIndex].GetName()+"!");
 		if (playerTurns[PlayerTurnIndex].Poisoned>0)
 			playerTurns[PlayerTurnIndex].Poisoned++;
 		if (playerTurns[PlayerTurnIndex].Poisoned >9) //10 ticks to kill? maybe gonna drop to like 5
 			playerTurns[PlayerTurnIndex].SetNumber(0);
 		startedTurn = true;
+		foreach (TroopScript nigga in players){
+			if (nigga.CarryingThisNigga == playerTurns[PlayerTurnIndex])
+			nextTurn();
+
+		}
+
+
 		if (playerTurns[PlayerTurnIndex].GetPreparation()!=muhSkills.NoSkill){
 
 			switch (switcheroo){
@@ -103,6 +112,8 @@ public	int PlayerTurnIndex = 0;
 			}
 
 		}
+
+
 
 	}
 	public void nextTurn() {	
@@ -638,7 +649,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		AddStuffToChief(leader,"Bill Wilson","this", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),5,4,2,5);
 
 		leader.mySprite = PortraitHolder.instance.Cia;
-		AddStuffToPlayer(player,0,muhClasses.Archer,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
+		AddStuffToPlayer(player,0,muhClasses.Tactician,leader, 20,5,200,5,100,Weaponry.FromName(WeaponryName.TestAxe),Armory.FromName(ArmoryName.TestChainMail));
 		players.Add(player);
 
 
@@ -649,7 +660,9 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		AddStuffToChief(leader,"Arino","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),6,6,2,1);
 		player.SetBaseTurnSpeed (2);
 		leader.mySprite = PortraitHolder.instance.Arino;
-		AddStuffToPlayer(player,0,muhClasses.Archer,leader, 14,7,70,12,100,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
+		AddStuffToPlayer(player,0,muhClasses.Warrior,leader, 14,7,70,12,100,Weaponry.FromName(WeaponryName.TestPike),Armory.FromName(ArmoryName.TestBrigandine));
+		player.SetMaxEnergy(100);
+		player.SetEnergy(100);
 		players.Add(player);
 
 		player = ((GameObject)Instantiate(UserTroopPrefab, new Vector3(2 - Mathf.Floor(mapSize/2),1.5f, -20 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<UserTroop>();
@@ -657,7 +670,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		leader = new Chief();
 		AddStuffToChief(leader,"Bernn","Obama", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),7,0,2,1);
 		leader.mySprite = PortraitHolder.instance.Bernn;
-		AddStuffToPlayer(player,0,muhClasses.Archer, leader, 12,10,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
+		AddStuffToPlayer(player,0,muhClasses.Monk, leader, 12,10,100,12,100,Weaponry.FromName(WeaponryName.TestBow),Armory.FromName(ArmoryName.TestGambeson));
 		
 		players.Add(player);
 		
@@ -781,7 +794,11 @@ Vector2 tarPos = TargetBridge.gridPosition;
 //		//	myList[i]=Sprites[i];
 //	}
 	}
-	void AssignClassSkills(){ //i need to change this for something better
+	void AssignClassSkills(){
+		for (int i = 0;i<players.Count;i++)
+			players[i].AddClassSkills (Classes.GetBaseClassSkills(players[i].GetMuhClass()));
+
+		//i need to change this for something better
 	//	for (int i = 0;i<players.Count;i++){
 		//	Debug.Log(players[i].GetChief().GetName()+" has "+players[i].GetClass().GetCountBaseClassSkills());
 			//for (int j= 0;j<players[i].GetClass().GetCountBaseClassSkills();j++)
@@ -796,13 +813,18 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	//	}
 	}
 
-	public List<muhSkills> GetSkills (){
+//	public List<muhSkills> GetBaseSkills (){
+//		List <muhSkills> ReturnThis = new List<muhSkills> ();
+////		Debug.Log (playerTurns[PlayerTurnIndex]);
+////		Debug.Log(playerTurns[PlayerTurnIndex].GetMuhClass());
+////		Debug.Log(Classes.GetBaseClassSkills(playerTurns[PlayerTurnIndex].GetMuhClass()).Count);
+//
+//		ReturnThis =Classes.GetBaseClassSkills(playerTurns[PlayerTurnIndex].GetMuhClass());
+//		return ReturnThis;
+//	}
+	public List<muhSkills> GetSkills(){
 		List <muhSkills> ReturnThis = new List<muhSkills> ();
-//		Debug.Log (playerTurns[PlayerTurnIndex]);
-//		Debug.Log(playerTurns[PlayerTurnIndex].GetMuhClass());
-//		Debug.Log(Classes.GetBaseClassSkills(playerTurns[PlayerTurnIndex].GetMuhClass()).Count);
-
-		ReturnThis =Classes.GetBaseClassSkills(playerTurns[PlayerTurnIndex].GetMuhClass());
+		ReturnThis = playerTurns[PlayerTurnIndex].GetSkillsPossessed();
 		return ReturnThis;
 	}
 

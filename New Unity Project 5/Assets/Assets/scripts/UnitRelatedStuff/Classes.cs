@@ -422,6 +422,8 @@ public class Classes  {
 
 	public static List<muhSkills> GetBaseClassSkills(muhClasses _class){
 		List<muhSkills> ClassSkills = new List<muhSkills>();
+	//	Debug.LogError (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
+		Debug.Log("player:"+GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetChief().GetName()+"has the class"+_class);
 		switch (_class)
 		{
 		case muhClasses.Animal:
@@ -431,6 +433,7 @@ public class Classes  {
 			ClassSkills.Add(muhSkills.AccurateShots);
 			ClassSkills.Add(muhSkills.BowAttack);
 			ClassSkills.Add(muhSkills.StrongBowAttack);
+			ClassSkills.Add(muhSkills.Carry);
 			break;
 		case muhClasses.Cannon:
 			ClassSkills.Add(muhSkills.CannonNormalAttack);
@@ -489,6 +492,7 @@ public class Classes  {
 			ClassSkills.Add(muhSkills.Charge);
 			ClassSkills.Add(muhSkills.WarriorAttack);
 			ClassSkills.Add(muhSkills.FullPowerCharge);
+			ClassSkills.Add(muhSkills.Carry);
 			break;
 		default:
 

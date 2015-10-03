@@ -12,100 +12,100 @@ public class UserTroop : TroopScript {
 	// Update is called once per frame
 	public override void Update () {
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex] == this) {
-
-
-
-	//		Debug.Log(GetSkillsPossessed().Count);
-			for (int i = 1;i<GetSkillsPossessed().Count;i++)
-				Debug.Log(GetSkillsPossessed()[2]);
-
-			
-			//for (int i = 0;i<GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetSkillsPossessed().Count;i++)
-			//_Canvas.gameObject.SetActive(true);
-			
-			//GameManager.instance.WhiteDestructionBeam(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
-		//	GameManager.instance.SharpShoot(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
-		//	NewFightScript.AnkleSnare(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
-//			GameManager.instance.highLightIceWall(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition,GameManager.instance.MousePosition,icewall);
-//			if (Input.GetMouseButtonUp(0) && icewall == true)
-//				icewall = false;
-//			else if (Input.GetMouseButtonUp(0) && icewall == false)
-//				icewall = true;
 			transform.GetChild(1).gameObject.SetActive(true);
-			if (Input.GetButtonDown("MoveKey")){
-				int xPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.x);
-				int yPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.y);
-				Tile _terrain = GameManager.instance.map[xPos][yPos];
-//				NewFightScript.AccurateShots(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex],1);
-		//		if (!_terrain.Trapped)
-
-			if (!moving) {
-					GameManager.instance.removeTileHighlights();
-					moving = true;
-					attacking = false;
-					GameManager.instance.highlightTilesAt(gridPosition, Color.blue,GetMovement(), false);
-				} else {
-					moving = false;
-					attacking = false;
-					GameManager.instance.removeTileHighlights();
-				}
-				 Debug.Log ("You got trapped nigga");}
-			if (Input.GetButtonDown("AttackKey")){
-
-					if (!attacking && GetWeapon().weapType == WeaponType.Crossbow && GetCharge() == false){
-						SetCharge(true);
-					Debug.Log(GetName()+" has loaded his crossbow.");
-					moving = false;
-					attacking = false;
-					GameManager.instance.removeTileHighlights();
-					actionPoints--;
-
-
-			}
-					else if (!attacking && GetWeapon().weapType == WeaponType.Crossbow && GetCharge() == true){
-											
-
-				GameManager.instance.removeTileHighlights();
-					moving = false;
-				attacking = true;
-					GameManager.instance.highlightTilesRing(gridPosition,Color.red,GetCounterMinRange(),GetCounterMaxRange());
-				//GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetCounterMaxRange());
-				//GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetCounterMinRange());
-					}
-				else if (!attacking && GetWeapon().weapType!= WeaponType.Crossbow ){
-
-					GameManager.instance.removeTileHighlights();
-					moving = false;
-					attacking = true;
-					GameManager.instance.highlightTilesRing(gridPosition,Color.red,GetCounterMinRange(),GetCounterMaxRange());
-				} else if (attacking){
-					moving = false;
-					attacking = false;
-					GameManager.instance.removeTileHighlights();
-				}
-			}
-			if (Input.GetButtonUp("EndTurn"))
-			{Input.ResetInputAxes();
-				GameManager.instance.removeTileHighlights();
-				actionPoints = 2;
-				moving = false;
-				attacking = false;			
-				GameManager.instance.nextTurn();
-			}
 			
-			if (Input.GetButtonUp("Cancel")){
-
-				if(actionPoints>=1){
-					actionPoints++;
-					GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition	=GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].previousGridPosition;
-					GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].transform.position	=GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].previousWorldPosition;
-				}
-			}
-			
-			
-			
-			
-			
+//
+//	//		Debug.Log(GetSkillsPossessed().Count);
+//			for (int i = 1;i<GetSkillsPossessed().Count;i++)
+////				Debug.Log(GetSkillsPossessed()[2]);
+//
+//			
+//			//for (int i = 0;i<GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetSkillsPossessed().Count;i++)
+//			//_Canvas.gameObject.SetActive(true);
+//			
+//			//GameManager.instance.WhiteDestructionBeam(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
+//		//	GameManager.instance.SharpShoot(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
+//		//	NewFightScript.AnkleSnare(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
+////			GameManager.instance.highLightIceWall(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition,GameManager.instance.MousePosition,icewall);
+////			if (Input.GetMouseButtonUp(0) && icewall == true)
+////				icewall = false;
+////			else if (Input.GetMouseButtonUp(0) && icewall == false)
+////				icewall = true;
+//		
+//			if (Input.GetButtonDown("MoveKey")){
+//				int xPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.x);
+//				int yPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.y);
+//				Tile _terrain = GameManager.instance.map[xPos][yPos];
+////				NewFightScript.AccurateShots(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex],1);
+//		//		if (!_terrain.Trapped)
+//
+//			if (!moving) {
+//					GameManager.instance.removeTileHighlights();
+//					moving = true;
+//					attacking = false;
+//					GameManager.instance.highlightTilesAt(gridPosition, Color.blue,GetMovement(), false);
+//				} else {
+//					moving = false;
+//					attacking = false;
+//					GameManager.instance.removeTileHighlights();
+//				}
+//				 Debug.Log ("You got trapped nigga");}
+//			if (Input.GetButtonDown("AttackKey")){
+//
+//					if (!attacking && GetWeapon().weapType == WeaponType.Crossbow && GetCharge() == false){
+//						SetCharge(true);
+//					Debug.Log(GetName()+" has loaded his crossbow.");
+//					moving = false;
+//					attacking = false;
+//					GameManager.instance.removeTileHighlights();
+//					actionPoints--;
+//
+//
+//			}
+//					else if (!attacking && GetWeapon().weapType == WeaponType.Crossbow && GetCharge() == true){
+//											
+//
+//				GameManager.instance.removeTileHighlights();
+//					moving = false;
+//				attacking = true;
+//					GameManager.instance.highlightTilesRing(gridPosition,Color.red,GetCounterMinRange(),GetCounterMaxRange());
+//				//GameManager.instance.highlightTilesAt(gridPosition, Color.red, GetCounterMaxRange());
+//				//GameManager.instance.highlightTilesAt(gridPosition,Color.white,GetCounterMinRange());
+//					}
+//				else if (!attacking && GetWeapon().weapType!= WeaponType.Crossbow ){
+//
+//					GameManager.instance.removeTileHighlights();
+//					moving = false;
+//					attacking = true;
+//					GameManager.instance.highlightTilesRing(gridPosition,Color.red,GetCounterMinRange(),GetCounterMaxRange());
+//				} else if (attacking){
+//					moving = false;
+//					attacking = false;
+//					GameManager.instance.removeTileHighlights();
+//				}
+//			}
+//			if (Input.GetButtonUp("EndTurn"))
+//			{Input.ResetInputAxes();
+//				GameManager.instance.removeTileHighlights();
+//				actionPoints = 2;
+//				moving = false;
+//				attacking = false;			
+//				GameManager.instance.nextTurn();
+//			}
+//			
+//			if (Input.GetButtonUp("Cancel")){
+//
+//				if(actionPoints>=1){
+//					actionPoints++;
+//					GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition	=GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].previousGridPosition;
+//					GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].transform.position	=GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].previousWorldPosition;
+//				}
+//			}
+//			
+//			
+//			
+//			
+//			
 			
 			//transform.GetComponent<Renderer>().material.color = Color.green;
 		} else {

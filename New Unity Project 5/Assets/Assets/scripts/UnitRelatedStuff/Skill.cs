@@ -74,6 +74,7 @@ public enum muhSkills{
 	Assassinate, //hp and energy based all energy
 	//CAVALRY
 	Carry,
+	Drop,
 	CounterRange,
 	MuhFlags, //battle rating up
 	MuhFlags2,
@@ -364,7 +365,7 @@ public class Skill {
 				DamageScaling = 1,
 				SkillMaxRange = 6,
 				SkillMinRange = 2,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.BowAttack
 
 				
 				
@@ -377,7 +378,7 @@ public class Skill {
 				DamageScaling = 0.8f,
 				SkillMaxRange = 5,
 				SkillMinRange = 2,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.BowAttackMiko
 
 				
 				
@@ -391,7 +392,7 @@ public class Skill {
 				SkillMaxRange = 6,
 				SkillMinRange = 2,
 				PrerequisiteSkill = muhSkills.BowAttack,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.BowAttackPlus
 
 				
 			};
@@ -402,7 +403,7 @@ public class Skill {
 				SkillRecoveryTime = 30,
 				DamageScaling = 1,
 				SkillMaxRange = 3,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.CannonAttack
 
 
 				
@@ -414,7 +415,7 @@ public class Skill {
 				DepleteEnergy = true,
 				SkillRecoveryTime = 30,
 				DamageScaling = 2,
-				SkillEvent = SkillHolder.instance.AccurateShots
+				SkillEvent = SkillHolder.instance.CannonStrongAttack
 
 				
 				
@@ -425,14 +426,27 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 10,
 				DamageScaling = 1,
-				CanCounter = false
+				CanCounter = false,
+				SkillEvent = SkillHolder.instance.CarefulAttack
 				
 			};
 			break;
 		case muhSkills.Carry: //maybe change to passive? can carry other people around
 			_skill = new Skill() {
 				EnergyCost = 1,
-				SkillRecoveryTime = 10
+				SkillRecoveryTime = 10,
+				SkillEvent = SkillHolder.instance.Carry
+				
+				
+				
+			};
+			break;
+		case muhSkills.Drop: //maybe change to passive? can carry other people around
+			_skill = new Skill() {
+				EnergyCost = 0,
+				SkillRecoveryTime = 10,
+				SkillMaxRange = 1,
+				SkillEvent = SkillHolder.instance.Drop
 				
 				
 				
