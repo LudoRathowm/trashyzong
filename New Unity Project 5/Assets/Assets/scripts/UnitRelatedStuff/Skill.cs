@@ -456,7 +456,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
-				DamageScaling = 1
+				DamageScaling = 1,
+				SkillEvent = SkillHolder.instance.CavalryCharge
 				
 				
 			};
@@ -476,7 +477,7 @@ public class Skill {
 				SkillRecoveryTime = 20,
 				DamageScaling = 1.1f,
 				PrerequisiteSkill = muhSkills.CavalryCharge,
-				
+				SkillEvent = SkillHolder.instance.CavalryCharge2
 				
 			};
 			break;
@@ -487,7 +488,8 @@ public class Skill {
 				DamageScaling = 0.9f,
 				Penetrating = true,
 				CancelsPreparation = true,
-				SkillMaxRange = 3
+				SkillMaxRange = 3,
+				SkillEvent = SkillHolder.instance.ChinkChinkShuriken
 				
 				
 			};
@@ -497,7 +499,9 @@ public class Skill {
 				EnergyCost = 1,
 				DepleteEnergy = true,
 				SkillRecoveryTime = 30,
-				DamageScaling = 1//TAKE CARE NEEDS TO DO EXTRA DAMAGE BASED ON THE DIFFERENCE in unit %
+				DamageScaling = 1,
+				SkillEvent = SkillHolder.instance.CleanUp
+				//TAKE CARE NEEDS TO DO EXTRA DAMAGE BASED ON THE DIFFERENCE in unit %
 				
 				
 				
@@ -506,7 +510,8 @@ public class Skill {
 		case muhSkills.ConvertAction: //gives 1 energy to someone else
 			_skill = new Skill() {
 				EnergyCost = 1,
-				SkillRecoveryTime = 15
+				SkillRecoveryTime = 15,
+				SkillEvent = SkillHolder.instance.ConvertAction
 				
 				
 				
@@ -516,12 +521,13 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 2,
 				SkillRecoveryTime = 15,
-				PrerequisiteSkill = muhSkills.ConvertAction
+				SkillEvent = SkillHolder.instance.ConvertAction2
+
 				
 				
 			};
 			break;
-		case muhSkills.CounterRange: //you can activate it when atked, cavalry can counter attack rangeds by rushing to them
+		case muhSkills.CounterRange: //you can activate it when atked, cavalry can counter attack rangeds by rushing to them. TOO BROKEN? 
 			_skill = new Skill() {
 
 				
@@ -534,19 +540,19 @@ public class Skill {
 				SkillRecoveryTime = 40,
 				DamageScaling = 2,
 				RequiresPreparation = true,
-				SkillMaxRange= 3
-				
+				SkillMaxRange= 3,
+				SkillEvent = SkillHolder.instance.CrossbowAttack
 				
 			};
 			break;
-		case muhSkills.CrossbowAttackPlus: //why did i even add this you aint gonna attack with tacticians
+		case muhSkills.CrossbowAttackPlus: //why did i even add this you aint gonna attack with tacticians why would you upgrade your crossbow attack
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 40,
 				DamageScaling = 3,
 				RequiresPreparation = true,
 				SkillMaxRange = 3,
-				PrerequisiteSkill = muhSkills.CrossbowAttack
+				SkillEvent = SkillHolder.instance.CrossbowAttackPlus
 				
 				
 			};
@@ -555,8 +561,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
-				RemovesPoison = true
-				
+				RemovesPoison = true,
+				SkillEvent = SkillHolder.instance.Depoison
 				
 			};
 			break;
@@ -575,7 +581,7 @@ public class Skill {
 				DepleteEnergy = true,
 				SkillRecoveryTime = 10,
 				DamageScaling = 2, //need a proper formula for this
-				
+				SkillEvent = SkillHolder.instance.FellowTroopRevenge
 				
 			};
 			break;

@@ -423,7 +423,7 @@ public class Classes  {
 	public static List<muhSkills> GetBaseClassSkills(muhClasses _class){
 		List<muhSkills> ClassSkills = new List<muhSkills>();
 	//	Debug.LogError (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex]);
-		Debug.Log("player:"+GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetChief().GetName()+"has the class"+_class);
+//		Debug.Log("player:"+GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetChief().GetName()+"has the class"+_class);
 		switch (_class)
 		{
 		case muhClasses.Animal:

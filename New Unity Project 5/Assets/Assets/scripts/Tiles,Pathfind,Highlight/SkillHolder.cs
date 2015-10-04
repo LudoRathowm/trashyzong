@@ -27,7 +27,16 @@ public class SkillHolder : MonoBehaviour {
 	public Button.ButtonClickedEvent CarefulAttack;
 	public Button.ButtonClickedEvent Carry;
 	public Button.ButtonClickedEvent Drop;
-	
+	public Button.ButtonClickedEvent CavalryCharge;
+	public Button.ButtonClickedEvent CavalryCharge2;
+	public Button.ButtonClickedEvent ChinkChinkShuriken;
+	public Button.ButtonClickedEvent CleanUp;
+	public Button.ButtonClickedEvent ConvertAction;
+	public Button.ButtonClickedEvent ConvertAction2;
+	public Button.ButtonClickedEvent CrossbowAttack;
+	public Button.ButtonClickedEvent CrossbowAttackPlus;
+	public Button.ButtonClickedEvent Depoison;
+	public Button.ButtonClickedEvent FellowTroopRevenge;
 	void Awake() {
 		instance = this;
 	}

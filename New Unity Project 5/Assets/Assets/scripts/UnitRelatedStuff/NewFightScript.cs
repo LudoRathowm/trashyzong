@@ -14,7 +14,10 @@ public class NewFightScript {
 		int DamageOnDef = 0;
 		TroopScript DefenderGuarder = Defender.GuardedBy;
 		float 	DefenderGuardPercent = (float)Defender.GuardedByPercent/100;
-
+		if (SkillUsed.CancelsPreparation == true && Defender.isMagicGuarded == false){
+			Defender.CancelPreparation();
+			Defender.FlushPreparationTarget();
+		}
 		if (SkillUsed.Penetrating == true || DefenderGuarder == null){
 		DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
 			Debug.Log("Damage on "+Defender.GetChief().GetName()+":"+DamageOnDef);
@@ -77,6 +80,23 @@ public class NewFightScript {
 		if (Monk.GetNumber()>Monk.GetmaxNumber())
 		Monk.SetNumber(Monk.GetmaxNumber());
 	}
+public	static float DamageScalingCleanUp (TroopScript Caster, TroopScript Target){
+		float value;
+		float HpDifferences = ((float)Caster.GetNumber()/(float)Caster.GetmaxNumber())/((float)Caster.GetNumber()/(float)Caster.GetmaxNumber());
+		value = -1f+Mathf.Pow(1.5f,HpDifferences);
+		return value;
+	}
+
+	public static float DamageScalingRevenge (TroopScript Caster){
+		float value;
+		float hpPercent = (float)Caster.GetNumber()/(float)Caster.GetmaxNumber();
+		value = 0.7f*(1/hpPercent); //need to change this
+
+		return value;
+	}
+
+
+
 
 	public static void Assassinate (TroopScript Assassin, TroopScript Victim){
 		int AssassinChance = Mathf.RoundToInt(((float)Assassin.GetEnergy()/(float)Assassin.GetMaxEnergy())*900+((float)Assassin.GetNumber()/(float)Assassin.GetmaxNumber())*100);
@@ -470,14 +490,14 @@ public class NewFightScript {
 			Target.Poisoned = Caster.GetChief().GetIntelligence();
 	}
 
-	public static void FellowTroopRevenge (TroopScript Caster, TroopScript Target){
-		int Losses = Caster.GetmaxNumber()-Caster.GetNumber();
-		float Scaling = .25f*(float)Losses/((float)Caster.GetmaxNumber()/10);
-		Skill FellowTroopRevenge = Skill.FromListOfSkills(muhSkills.FellowTroopsRevenge);
-		FellowTroopRevenge.DamageScaling = Scaling;
-
-		MeleeFightingScript(Caster,Target,FellowTroopRevenge);
-	}
+//	public static void FellowTroopRevenge (TroopScript Caster, TroopScript Target){
+//		int Losses = Caster.GetmaxNumber()-Caster.GetNumber();
+//		float Scaling = .25f*(float)Losses/((float)Caster.GetmaxNumber()/10);
+//		Skill FellowTroopRevenge = Skill.FromListOfSkills(muhSkills.FellowTroopsRevenge);
+//		FellowTroopRevenge.DamageScaling = Scaling;
+//
+//		MeleeFightingScript(Caster,Target,FellowTroopRevenge);
+//	}
 	public static void FrostDiver (TroopScript Caster, TroopScript Target){
 		if (Target.GetChief().GetIntelligence()<Caster.GetChief().GetIntelligence())
 			Target.Frozen = true;
