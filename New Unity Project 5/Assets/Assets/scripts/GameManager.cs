@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 	muhSkills switcheroo; //start turn spell prepared
+	public int BattleGauge;
 	bool startedTurn;
 	public int TotalTime = 30;
 	public int CurrentTime = 0;
@@ -225,16 +226,18 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		return targets;
 	}
 	public void CreateIcewall (Vector2 Position, TroopScript MageThatCreatedIt){
-		
+
 		ThirdParty iceicebaby = ((GameObject)Instantiate(IcePrefab, new Vector3(Position.x - Mathf.Floor((float)mapSize/2),1.5f, -Position.y + Mathf.Floor((float)mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<ThirdParty>();
-		iceicebaby.gridPosition = Position;
 		Chief Proprietary = new Chief();
-		
 		AddStuffToChief(Proprietary, "Ice", "Wall", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),0,0,0,0);
-		
+		Debug.Log (Proprietary);
 		int IceHP = MageThatCreatedIt.GetChief().GetIntelligence()*MageThatCreatedIt.GetNumber()/2; //can be changed in the future
 		AddStuffToPlayer(iceicebaby,2,muhClasses.Ice,Proprietary, 0, 10,100,12,IceHP,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
-		
+		players.Add(iceicebaby);
+		Debug.Log(iceicebaby);
+		iceicebaby.gridPosition = Position;
+
+
 		//		AITroop aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		//		aiplayer.gridPosition = new Vector2(6,4);
 		//		leader = new Chief();
@@ -352,8 +355,6 @@ Vector2 tarPos = TargetBridge.gridPosition;
 					for (int j = 0; j<IntersectWall.Count;j++)
 					for (int i=0;i<players.Count;i++){
 			if (players[i].gridPosition != originLocation && players[i].gridPosition  == Wall[j].gridPosition){
-				Debug.Log(IntersectWall.Count);
-				Debug.Log(players[i].GetName());
 				if (IntersectWall[j]){IntersectWall.Remove(Wall[j]);
 					Redtiles.Add (Wall[j]);}}	}		
 
@@ -754,12 +755,14 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		CalculatedNextPlayerTurn = false;
 		while (!CalculatedNextPlayerTurn)
 			for (int i = 0; i<players.Count;i++)
-				if (players[i].TurnRecoveryTime < players[i].SkillRecoveryTime) //REMEMBER TO SET SKILL RECOVERY TIME ONCE YOU ADD THE PROPER SKILL SYSTEM
+				if (players[i].TurnRecoveryTime < players[i].SkillRecoveryTime ) //REMEMBER TO SET SKILL RECOVERY TIME ONCE YOU ADD THE PROPER SKILL SYSTEM
 					players[i].TurnRecoveryTime+=players[i].GetTurnSpeed();
 		else if (players[i].TurnRecoveryTime>=players[i].SkillRecoveryTime)
-		{   players[i].TurnRecoveryTime= 0;
+		{   if (players[i].GetChief().GetName()!="Ice"){
+			players[i].TurnRecoveryTime= 0;
+
 			playerTurns.Add(players[i]);
-			playerTurnNamesForShow.Add(players[i].GetName());
+				playerTurnNamesForShow.Add(players[i].GetName());}
 			CalculatedNextPlayerTurn = true;
 		}
 		else if (players[i].TurnRecoveryTime ==0)
@@ -769,7 +772,8 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	}
 	void DisplayTurns(){
 		Sprite[] Sprites = new Sprite[10];
-		for (int i = 0;i<Sprites.Length;i++){
+		for (int i = 0;i<10;i++){
+			Debug.Log("spritez:"+playerTurns[PlayerTurnIndex+i].GetChief().GetName());
 			Sprites[i] = playerTurns[PlayerTurnIndex+i].GetChief().mySprite; 
 
 		}

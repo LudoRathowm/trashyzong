@@ -592,6 +592,7 @@ public class Skill {
 				SkillRecoveryTime = 30,
 				DamageScaling = 1.2f,
 				SkillMaxRange = 4,
+				SkillEvent = SkillHolder.instance.FireBlast
 				
 			};
 			break;
@@ -600,7 +601,8 @@ public class Skill {
 				EnergyCost = 1,
 				DepleteEnergy = true,
 				SkillRecoveryTime = 10,
-				DamageScaling = 1f, // NEED A PROPER FORMULA, if battle rating scaling = 3
+				DamageScaling = 1f, // NEED A PROPER FORMULA, if battle gauge scaling = 3,
+				SkillEvent = SkillHolder.instance.FollowThrough
 				
 				
 			};
@@ -610,7 +612,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 1,
-				
+				SkillEvent = SkillHolder.instance.FootSoldierAttack
 				
 			};
 			break;
@@ -619,17 +621,19 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 1.1f,
-				PrerequisiteSkill = muhSkills.FootSoldierAttack
+				PrerequisiteSkill = muhSkills.FootSoldierAttack,
+				SkillEvent = SkillHolder.instance.FootSoldierAttack2
 				
 			};
 			break;
-		case muhSkills.FrostDiver: //skill the freezes the target. frozen targets are basically out of the game 
+		case muhSkills.FrostDiver: //skill that freezes the target. frozen targets are basically out of the game 
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 25,
 				DamageScaling = 0.3f,
 				isPhysical = false,
-				Freezes = true
+				Freezes = true,
+				SkillEvent = SkillHolder.instance.FrostDiver
 				
 			};
 			break;
@@ -638,7 +642,7 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 15,
 				DamageScaling = 2,
-				
+				SkillEvent = SkillHolder.instance.FullPowerCharge
 				
 			};
 			break;
@@ -647,7 +651,8 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 2.5f,
-				PrerequisiteSkill = muhSkills.FullPowerCharge
+				PrerequisiteSkill = muhSkills.FullPowerCharge,
+				SkillEvent = SkillHolder.instance.FullPowerCharge2
 				
 			};
 			break;
@@ -676,7 +681,7 @@ public class Skill {
 				SkillRecoveryTime = 15,
 				DamageScaling = 0.8f,
 				PiercesDefence = true,
-
+				SkillEvent = SkillHolder.instance.GuardBreak
 				
 				
 			};
@@ -686,7 +691,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
 				CancelsGuard = true,
-				
+				SkillEvent = SkillHolder.instance.GuardCancel
 				
 			};
 			break;
@@ -695,7 +700,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
 				HalvesEnergy = true,
-				
+				SkillEvent = SkillHolder.instance.HalveEnergy
 				
 			};
 			break;
@@ -704,7 +709,7 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
 				GlobalPlayer = true,
-
+				SkillEvent = SkillHolder.instance.HealingMist
 				
 			};
 			break;
@@ -712,7 +717,8 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 10,
-				SkillMaxRange = 4
+				SkillMaxRange = 4,
+				SkillEvent = SkillHolder.instance.IceWall
 				
 				
 				

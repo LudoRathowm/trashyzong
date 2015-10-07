@@ -493,6 +493,7 @@ public class Classes  {
 			ClassSkills.Add(muhSkills.WarriorAttack);
 			ClassSkills.Add(muhSkills.FullPowerCharge);
 			ClassSkills.Add(muhSkills.Carry);
+			ClassSkills.Add(muhSkills.Icewall);
 			break;
 		default:
 

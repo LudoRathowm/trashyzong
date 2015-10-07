@@ -37,6 +37,18 @@ public class SkillHolder : MonoBehaviour {
 	public Button.ButtonClickedEvent CrossbowAttackPlus;
 	public Button.ButtonClickedEvent Depoison;
 	public Button.ButtonClickedEvent FellowTroopRevenge;
+	public Button.ButtonClickedEvent FireBlast;
+	public Button.ButtonClickedEvent FollowThrough;
+	public Button.ButtonClickedEvent FootSoldierAttack;
+	public Button.ButtonClickedEvent FootSoldierAttack2;
+	public Button.ButtonClickedEvent FrostDiver;
+	public Button.ButtonClickedEvent FullPowerCharge;
+	public Button.ButtonClickedEvent FullPowerCharge2;
+	public Button.ButtonClickedEvent GuardBreak;
+	public Button.ButtonClickedEvent GuardCancel;
+	public Button.ButtonClickedEvent HalveEnergy;
+	public Button.ButtonClickedEvent HealingMist;
+	public Button.ButtonClickedEvent IceWall;
 	void Awake() {
 		instance = this;
 	}

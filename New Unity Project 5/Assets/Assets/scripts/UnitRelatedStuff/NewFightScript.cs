@@ -67,7 +67,7 @@ public class NewFightScript {
 	public static void HealingTarget (TroopScript Healer, TroopScript Healed, float SkillModifier){
 		int PeoplePerLine = ReturnPeoplePerLine(Healer);
 		int TroopSize = CalculateAdjustedTroopSize(Healer.GetNumber(),PeoplePerLine,Healer.GetChief().GetMuhReturns());
-		int Healing = HealAmount(TroopSize,Healer.GetChief().GetIntelligence(),SkillModifier,0); //NEED BUFF MODIFIERS FUGG
+		int Healing = HealAmount(TroopSize,Healer.GetChief().GetIntelligence(),SkillModifier,Healer.GetDirectMatkBuff()); //NEED BUFF MODIFIERS FUGG
 		Healed.SetNumber(Healed.GetNumber()+Healing);
 		if (Healed.GetNumber()>Healed.GetmaxNumber())
 			Healed.SetNumber(Healed.GetmaxNumber());
@@ -124,7 +124,7 @@ public	static float DamageScalingCleanUp (TroopScript Caster, TroopScript Target
 		if (isPhysical && Skillused.PiercesDefence == false)
 		TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff(),Defender.GetPhalanx()))/15));
 		else if (isPhysical && Skillused.PiercesDefence == true)
-			TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculateDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense()/2,Defender.GetDefenseBuff(),Defender.GetPhalanx()))/15));
+			TroopDamage = Mathf.RoundToInt	((AdjustedTroopSize*((float)CalculateAttack(Attacker.GetClass().GetAttack(),Attacker.GetChief().GetAttack(),Attacker.GetDirectAttackBuff())-(float)CalculatePiercedDefense(Defender.GetClass().GetDefense(),Defender.GetChief().GetDefense(),Defender.GetDefenseBuff())/15)));
 		else if (!isPhysical)
 		TroopDamage = Mathf.RoundToInt((AdjustedTroopSize*(((float)CalculateMagicAttack(Attacker.GetClass().GetIntelligence(),Attacker.GetChief().GetIntelligence(),Attacker.GetDirectMatkBuff())-(float)CalculateMagicDefense(Defender.GetChief().GetIntelligence(),Defender.GetMdefBuff()))/15)));
 		if (TroopDamage>Attacker.GetNumber())
@@ -201,7 +201,10 @@ public	static float DamageScalingCleanUp (TroopScript Caster, TroopScript Target
 //		Debug.Log("def"+value);
 		return value;
 	}
-
+	static int CalculatePiercedDefense (int BaseDefense, int CptDefense,float BuffModifier){
+		int value = Mathf.RoundToInt(BaseDefense+CptDefense*(BuffModifier)*8f);
+		return value;
+	}
 	
 	static int CalculateMagicAttack (int BaseIntelligence, int CptIntelligence, float BuffModifier){
 		return Mathf.RoundToInt(BaseIntelligence+CptIntelligence*(1+BuffModifier)*10);

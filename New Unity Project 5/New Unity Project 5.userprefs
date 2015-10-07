@@ -1,17 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Assets\scripts\UnitRelatedStuff\Skill.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Assets\scripts\GameManager.cs">
     <Files>
-      <File FileName="Assets\Assets\scripts\GameManager.cs" Line="92" Column="42" />
-      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\SkillMethods.cs" Line="877" Column="20" />
-      <File FileName="Assets\Assets\scripts\Tiles,Pathfind,Highlight\SkillHolder.cs" Line="39" Column="41" />
-      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\Skill.cs" Line="584" Column="57" />
-      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\NewFightScript.cs" Line="93" Column="52" />
+      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\PortraitHolder.cs" Line="1" Column="1" />
+      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\ThirdParty.cs" Line="1" Column="1" />
+      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\SkillMethods.cs" Line="1241" Column="49" />
+      <File FileName="Assets\Assets\scripts\Tiles,Pathfind,Highlight\SkillHolder.cs" Line="1" Column="1" />
+      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\Skill.cs" Line="1" Column="1" />
+      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\NewFightScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Assets\scripts\UnitRelatedStuff\Buffs.cs" Line="1" Column="1" />
-      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\Classes.cs" Line="426" Column="3" />
+      <File FileName="Assets\Assets\scripts\UnitRelatedStuff\Classes.cs" Line="1" Column="1" />
       <File FileName="Assets\Assets\scripts\UnitRelatedStuff\TroopScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Assets\scripts\UIStuff\ScrollList.cs" Line="1" Column="1" />
       <File FileName="Assets\Assets\scripts\UnitRelatedStuff\UserTroop.cs" Line="1" Column="1" />
+      <File FileName="Assets\Assets\scripts\GameManager.cs" Line="775" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
