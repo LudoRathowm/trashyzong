@@ -148,7 +148,7 @@ public	int PlayerTurnIndex = 0;
 	public List<TroopScript> Lightning (Vector2 originLocation){
 		List<Tile> AroundTheWorld = new List<Tile>();
 		List<TroopScript> PeopleHit = new List<TroopScript>();
-		AroundTheWorld = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],3,true,false);
+		AroundTheWorld = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],Skill.FromListOfSkills(muhSkills.Lightning).SkillMaxRange,true,false);
 		for (int i =0;i<players.Count;i++)
 			for (int j=0;j<AroundTheWorld.Count;j++)
 				if (AroundTheWorld[j].gridPosition == players[i].gridPosition)
@@ -232,6 +232,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		AddStuffToChief(Proprietary, "Ice", "Wall", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),0,0,0,0);
 		Debug.Log (Proprietary);
 		int IceHP = MageThatCreatedIt.GetChief().GetIntelligence()*MageThatCreatedIt.GetNumber()/2; //can be changed in the future
+		iceicebaby.SetBaseTurnSpeed(0);
 		AddStuffToPlayer(iceicebaby,2,muhClasses.Ice,Proprietary, 0, 10,100,12,IceHP,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
 		players.Add(iceicebaby);
 		Debug.Log(iceicebaby);
@@ -457,7 +458,8 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		if (!_terrain.Trappedby!=null || _terrain.Trappedby.Faction == playerTurns[PlayerTurnIndex] && destTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible && playerTurns[PlayerTurnIndex].positionQueue.Count == 0) {
 			removeTileHighlights();
 			playerTurns[PlayerTurnIndex].moving = false;
-			foreach(Tile t in TilePathFinder.FindPath(map[(int)playerTurns[PlayerTurnIndex].gridPosition.x][(int)playerTurns[PlayerTurnIndex].gridPosition.y],destTile, playerTurns.Where(x => x.gridPosition != destTile.gridPosition && x.gridPosition != playerTurns[PlayerTurnIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
+			foreach(Tile t in TilePathFinder.FindPath(map[(int)playerTurns[PlayerTurnIndex].gridPosition.x][(int)playerTurns[PlayerTurnIndex].gridPosition.y],destTile, players.Where(x => x.gridPosition != destTile.gridPosition && x.gridPosition != playerTurns[PlayerTurnIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
+
 				playerTurns[PlayerTurnIndex].positionQueue.Add(map[(int)t.gridPosition.x][(int)t.gridPosition.y].transform.position + 1.5f * Vector3.up);
 			//	Debug.Log("(" + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].x + "," + players[currentPlayerIndex].positionQueue[players[currentPlayerIndex].positionQueue.Count - 1].y + ")"); //debug shit
 			}			
@@ -758,12 +760,15 @@ Vector2 tarPos = TargetBridge.gridPosition;
 				if (players[i].TurnRecoveryTime < players[i].SkillRecoveryTime ) //REMEMBER TO SET SKILL RECOVERY TIME ONCE YOU ADD THE PROPER SKILL SYSTEM
 					players[i].TurnRecoveryTime+=players[i].GetTurnSpeed();
 		else if (players[i].TurnRecoveryTime>=players[i].SkillRecoveryTime)
-		{   if (players[i].GetChief().GetName()!="Ice"){
+		{  
 			players[i].TurnRecoveryTime= 0;
 
 			playerTurns.Add(players[i]);
-				playerTurnNamesForShow.Add(players[i].GetName());}
+			playerTurnNamesForShow.Add(players[i].GetName());
 			CalculatedNextPlayerTurn = true;
+		
+		
+
 		}
 		else if (players[i].TurnRecoveryTime ==0)
 			playerTurns.Remove(players[i]);
@@ -773,7 +778,10 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	void DisplayTurns(){
 		Sprite[] Sprites = new Sprite[10];
 		for (int i = 0;i<10;i++){
-			Debug.Log("spritez:"+playerTurns[PlayerTurnIndex+i].GetChief().GetName());
+			Debug.Log ("i value: "+i);
+			Debug.Log("sprite:"+Sprites[i]);
+			Debug.Log(PlayerTurnIndex+i);
+	//		Debug.Log("spritez:"+playerTurns[PlayerTurnIndex+i].GetChief().GetName());
 			Sprites[i] = playerTurns[PlayerTurnIndex+i].GetChief().mySprite; 
 
 		}

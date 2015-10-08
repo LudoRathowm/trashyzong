@@ -729,7 +729,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 1,
-				
+				SkillEvent = SkillHolder.instance.KnightAttack
 				
 			};
 			break;
@@ -738,7 +738,8 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 1.1f,
-				PrerequisiteSkill = muhSkills.KnightAttack
+				PrerequisiteSkill = muhSkills.KnightAttack,
+				SkillEvent = SkillHolder.instance.KnightAttack2
 				
 			};
 			break;
@@ -747,7 +748,7 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 15,
 				DamageScaling = 1.5f, //need formula, if opponent more units, scaling 3
-				
+				SkillEvent = SkillHolder.instance.KnightCharge
 				
 			};
 			break;
@@ -756,7 +757,7 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 20,
 				DamageScaling = 0.2f, //meh capture niggas
-				
+				SkillEvent = SkillHolder.instance.LightAttack
 				
 			};
 			break;
@@ -765,11 +766,12 @@ public class Skill {
 				EnergyCost = 2,
 				DepleteEnergy = true,
 				SkillRecoveryTime = 10,
-				RequiresPreparation = true,
+//				RequiresPreparation = true,
 				isPhysical = false,
 				DamageScaling = 5,
 				SkillMaxRange = 3,
-				CanCounter = false
+				CanCounter = false,
+				SkillEvent = SkillHolder.instance.Lightning
 				
 				
 			};

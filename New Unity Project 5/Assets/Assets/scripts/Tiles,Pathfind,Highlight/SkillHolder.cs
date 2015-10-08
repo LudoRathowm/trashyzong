@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -49,6 +49,11 @@ public class SkillHolder : MonoBehaviour {
 	public Button.ButtonClickedEvent HalveEnergy;
 	public Button.ButtonClickedEvent HealingMist;
 	public Button.ButtonClickedEvent IceWall;
+	public Button.ButtonClickedEvent KnightAttack;
+	public Button.ButtonClickedEvent KnightAttack2;
+	public Button.ButtonClickedEvent KnightCharge;
+	public Button.ButtonClickedEvent LightAttack;
+	public Button.ButtonClickedEvent Lightning;
 	void Awake() {
 		instance = this;
 	}
