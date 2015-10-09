@@ -54,6 +54,9 @@ public class SkillHolder : MonoBehaviour {
 	public Button.ButtonClickedEvent KnightCharge;
 	public Button.ButtonClickedEvent LightAttack;
 	public Button.ButtonClickedEvent Lightning;
+	public Button.ButtonClickedEvent Loot;
+	public Button.ButtonClickedEvent MagicGuard;
+	public Button.ButtonClickedEvent MagicGuardAround;
 	void Awake() {
 		instance = this;
 	}

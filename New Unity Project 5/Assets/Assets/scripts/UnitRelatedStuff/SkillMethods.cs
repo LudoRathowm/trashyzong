@@ -141,6 +141,15 @@ public class SkillMethods : MonoBehaviour {
 		case muhSkills.Lightning:
 			Lightning();
 			break;
+		case muhSkills.Loot:
+			Loot ();
+			break;
+		case muhSkills.MagicGuard:
+			MagicGuard();
+			break;
+		case muhSkills.MagicGuardAround:
+			MagicGuardAround();
+			break;
 		case muhSkills.NoSkill:
 			break;
 		default:
@@ -1399,7 +1408,92 @@ public class SkillMethods : MonoBehaviour {
 						SwitchThis = muhSkills.NoSkill;
 						
 				}}
+	public void LootActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.Loot).EnergyCost)
+			SwitchThis = muhSkills.Loot;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void Loot(){
+		muhSkills thisSkill = muhSkills.Loot;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						GameManager.instance.BattleGold+=1000;
+						NewFightScript.MeleeFightingScript(Caster,Target,Skill.FromListOfSkills(thisSkill));			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.actionPoints-=Skill.FromListOfSkills(thisSkill).EnergyCost;
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						
+					}}}}
+	}
+	public void MagicGuardActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.MagicGuard).EnergyCost)
+			SwitchThis = muhSkills.MagicGuard;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void MagicGuard(){
+		muhSkills thisSkill = muhSkills.MagicGuard;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction == Caster.Faction) {
+						Target = p;
+						Target.isMagicGuarded = true;
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.actionPoints-=Skill.FromListOfSkills(thisSkill).EnergyCost;
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						
+					}}}}
+	}
+	public void MagicGuardAroundActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.MagicGuard).EnergyCost)
+			SwitchThis = muhSkills.MagicGuard;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void MagicGuardAround(){
+		muhSkills thisSkill = muhSkills.MagicGuardAround;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
 
+		if (Input.GetMouseButtonDown(0)){	
+		
+				List<TroopScript> Targets =GameManager.instance.Lightning(Caster.gridPosition);
+				foreach (TroopScript p in  Targets) {
+					if (p.Faction == Caster.Faction) {
+						
+					p.isMagicGuarded = true;
+						
+						//animations and shit go here
+						
+					}}
+						
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.actionPoints-=Skill.FromListOfSkills(thisSkill).EnergyCost;
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						
+					}}
+	
+
+	
 	public void Move (){
 		
 		int xPos = Mathf.RoundToInt(GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].gridPosition.x);

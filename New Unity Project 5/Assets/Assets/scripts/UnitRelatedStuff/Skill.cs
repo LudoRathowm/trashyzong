@@ -781,7 +781,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 15,
 				DamageScaling = 0.8f,
-				//ADD GOLD GAINS
+				SkillEvent = SkillHolder.instance.Loot
 				
 				
 			};
@@ -790,7 +790,7 @@ public class Skill {
 			_skill = new Skill() {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
-				//add 1 atk no dmg idk how2
+				SkillEvent = SkillHolder.instance.MagicGuard
 				
 				
 			};
@@ -800,7 +800,8 @@ public class Skill {
 				EnergyCost = 2,
 				SkillRecoveryTime = 30,
 				SkillMaxRange = 2,
-				PrerequisiteSkill = muhSkills.MagicGuard
+				PrerequisiteSkill = muhSkills.MagicGuard,
+				SkillEvent = SkillHolder.instance.MagicGuardAround
 				
 				
 			};

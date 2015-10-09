@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 	muhSkills switcheroo; //start turn spell prepared
+	public int BattleGold = 0;
 	public int BattleGauge;
 	bool startedTurn;
 	public int TotalTime = 30;
