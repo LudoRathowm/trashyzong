@@ -57,6 +57,27 @@ public class SkillHolder : MonoBehaviour {
 	public Button.ButtonClickedEvent Loot;
 	public Button.ButtonClickedEvent MagicGuard;
 	public Button.ButtonClickedEvent MagicGuardAround;
+	public Button.ButtonClickedEvent Maim;
+	public Button.ButtonClickedEvent Meditate;
+	public Button.ButtonClickedEvent Meditate2;
+	public Button.ButtonClickedEvent MikoDance;
+	public Button.ButtonClickedEvent MikoDancePlus;
+	public Button.ButtonClickedEvent MikoDanceQuick;
+	public Button.ButtonClickedEvent MikoStorm;
+	public Button.ButtonClickedEvent MikoStorm2;
+	public Button.ButtonClickedEvent MonkCharge;
+	public Button.ButtonClickedEvent MonkChargePlus;
+	public Button.ButtonClickedEvent MuhFlags;
+	public Button.ButtonClickedEvent MuhFlags2;
+	public Button.ButtonClickedEvent OnRush;
+	public Button.ButtonClickedEvent Overtime;
+	public Button.ButtonClickedEvent Overtime2;
+	public Button.ButtonClickedEvent PenetrationShoot;
+	public Button.ButtonClickedEvent PenetrationShoot2;
+	public Button.ButtonClickedEvent Phalanx;
+	public Button.ButtonClickedEvent Poison;
+	public Button.ButtonClickedEvent QuickAttack;
+	public Button.ButtonClickedEvent RearGuardCharge;
 	void Awake() {
 		instance = this;
 	}

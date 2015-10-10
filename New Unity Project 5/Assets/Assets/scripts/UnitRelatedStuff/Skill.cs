@@ -131,13 +131,14 @@ public enum muhSkills{
 
 public class Skill {
 	public Button.ButtonClickedEvent SkillEvent;
+	public bool RemoveBuffs = false;
 	public int EnergyCost;
 	public bool DepleteEnergy = false;
 	public int SkillRecoveryTime;
 	public int SkillMaxRange = 1;
 	public int SkillMinRange = 0;
 	public float DamageScaling = 0;
-	public float FullHPPercentDamage = 0;
+	public int FullHPPercentDamage = 0;
 	public float HealScaling = 0;
 	public bool Penetrating = false;
 	public bool PiercesDefence = false;
@@ -154,7 +155,7 @@ public class Skill {
 	public bool AppliesPoison = false;
 	public bool RemovesPoison = false;
 	public int BattleGaugeEffect = 0;
-	public float BattleEffect = 0;
+	public int BattleEffect = 0;
 	public int BattleTurns = 0;
 	public int GuardScaling = 0;
 	public muhSkills PrerequisiteSkill = muhSkills.NoSkill;
@@ -889,8 +890,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
 				DamageScaling = 1,
-				//add auto buff removal
-				
+				RemoveBuffs = true,
 				
 			};
 			break;
@@ -899,7 +899,7 @@ public class Skill {
 				EnergyCost = 1,
 				SkillRecoveryTime = 20,
 				DamageScaling = 1.2f,
-				//add auto buff removal
+				RemoveBuffs = true,
 				PrerequisiteSkill = muhSkills.MonkCharge
 				
 			};

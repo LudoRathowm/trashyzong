@@ -78,7 +78,7 @@ public class TroopScript : MonoBehaviour {
 	public int GuardedByPercent =0;
 	public bool Frozen = false;
 	public bool isMagicGuarded = false;
-
+	float MaimRatio;
 
 
 
@@ -168,7 +168,8 @@ public class TroopScript : MonoBehaviour {
 		bool phalanx = isPhalanxing;
 		int value = 0;
 		if (phalanx) value = -1;
-		return baseMovement + value;
+		int movValue = Mathf.RoundToInt(baseMovement*MaimRatio);
+		return movValue + value;
 	}
 	public int GetMovement(){
 		return Mathf.RoundToInt(baseMovement*WeaponAdopted.movModifier*ArmorAdopted.movModifier);
@@ -271,6 +272,7 @@ public class TroopScript : MonoBehaviour {
 	public TroopScript GetTargetTroop() {
 		return preparationTargetTroop;
 	}
+
 
 		    //======================================
 		    //             SETTERS
@@ -392,6 +394,10 @@ public class TroopScript : MonoBehaviour {
 
 	public void SetSpeedBuff (float value){
 		myBuffs.Speed = value;
+	}
+
+	public void Maim (float value){
+		MaimRatio = value;
 	}
 	public void RemoveAllbuffs (){
 		myBuffs.AttackCounter =0;

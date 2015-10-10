@@ -18,6 +18,13 @@ public class NewFightScript {
 			Defender.CancelPreparation();
 			Defender.FlushPreparationTarget();
 		}
+		if (SkillUsed.ReducesEnergy == true && Defender.isMagicGuarded == false){
+			Defender.SetEnergy(Defender.GetEnergy()-1);
+			if (Defender.GetEnergy() <0)
+				Defender.SetEnergy(0);
+		}
+		if (SkillUsed.RemoveBuffs == true && Defender.isMagicGuarded == false)Defender.RemoveAllbuffs();
+		if (SkillUsed.AppliesPoison == true && Defender.Poisoned == 0) Defender.Poisoned = 1;
 		if (SkillUsed.Penetrating == true || DefenderGuarder == null){
 		DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
 			Debug.Log("Damage on "+Defender.GetChief().GetName()+":"+DamageOnDef);
@@ -176,6 +183,12 @@ public	static float DamageScalingCleanUp (TroopScript Caster, TroopScript Target
 //		return Final;
 //	}
 
+	public static float CalculateMaimRatio (TroopScript Caster, TroopScript Target){
+		int cpeople = CalculateAdjustedTroopSize(Caster.GetNumber(),ReturnPeoplePerLine(Caster),Caster.GetChief().GetMuhReturns());
+		int tpeople = CalculateAdjustedTroopSize(Target.GetNumber(),ReturnPeoplePerLine(Target),Target.GetChief().GetMuhReturns());
+		float ratio = (tpeople/cpeople)*0.75f;
+		return ratio;
+	}
 
 	static float CounterAttackDamage ( int SkillBonus, int EquipBonus){
 		return ((float)(30+SkillBonus+EquipBonus)/100);
@@ -308,6 +321,8 @@ public	static float DamageScalingCleanUp (TroopScript Caster, TroopScript Target
 		int Heal = Mathf.RoundToInt(AdjustedTroopSize * ((float)Intelligence * 3)/15* SkillModifier * (1 + buffmodifier));
 		return Heal;
 	}
+
+
 
 	static int ReturnPeoplePerLine (TroopScript Unit){
 		int x = Mathf.RoundToInt(Unit.gridPosition.x);

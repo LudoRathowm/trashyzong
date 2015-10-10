@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 
 public class GameManager : MonoBehaviour {
+	int PlayerBattleRatio;
+	int AIBattleRatio;
 	muhSkills switcheroo; //start turn spell prepared
 	public int BattleGold = 0;
 	public int BattleGauge;
@@ -727,6 +729,12 @@ Vector2 tarPos = TargetBridge.gridPosition;
 
 	}
 
+	public void SetAdvantage(TroopScript Setter, int Change){
+		int faction = Setter.Faction;
+		if (faction == 0) PlayerBattleRatio+=Change;
+		else if (faction == 1) AIBattleRatio+=Change;
+	}
+
 	void GiveInformationOnPlayer(){
 		TroopScript Indagated = null;
 		if (TileUnderMouse){
@@ -779,9 +787,9 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	void DisplayTurns(){
 		Sprite[] Sprites = new Sprite[10];
 		for (int i = 0;i<10;i++){
-			Debug.Log ("i value: "+i);
-			Debug.Log("sprite:"+Sprites[i]);
-			Debug.Log(PlayerTurnIndex+i);
+//			Debug.Log ("i value: "+i);
+//			Debug.Log("sprite:"+Sprites[i]);
+//			Debug.Log(PlayerTurnIndex+i);
 	//		Debug.Log("spritez:"+playerTurns[PlayerTurnIndex+i].GetChief().GetName());
 			Sprites[i] = playerTurns[PlayerTurnIndex+i].GetChief().mySprite; 
 
