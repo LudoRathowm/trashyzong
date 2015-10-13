@@ -25,6 +25,7 @@ public class NewFightScript {
 		}
 		if (SkillUsed.RemoveBuffs == true && Defender.isMagicGuarded == false)Defender.RemoveAllbuffs();
 		if (SkillUsed.AppliesPoison == true && Defender.Poisoned == 0) Defender.Poisoned = 1;
+		if (SkillUsed.Freezes == true && !Defender.Frozen) Defender.Frozen = true; 
 		if (SkillUsed.Penetrating == true || DefenderGuarder == null){
 		DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
 			Debug.Log("Damage on "+Defender.GetChief().GetName()+":"+DamageOnDef);
@@ -42,6 +43,7 @@ public class NewFightScript {
 
 		
 			DamageOnDef = CalculateDamage(Attacker,Defender,SkillUsed,AttackerBattlefieldEffect);
+			if (SkillUsed.AffectRating) RatingFromDamage(Attacker,DamageOnDef);
 			if (DefenderGuarder){
 				if (DefenderGuarder.GetNumber()<= 0){
 					Defender.GuardedBy = null;
@@ -79,7 +81,10 @@ public class NewFightScript {
 		if (Healed.GetNumber()>Healed.GetmaxNumber())
 			Healed.SetNumber(Healed.GetmaxNumber());
 	}
-
+	static void RatingFromDamage (TroopScript Caster, int Damage){
+		int value = Mathf.RoundToInt( (Damage / (float)Caster.GetNumber())*5);
+		GameManager.instance.SetAdvantage (Caster,value);
+	}
 	public static void MonkSelfHeal (TroopScript Monk, float SkillModifier){
 		int TroopSize = CalculateAdjustedTroopSize(Monk.GetNumber(),ReturnPeoplePerLine(Monk),Monk.GetChief().GetMuhReturns());
 		int Heal = HealAmount (TroopSize,Monk.GetChief().GetIntelligence(),SkillModifier,0); //MUH BUFFEADOS
@@ -156,7 +161,23 @@ public	static float DamageScalingCleanUp (TroopScript Caster, TroopScript Target
 		return Final;
 	}
 
+	public static void SummonYogurtOntoPlayer (TroopScript Player, TroopScript Summoner){
+		int PlayerValue = TroopValue(Player);
+		int SummonerValue = TroopValue(Summoner);
+		if (PlayerValue>SummonerValue+2)
+			Player.SetOgreSummonInto(Summoner);
+		else if (PlayerValue>SummonerValue -2 && SummonerValue+2>PlayerValue)
+					Player.SetNumber(0);
+		else if (PlayerValue<= SummonerValue-2){
+			Player.Faction = Summoner.Faction;
+			Player.SetOgreSummonInto(Summoner);
+		}
 
+	}
+	static int TroopValue (TroopScript playerados){
+		int value = playerados.GetChief().GetAttack()+playerados.GetChief().GetDefense()+playerados.GetChief().GetIntelligence()+playerados.GetChief().GetSpeed();
+		return value;
+	}
 
 
 
@@ -395,32 +416,32 @@ public	static float DamageScalingCleanUp (TroopScript Caster, TroopScript Target
 			Buffed.SetSpeedBuff(strenght);
 	}
 
-	public static void AccurateShotsTargeting (TroopScript Caster, int range){
-//		Color highlightColor = new Color(GameManager.ColorAdapter(0),GameManager.ColorAdapter(255),GameManager.ColorAdapter(0),1);
-//		Color SHIThighlightColor  = new Color(GameManager.ColorAdapter(153),GameManager.ColorAdapter(153),GameManager.ColorAdapter(0),1);
-		List<TroopScript> PeopleToAttack = new List<TroopScript>();
-
-
-
-	Vector2 mousePosition = GameManager.instance.MousePosition;
-	List<Tile> Targetcells = GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,mousePosition,2);
-	int cells = Targetcells.Count;
-	float TotalDamage = (float)5/cells;
-
-		for (int i = 0; i<cells;i++){
-			for (int j = 0; j<GameManager.instance.players.Count;j++){
-				if (Targetcells[i].gridPosition == GameManager.instance.players[j].gridPosition && GameManager.instance.players[j].Faction != Caster.Faction)
-						if (!PeopleToAttack.Contains(GameManager.instance.players[j]))
-						PeopleToAttack.Add(GameManager.instance.players[j]);
-			}
-		}
-
-		Debug.Log(PeopleToAttack.Count);
-		//only if some shit happens and it stops being triggered per frame idk ill see what i can do
-		AccurateShotAction(Caster,PeopleToAttack,TotalDamage);
-
-
-	}
+//	public static void AccurateShotsTargeting (TroopScript Caster, int range){
+////		Color highlightColor = new Color(GameManager.ColorAdapter(0),GameManager.ColorAdapter(255),GameManager.ColorAdapter(0),1);
+////		Color SHIThighlightColor  = new Color(GameManager.ColorAdapter(153),GameManager.ColorAdapter(153),GameManager.ColorAdapter(0),1);
+//		List<TroopScript> PeopleToAttack = new List<TroopScript>();
+//
+//
+//
+//	Vector2 mousePosition = GameManager.instance.MousePosition;
+//	List<Tile> Targetcells = GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,mousePosition,2,Skill.FromListOfSkills);
+//	int cells = Targetcells.Count;
+//	float TotalDamage = (float)5/cells;
+//
+//		for (int i = 0; i<cells;i++){
+//			for (int j = 0; j<GameManager.instance.players.Count;j++){
+//				if (Targetcells[i].gridPosition == GameManager.instance.players[j].gridPosition && GameManager.instance.players[j].Faction != Caster.Faction)
+//						if (!PeopleToAttack.Contains(GameManager.instance.players[j]))
+//						PeopleToAttack.Add(GameManager.instance.players[j]);
+//			}
+//		}
+//
+//		Debug.Log(PeopleToAttack.Count);
+//		//only if some shit happens and it stops being triggered per frame idk ill see what i can do
+//		AccurateShotAction(Caster,PeopleToAttack,TotalDamage);
+//
+//
+//	}
 
 	public static void AccurateShotAction (TroopScript Caster, List<TroopScript> Targets, float _skillDamage){
 		int AttackerBattlefieldEffect = 1; //still to impement

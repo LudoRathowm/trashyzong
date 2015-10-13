@@ -22,11 +22,11 @@ public class GameManager : MonoBehaviour {
 	public Vector2 MousePosition;
 	public static GameManager instance;
 	//public LayerMask Units;
-	public GameObject TilePrefab;
-	public GameObject UserTroopPrefab;
-	public GameObject AITroopPrefab;
-	public GameObject IcePrefab;
-
+	GameObject TilePrefab;
+	GameObject UserTroopPrefab;
+	GameObject AITroopPrefab;
+	GameObject IcePrefab;
+	GameObject OgrePrefab;
 	public int mapSize = 2233;
 	Transform mapTransform;
 	
@@ -54,7 +54,7 @@ public	int PlayerTurnIndex = 0;
 	
 	// Use this for initialization
 	void Start () {		
-
+		grabPrefabs();
 		generateMap();
 		generatePlayers();
 
@@ -93,7 +93,7 @@ public	int PlayerTurnIndex = 0;
 	void StartTurn (){
 
 		Debug.Log ("It's your turn, "+playerTurns[PlayerTurnIndex].GetName()+"!");
-		if (playerTurns[PlayerTurnIndex].Poisoned>0)
+		if (playerTurns[PlayerTurnIndex].Poisoned>0 && !playerTurns[PlayerTurnIndex].Frozen)
 			playerTurns[PlayerTurnIndex].Poisoned++;
 		if (playerTurns[PlayerTurnIndex].Poisoned >9) //10 ticks to kill? maybe gonna drop to like 5
 			playerTurns[PlayerTurnIndex].SetNumber(0);
@@ -108,11 +108,19 @@ public	int PlayerTurnIndex = 0;
 		if (playerTurns[PlayerTurnIndex].GetPreparation()!=muhSkills.NoSkill){
 
 			switch (switcheroo){
-				case muhSkills.AimAndShoot:
+			case muhSkills.AimAndShoot:
 				SkillMethods.instance.AimAndShootEffect(playerTurns[PlayerTurnIndex],playerTurns[PlayerTurnIndex].GetTargetTroop());
 				break;
-			
-			
+			case muhSkills.MikoStorm:
+				SkillMethods.instance.MikoStormEffect();
+				break;
+			case muhSkills.MikoStorm2:
+				SkillMethods.instance.MikoStorm2Effect();
+				break;
+			case muhSkills.SummonTrash:
+				Tile target = playerTurns[PlayerTurnIndex].GetTargetGround();
+				SkillMethods.instance.SummonTrashEffect(playerTurns[PlayerTurnIndex],target);
+				break;
 			}
 
 		}
@@ -206,7 +214,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		int yPos = Mathf.RoundToInt(Caster.gridPosition.y);
 		Tile _positionOfPlayer = map[xPos][yPos];
 		List <Tile> MapAsAList = TileHighlight.FindHighlight(_positionOfPlayer,999);
-		Debug.Log(myLine.Count+" "+(int)Vector2.Distance(myPos,tarPos));
+	//	Debug.Log(myLine.Count+" "+(int)Vector2.Distance(myPos,tarPos));
 	//	if ((int)Vector2.Distance(myPos,tarPos)>myLine.Count)
 		for (int i = 0;i<(int)Vector2.Distance(myPos,tarPos)+5;i++)
 		//for (int i = 0;i<23;i++)
@@ -240,7 +248,7 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		players.Add(iceicebaby);
 		Debug.Log(iceicebaby);
 		iceicebaby.gridPosition = Position;
-
+		iceicebaby.Summoner = MageThatCreatedIt;
 
 		//		AITroop aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		//		aiplayer.gridPosition = new Vector2(6,4);
@@ -255,15 +263,15 @@ Vector2 tarPos = TargetBridge.gridPosition;
 
 	public void SummonYogurt (Vector2 Position, TroopScript MageThatCreatedIt){
 		
-		ThirdParty Ogre = ((GameObject)Instantiate(IcePrefab, new Vector3(Position.x - Mathf.Floor((float)mapSize/2),1.5f, -Position.y + Mathf.Floor((float)mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<ThirdParty>();
+		ThirdParty Ogre = ((GameObject)Instantiate(OgrePrefab, new Vector3(Position.x - Mathf.Floor((float)mapSize/2),1.5f, -Position.y + Mathf.Floor((float)mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<ThirdParty>();
 		Ogre.gridPosition = Position;
 		Chief myLeader = new Chief();
 		Chief summoner = MageThatCreatedIt.GetChief();
-		AddStuffToChief(myLeader, "Ogre", "McPrettyFace", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx),summoner.GetIntelligence(),summoner.GetIntelligence(),0,summoner.GetSpeed());
+		AddStuffToChief(myLeader, "Ogre", "McPrettyFace", Trait.FromTraitList(ListOfTraits.Fearless),Abilities.fromList(ListOfAbilities.StrongLeadership),Abilities.fromList(ListOfAbilities.Popular),Abilities.fromList(ListOfAbilities.Phalanx), summoner.GetIntelligence(),summoner.GetIntelligence(),0,summoner.GetSpeed());
 		
 		int OgreHP = MageThatCreatedIt.GetChief().GetIntelligence()*MageThatCreatedIt.GetNumber()/2; //can be changed in the future
 		AddStuffToPlayer(Ogre,2,muhClasses.Yogurt,myLeader, 0, 10,100,12,OgreHP,Weaponry.FromName(WeaponryName.TestHammer),Armory.FromName(ArmoryName.TestConfortableClothes));
-		
+		Ogre.Summoner = MageThatCreatedIt;
 		//		AITroop aiplayer = ((GameObject)Instantiate(AITroopPrefab, new Vector3(6 - Mathf.Floor(mapSize/2),1.5f, -4 + Mathf.Floor(mapSize/2)), Quaternion.Euler(new Vector3()))).GetComponent<AITroop>();
 		//		aiplayer.gridPosition = new Vector2(6,4);
 		//		leader = new Chief();
@@ -275,12 +283,12 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		
 	}
 
-	public List <Tile> SweepingFire (Vector2 originLocation){
+	public List <Tile> SweepingFire (Vector2 originLocation,int intern, int extrn){
 	
 		List <Tile> Intern = new List<Tile>();
 		List <Tile> Extern = new List<Tile>();
-		Intern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],2,true,false);
-		Extern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],8,true,false);
+		Intern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],intern,true,false);
+		Extern = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],extrn,true,false);
 		var _ring = Extern.Except(Intern);
 		List <Tile> FinalRing = _ring.ToList();
 
@@ -390,16 +398,16 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		
 	}
 
-	public List<Tile> AccurateShotsHighlights (Vector2 originLocation, Vector2 mousePosition,int mouseArea){
+	public List<Tile> AccurateShotsHighlights (Vector2 originLocation, Vector2 mousePosition,int mouseArea, int minrange, int maxrange){
 		Color targetColor = new Color(ColorAdapter(0),ColorAdapter(255),ColorAdapter(0),1);
 		Color AreaColor = new Color(ColorAdapter(153),ColorAdapter(153),ColorAdapter(0),1);
-		int distance = Skill.FromListOfSkills(muhSkills.AccurateShots).SkillMaxRange;
+
 		List<Tile> MouseHighlightedTiles = new List<Tile>();
 		List<Tile> TotalArea = new List<Tile>();
 		List<Tile> IgnoreCloserTiles = new List<Tile>();
-		IgnoreCloserTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], 2, true,true);
+		IgnoreCloserTiles = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y], minrange, true,true);
 		//Vector2[]_ignoreCloserTiles = IgnoreCloserTiles.Select(x=>x.gridPosition).ToArray();
-		TotalArea = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],distance,true,true);
+		TotalArea = TileHighlight.FindHighlight(map[(int)originLocation.x][(int)originLocation.y],maxrange,true,true);
         var	_AreaHighlightedTiles = TotalArea.Except(IgnoreCloserTiles);
 		List <Tile> AreaHighlighted = _AreaHighlightedTiles.ToList();
 
@@ -765,7 +773,8 @@ Vector2 tarPos = TargetBridge.gridPosition;
 	void DecideNextTurn(){
 		CalculatedNextPlayerTurn = false;
 		while (!CalculatedNextPlayerTurn)
-			for (int i = 0; i<players.Count;i++)
+			for (int i = 0; i<players.Count;i++){
+			Debug.Log("calc for: "+players[i].GetChief().GetName());
 				if (players[i].TurnRecoveryTime < players[i].SkillRecoveryTime ) //REMEMBER TO SET SKILL RECOVERY TIME ONCE YOU ADD THE PROPER SKILL SYSTEM
 					players[i].TurnRecoveryTime+=players[i].GetTurnSpeed();
 		else if (players[i].TurnRecoveryTime>=players[i].SkillRecoveryTime)
@@ -779,11 +788,11 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		
 
 		}
-		else if (players[i].TurnRecoveryTime ==0)
-			playerTurns.Remove(players[i]);
+//		else if (players[i].TurnRecoveryTime ==0)
+//			playerTurns.Remove(players[i]);
 
 
-	}
+		}}
 	void DisplayTurns(){
 		Sprite[] Sprites = new Sprite[10];
 		for (int i = 0;i<10;i++){
@@ -856,6 +865,12 @@ Vector2 tarPos = TargetBridge.gridPosition;
 		playerTurns[PlayerTurnIndex].attacking = false;			
 		nextTurn();
 	}
-	
+	void grabPrefabs (){
+		GameObject Holder = GameObject.Find("Holder");
+		AITroopPrefab = Holder.GetComponent<BattleSpriteHolder>().AITroop;
+		UserTroopPrefab = Holder.GetComponent<BattleSpriteHolder>().PlayerTroop;
+		IcePrefab = Holder.GetComponent<BattleSpriteHolder>().Ice;
+		OgrePrefab = Holder.GetComponent<BattleSpriteHolder>().Ogre;
+	}
 	
 }

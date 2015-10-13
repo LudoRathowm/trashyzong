@@ -29,7 +29,8 @@ public enum ArmorType {
 
 
 public class TroopScript : MonoBehaviour {
-
+	public TroopScript Summoner = null; //for ice and ogres
+	TroopScript SummonedOgreByThisGuy = null;
 	Chief Leader;
 	Buffs myBuffs;
 	List<muhSkills> SkillsPossessed = new List<muhSkills>();
@@ -55,7 +56,7 @@ public class TroopScript : MonoBehaviour {
 	
 	//stuff to make it work, not related to rpg parts
 	public int TurnRecoveryTime = 0;
-	public int SkillRecoveryTime = 50; //set to 50 for the start of the match, then changes according to
+	public int SkillRecoveryTime = 5; //set to 50 for the start of the match, then changes according to
 	muhSkills isPreparing = muhSkills.NoSkill;
 	Tile preparationTargetGround;
 	TroopScript preparationTargetTroop;
@@ -69,6 +70,7 @@ public class TroopScript : MonoBehaviour {
 	public Vector3 moveDestination;
 	public float moveSpeed = 10.0f;
 	public int Faction; //0 player 1 opponent 2 third faction
+	int OriginalFaction; //for hypnosis and shit
 	public bool moving = false;
 	public bool attacking = false;
 	public bool Trapped = false; //ankle snare
@@ -304,7 +306,7 @@ public class TroopScript : MonoBehaviour {
 
 	public void SetNumber (int people){
 		if (people<People){
-			if (!isMagicGuarded)
+			if (!isMagicGuarded && !Frozen)
 		People = people;
 			else isMagicGuarded = false;}
 		else if (people>People)
@@ -432,7 +434,9 @@ public class TroopScript : MonoBehaviour {
 	public void SetPreparationTargetTile (Tile target){
 		preparationTargetGround = target;
 	}
-
+	public void SetOgreSummonInto (TroopScript Summoner){
+		SummonedOgreByThisGuy = Summoner;
+	}
 	public void FlushPreparationTarget (){
 		preparationTargetTroop = null;
 		preparationTargetGround = null;
@@ -444,7 +448,7 @@ public class TroopScript : MonoBehaviour {
 	
 	void Awake () {
 
-			
+		OriginalFaction = Faction;
 		moveDestination = transform.position;
 		previousWorldPosition = transform.position;
 
@@ -463,10 +467,20 @@ public class TroopScript : MonoBehaviour {
 		WeaponName = WeaponAdopted.NameOfTheEquip;
 		ArmorName = ArmorAdopted.NameOfTheEquip;
 		LeaderName = Leader.GetName();
-		if (GetNumber() <= 0) {
+		if (GetNumber() <= 0 ) {
 			transform.rotation = Quaternion.Euler(new Vector3(90,0,0)); //yer ded nigga
 			transform.GetComponent<Renderer>().material.color = Color.red; // and bleeding
 		}
+		if (Summoner != null)
+			if (Summoner.GetNumber()<=0)
+				People = 0;
+		if (SummonedOgreByThisGuy!=null)
+		if (SummonedOgreByThisGuy.GetNumber()<=0){
+			SummonedOgreByThisGuy = null;
+			Faction = OriginalFaction;
+		}
+
+
 	}
 	
 	public virtual void TurnUpdate () {

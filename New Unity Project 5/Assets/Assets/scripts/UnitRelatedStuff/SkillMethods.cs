@@ -186,6 +186,51 @@ public class SkillMethods : MonoBehaviour {
 		case muhSkills.RearGuardCharge:
 			RearGuardCharge();
 			break;
+		case muhSkills.RemoveBuffs:
+			RemoveBuffs();
+			break;
+		case muhSkills.RemoveBuffsAround:
+			RemoveBuffsAround();
+			break;
+		case muhSkills.RemoveBuffsRanged:
+			RemoveBuffsRanged();
+			break;
+		case muhSkills.Sharpshoot:
+			Sharpshoot();
+			break;
+		case muhSkills.Shoot:
+			Shoot();
+			break;
+		case muhSkills.ShoutingCharge:
+			ShoutingCharge();
+			break;
+		case muhSkills.Shuriken:
+			Shuriken();
+			break;
+		case muhSkills.Shuriken2:
+			Shuriken2();
+			break;
+		case muhSkills.SonicShuriken:
+			SonicShuriken();
+			break;
+		case muhSkills.StormGust:
+			StormGust();
+			break;
+		case muhSkills.StrongBowAttack:
+			StrongBowAttack();
+			break;
+		case muhSkills.StrongFootAttack:
+			StrongFootAttack();
+			break;
+		case muhSkills.StrongFootAttack2:
+			StrongFootAttack2();
+			break;
+		case muhSkills.SummonTrash:
+			SummonTrashSet();
+			break;
+		case muhSkills.SweepingFire:
+			SweepingFire();
+			break;
 		case muhSkills.NoSkill:
 			break;
 		default:
@@ -226,7 +271,7 @@ public class SkillMethods : MonoBehaviour {
 		else if (mArea > 3)
 			mArea = 4;
 		Caster.attacking = true;
-		List<Tile>Targetcells = GameManager.instance.AccurateShotsHighlights(Origin,GameManager.instance.MousePosition,mArea);
+		List<Tile>Targetcells = GameManager.instance.AccurateShotsHighlights(Origin,GameManager.instance.MousePosition,mArea,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(SwitchThis).SkillMaxRange);
 			int cells = Targetcells.Count;
 			for (int i = 0; i<cells;i++){
 				for (int j = 0; j<GameManager.instance.players.Count;j++){
@@ -1256,7 +1301,7 @@ public class SkillMethods : MonoBehaviour {
 			Tile targetTile = GameManager.instance.TileUnderMouse;
 			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
 				foreach (TroopScript p in  GameManager.instance.players) {
-					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+					if (p.gridPosition == targetTile.gridPosition) {
 						Target = p;
 						NewFightScript.MeleeFightingScript(Caster,Target,Skill.FromListOfSkills(muhSkills.FrostDiver));			
 						//animations and shit go here
@@ -1836,7 +1881,15 @@ public class SkillMethods : MonoBehaviour {
 						Caster.actionPoints--;
 					}}}}
 	}
-	public void MikoStorm(){
+	public void MikoStorm (){
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		Caster.SetPreparation(muhSkills.MikoStorm);
+	}
+	public void MikoStorm2 (){
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		Caster.SetPreparation(muhSkills.MikoStorm2);
+	}
+	public void MikoStormEffect(){
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.MikoDanceQuick).EnergyCost)
 		{TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
 			muhSkills thisSkill = muhSkills.MikoStorm;
@@ -1852,7 +1905,7 @@ public class SkillMethods : MonoBehaviour {
 		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
 
 	}
-	public void MikoStorm2(){
+	public void MikoStorm2Effect(){
 		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.MikoDanceQuick).EnergyCost)
 		{TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
 			muhSkills thisSkill = muhSkills.MikoStorm2;
@@ -2047,7 +2100,7 @@ public class SkillMethods : MonoBehaviour {
 		
 	}
 	public void PassTurn (){
-		
+		SwitchThis = muhSkills.NoSkill;
 		GameManager.instance.removeTileHighlights();
 		GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].SkillRecoveryTime = Skill.FromListOfSkills(muhSkills.NoSkill).SkillRecoveryTime;
 		GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].actionPoints = 2;
@@ -2215,17 +2268,693 @@ public class SkillMethods : MonoBehaviour {
 						Caster.actionPoints--;
 					}}}}
 	}
-
-
-
-
-
-
-
-
-
-
+	public void RemoveBuffsActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.RemoveBuffs).EnergyCost)
+			SwitchThis = muhSkills.RemoveBuffs;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void RemoveBuffs(){
+		muhSkills thisSkill = muhSkills.RemoveBuffs;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						Target.RemoveAllbuffs();
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
 	}
+	public void RemoveBuffsAroundActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.RemoveBuffsAround).EnergyCost)
+			SwitchThis = muhSkills.RemoveBuffsAround;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void RemoveBuffsAround(){
+		muhSkills thisSkill = muhSkills.RemoveBuffsAround;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		if (Input.GetMouseButtonDown(0)){
+			List<TroopScript> Targets =GameManager.instance.Lightning(Caster.gridPosition);
+			
+			foreach (TroopScript p in  Targets) {
+				if (p.Faction != Caster.Faction) {
+					
+					
+					p.RemoveAllbuffs();
+					//animations and shit go here
+					
+				}}
+			GameManager.instance.removeTileHighlights();
+			Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+			if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+				Caster.SetEnergy(0);
+			SwitchThis = muhSkills.NoSkill;
+			Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+			Caster.actionPoints--;
+		}}			
+
+	public void RemoveBuffsRangedActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.RemoveBuffsRanged).EnergyCost)
+			SwitchThis = muhSkills.RemoveBuffsRanged;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void RemoveBuffsRanged(){
+		muhSkills thisSkill = muhSkills.RemoveBuffsRanged;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						Target.RemoveAllbuffs();
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}
+	public void SharpShootActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.Sharpshoot).EnergyCost)
+			SwitchThis = muhSkills.Sharpshoot;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void Sharpshoot(){
+		muhSkills thisSkill = muhSkills.Sharpshoot;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		List<TroopScript> Targets = null;
+		GameManager.instance.removeTileHighlights();
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+
+
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+		if (targetTile !=null)
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) 
+
+			Targets =	GameManager.instance.SharpShoot(Caster,p);
+				if (Targets!=null)
+				if (Input.GetMouseButtonDown(0)){		                
+					foreach (TroopScript k in  Targets) {
+						if (k.Faction != Caster.Faction) {
+							
+							
+							NewFightScript.MeleeFightingScript (Caster,k,Skill.FromListOfSkills(thisSkill));
+							//animations and shit go here
+							
+						}}
+					//animations and shit go here
+					GameManager.instance.removeTileHighlights();
+					Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+					if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+						Caster.SetEnergy(0);
+					SwitchThis = muhSkills.NoSkill;
+					Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+					Caster.actionPoints--;
+				}}}}
+	public void ShikigamiActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.Shikigami).EnergyCost)
+			SwitchThis = muhSkills.Shikigami;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void Shikigami(){
+		muhSkills thisSkill = muhSkills.Shikigami;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+
+		GameManager.instance.removeTileHighlights();
+		List<Tile> TargetTiles = GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,GameManager.instance.MousePosition,Skill.FromListOfSkills(thisSkill).SkillArea,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(SwitchThis).SkillMaxRange);
+		if (Input.GetMouseButtonDown(0)){		                
+		for (int i = 0;i<TargetTiles.Count;i++){		
+			foreach (TroopScript p in  GameManager.instance.players) {
+				if (p.gridPosition == TargetTiles[i].gridPosition && p.Faction != Caster.Faction) 
+							
+				
+					
+					
+							
+							
+							NewFightScript.MeleeFightingScript (Caster,p,Skill.FromListOfSkills(thisSkill));
+							//animations and shit go here
+							
+						}}
+					//animations and shit go here
+					GameManager.instance.removeTileHighlights();
+					Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+					if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+						Caster.SetEnergy(0);
+					SwitchThis = muhSkills.NoSkill;
+					Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+					Caster.actionPoints--;
+				}}
+	public void Shikigami2Activate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.Shikigami2).EnergyCost)
+			SwitchThis = muhSkills.Shikigami2;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void Shikigami2(){
+		muhSkills thisSkill = muhSkills.Shikigami2;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		
+		GameManager.instance.removeTileHighlights();
+		List<Tile> TargetTiles = GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,GameManager.instance.MousePosition,Skill.FromListOfSkills(thisSkill).SkillArea,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(SwitchThis).SkillMaxRange);
+		if (Input.GetMouseButtonDown(0)){		                
+			for (int i = 0;i<TargetTiles.Count;i++){		
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == TargetTiles[i].gridPosition && p.Faction != Caster.Faction) 
+						
+						
+						
+						
+						
+						
+						NewFightScript.MeleeFightingScript (Caster,p,Skill.FromListOfSkills(thisSkill));
+					//animations and shit go here
+					
+				}}
+			//animations and shit go here
+			GameManager.instance.removeTileHighlights();
+			Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+			if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+				Caster.SetEnergy(0);
+			SwitchThis = muhSkills.NoSkill;
+			Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+			Caster.actionPoints--;
+		}}
+	public void ShootActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.Shoot).EnergyCost)
+			SwitchThis = muhSkills.Shoot;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void Shoot(){
+		muhSkills thisSkill = muhSkills.Shoot;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}
+	public void ShoutingChargeActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.ShoutingCharge).EnergyCost)
+			SwitchThis = muhSkills.ShoutingCharge;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void ShoutingCharge(){
+		muhSkills thisSkill = muhSkills.ShoutingCharge;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+						
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}	
+	public void ShurikenActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.Shuriken).EnergyCost)
+			SwitchThis = muhSkills.Shuriken;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void Shuriken(){
+		muhSkills thisSkill = muhSkills.Shuriken;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+						
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}	
+	public void Shuriken2Activate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.Shuriken2).EnergyCost)
+			SwitchThis = muhSkills.Shuriken2;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void Shuriken2(){
+		muhSkills thisSkill = muhSkills.Shuriken2;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+						
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}	
+	public void SonicShurikenActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.SonicShuriken).EnergyCost)
+			SwitchThis = muhSkills.SonicShuriken;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void SonicShuriken(){
+		muhSkills thisSkill = muhSkills.SonicShuriken;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+						
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}
+	public void StormGustActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.StormGust).EnergyCost)
+			SwitchThis = muhSkills.StormGust;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void StormGust(){
+		muhSkills thisSkill = muhSkills.StormGust;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		
+		GameManager.instance.removeTileHighlights();
+		List<Tile> TargetTiles = GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,GameManager.instance.MousePosition,Skill.FromListOfSkills(thisSkill).SkillArea,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(SwitchThis).SkillMaxRange);
+		if (Input.GetMouseButtonDown(0)){		                
+			for (int i = 0;i<TargetTiles.Count;i++){		
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == TargetTiles[i].gridPosition && p.Faction != Caster.Faction) 
+						
+						
+						
+						
+						
+						
+						NewFightScript.MeleeFightingScript (Caster,p,Skill.FromListOfSkills(thisSkill));
+					//animations and shit go here
+					
+				}}
+			//animations and shit go here
+			GameManager.instance.removeTileHighlights();
+			Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+			if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+				Caster.SetEnergy(0);
+			SwitchThis = muhSkills.NoSkill;
+			Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+			Caster.actionPoints--;
+		}}
+	public void StrongBowAttackActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.StrongBowAttack).EnergyCost)
+			SwitchThis = muhSkills.StrongBowAttack;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void StrongBowAttack(){
+		muhSkills thisSkill = muhSkills.StrongBowAttack;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+						
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}
+	public void StrongFootAttackActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.StrongFootAttack).EnergyCost)
+			SwitchThis = muhSkills.StrongFootAttack;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void StrongFootAttack(){
+		muhSkills thisSkill = muhSkills.StrongFootAttack;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+						
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}
+	public void StrongFootAttack2Activate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.StrongFootAttack2).EnergyCost)
+			SwitchThis = muhSkills.StrongFootAttack2;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void StrongFootAttack2(){
+		muhSkills thisSkill = muhSkills.StrongFootAttack2;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+						
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}
+	public void SummonTrashActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.SummonTrash).EnergyCost)
+			SwitchThis = muhSkills.SummonTrash;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void SummonTrashSet(){
+		muhSkills thisSkill = muhSkills.SummonTrash;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesAt(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMaxRange,false);
+
+
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+
+				Caster.SetPreparation (thisSkill);
+				Caster.SetPreparationTargetTile(targetTile);		
+						
+								
+						//animations and shit go here
+						
+					}}
+	}	
+	public void SummonTrashEffect (TroopScript Caster,Tile TargetTile){
+		muhSkills thisSkill = muhSkills.SummonTrash;
+		TroopScript Target = null;
+		for (int i = 0;i<GameManager.instance.players.Count;i++)
+		if (GameManager.instance.players[i].gridPosition == TargetTile.gridPosition){
+			Target = GameManager.instance.players[i];
+			NewFightScript.SummonYogurtOntoPlayer(Target,Caster);
+		}
+		if (Target == null)
+			GameManager.instance.SummonYogurt (TargetTile.gridPosition,Caster);
+		Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+		if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+			Caster.SetEnergy(0);
+		SwitchThis = muhSkills.NoSkill;
+		Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+		Caster.actionPoints--;
+	}
+	public void SweepingFireActivate(){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.SweepingFire).EnergyCost)
+			SwitchThis = muhSkills.SweepingFire;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}
+	void SweepingFire(){
+
+		muhSkills thisSkill = muhSkills.SummonTrash;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		List <Tile> TargetTiles = GameManager.instance.SweepingFire(Caster.gridPosition,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(SwitchThis).SkillMaxRange);
+		if (Input.GetMouseButtonDown(0) && TargetTiles.Count >0){
+			foreach (TroopScript p in GameManager.instance.players){
+				if (p.Faction != Caster.Faction)
+					NewFightScript.MeleeFightingScript(Caster,p,Skill.FromListOfSkills(thisSkill));
+			}
+			Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+			if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+				Caster.SetEnergy(0);
+			SwitchThis = muhSkills.NoSkill;
+			Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+			Caster.actionPoints--;
+		}
+	}
+	public void TenshiDivineTrash(){
+		muhSkills thisSkill = muhSkills.TenshiDivineTrash;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		if (Caster.GetEnergy()>= Skill.FromListOfSkills(thisSkill).EnergyCost)
+		{
+			
+			NewFightScript.HealingTarget(Caster,Caster,Skill.FromListOfSkills(thisSkill).HealScaling);
+			GameManager.instance.removeTileHighlights();
+			Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+			if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+				Caster.SetEnergy(0);
+			SwitchThis = muhSkills.NoSkill;
+			Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+			Caster.actionPoints--;}
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+		
+	}
+	public void TenshiDivineTrash2(){
+		muhSkills thisSkill = muhSkills.TenshiDivineTrash2;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		if (Caster.GetEnergy()>= Skill.FromListOfSkills(thisSkill).EnergyCost)
+		{
+			
+			NewFightScript.HealingTarget(Caster,Caster,Skill.FromListOfSkills(thisSkill).HealScaling);
+			GameManager.instance.removeTileHighlights();
+			Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+			if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+				Caster.SetEnergy(0);
+			SwitchThis = muhSkills.NoSkill;
+			Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+			Caster.actionPoints--;}
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+		
+	}
+	public void VolleyActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.Volley).EnergyCost)
+			SwitchThis = muhSkills.Volley;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void Volley(){
+		muhSkills thisSkill = muhSkills.Volley;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		
+		GameManager.instance.removeTileHighlights();
+		List<Tile> TargetTiles = GameManager.instance.AccurateShotsHighlights(Caster.gridPosition,GameManager.instance.MousePosition,Skill.FromListOfSkills(thisSkill).SkillArea,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(SwitchThis).SkillMaxRange);
+		if (Input.GetMouseButtonDown(0)){		                
+			for (int i = 0;i<TargetTiles.Count;i++){		
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == TargetTiles[i].gridPosition && p.Faction != Caster.Faction) 
+						
+						
+						
+						
+						
+						
+						NewFightScript.MeleeFightingScript (Caster,p,Skill.FromListOfSkills(thisSkill));
+					//animations and shit go here
+					
+				}}
+			//animations and shit go here
+			GameManager.instance.removeTileHighlights();
+			Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+			if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+				Caster.SetEnergy(0);
+			SwitchThis = muhSkills.NoSkill;
+			Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+			Caster.actionPoints--;
+		}}
+	public void WarriorAttackActivate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.WarriorAttack).EnergyCost)
+			SwitchThis = muhSkills.WarriorAttack;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void WarriorAttack(){
+		muhSkills thisSkill = muhSkills.WarriorAttack;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+						
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}
+	public void WarriorAttack2Activate (){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.WarriorAttack2).EnergyCost)
+			SwitchThis = muhSkills.WarriorAttack2;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}	
+	void WarriorAttack2(){
+		muhSkills thisSkill = muhSkills.WarriorAttack2;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		GameManager.instance.highlightTilesRing(Caster.gridPosition,Color.red,Skill.FromListOfSkills(thisSkill).SkillMinRange,Skill.FromListOfSkills(thisSkill).SkillMaxRange);
+		TroopScript Target;
+		if (Input.GetMouseButtonDown(0)){
+			Tile targetTile = GameManager.instance.TileUnderMouse;
+			if (targetTile.visual.transform.GetComponent<Renderer>().materials[0].color != Color.white && !targetTile.impassible) 			{
+				foreach (TroopScript p in  GameManager.instance.players) {
+					if (p.gridPosition == targetTile.gridPosition && p.Faction != Caster.Faction) {
+						Target = p;
+						
+						Skill mySkill = Skill.FromListOfSkills(thisSkill);
+						
+						NewFightScript.MeleeFightingScript(Caster,Target,mySkill);			
+						//animations and shit go here
+						GameManager.instance.removeTileHighlights();
+						Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+						if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+							Caster.SetEnergy(0);
+						SwitchThis = muhSkills.NoSkill;
+						Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+						Caster.actionPoints--;
+					}}}}
+	}
+	public void WhiteDestructionBeamActivate(){
+		if (GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex].GetEnergy()>= Skill.FromListOfSkills(muhSkills.WhiteDestructionBeam).EnergyCost)
+			SwitchThis = muhSkills.WhiteDestructionBeam;
+		else Debug.Log("NOT ENOUGHTTTTTT ENERGY");
+	}
+	public void WhiteDestructionBeam(){
+		muhSkills thisSkill = muhSkills.WhiteDestructionBeam;
+		TroopScript Caster = GameManager.instance.playerTurns[GameManager.instance.PlayerTurnIndex];
+		List <Tile> TilesHit = GameManager.instance.WhiteDestructionBeam(Caster);
+		List <TroopScript> Targets;
+
+		if (Input.GetMouseButtonDown(0)){
+			for (int i = 0;i<TilesHit.Count;i++){
+			foreach (TroopScript p in  GameManager.instance.players) {
+				if (p.gridPosition == TilesHit[i].gridPosition && p.Faction != Caster.Faction) {
+					
+					
+					
+					NewFightScript.MeleeFightingScript(Caster,p,Skill.FromListOfSkills(thisSkill));			
+						//animations and shit go here}
+					GameManager.instance.removeTileHighlights();
+					Caster.SetEnergy(Caster.GetEnergy()-Skill.FromListOfSkills(thisSkill).EnergyCost);
+					if (Skill.FromListOfSkills(thisSkill).DepleteEnergy == true)
+						Caster.SetEnergy(0);
+					SwitchThis = muhSkills.NoSkill;
+					Caster.SkillRecoveryTime = Skill.FromListOfSkills(thisSkill).SkillRecoveryTime;
+					Caster.actionPoints--;
+					}}}
+		}
+	}
+
+
+}
 
 
 

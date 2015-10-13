@@ -494,6 +494,7 @@ public class Classes  {
 			ClassSkills.Add(muhSkills.FullPowerCharge);
 			ClassSkills.Add(muhSkills.Carry);
 			ClassSkills.Add(muhSkills.Icewall);
+			ClassSkills.Add (muhSkills.Sharpshoot);
 			break;
 		default:
 

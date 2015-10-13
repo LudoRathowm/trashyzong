@@ -78,6 +78,29 @@ public class SkillHolder : MonoBehaviour {
 	public Button.ButtonClickedEvent Poison;
 	public Button.ButtonClickedEvent QuickAttack;
 	public Button.ButtonClickedEvent RearGuardCharge;
+	public Button.ButtonClickedEvent RemoveBuffs;
+	public Button.ButtonClickedEvent RemoveBuffsAround;
+	public Button.ButtonClickedEvent RemoveBuffsRanged;
+	public Button.ButtonClickedEvent Sharpshoot;
+	public Button.ButtonClickedEvent Shikigami;
+	public Button.ButtonClickedEvent Shikigami2;
+	public Button.ButtonClickedEvent Shoot;
+	public Button.ButtonClickedEvent ShoutingCharge;
+	public Button.ButtonClickedEvent Shuriken;
+	public Button.ButtonClickedEvent Shuriken2;
+	public Button.ButtonClickedEvent SonicShuriken;
+	public Button.ButtonClickedEvent StormGust;
+	public Button.ButtonClickedEvent StrongBowAttack;
+	public Button.ButtonClickedEvent StrongFootAttack;
+	public Button.ButtonClickedEvent StrongFootAttack2;
+	public Button.ButtonClickedEvent SummonTrash;
+	public Button.ButtonClickedEvent SweepingFire;
+	public Button.ButtonClickedEvent TenshiDivineTrash;
+	public Button.ButtonClickedEvent TenshiDivineTrash2;
+	public Button.ButtonClickedEvent Volley;
+	public Button.ButtonClickedEvent WarriorAttack;
+	public Button.ButtonClickedEvent WarriorAttack2;
+	public Button.ButtonClickedEvent WhiteDestructionBeam;
 	void Awake() {
 		instance = this;
 	}

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class ThirdParty : TroopScript{
-	
+
 	// Use this for initialization
 	void Start () {
 		
